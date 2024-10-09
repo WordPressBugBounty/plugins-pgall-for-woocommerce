@@ -2,6 +2,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( ! WC()->cart->needs_payment() ) {
+	return;
+}
+
 $selected_method_id = pafw_get( $_POST, 'payment_method' );
 $is_saved_token     = pafw_get( $_POST, 'issavedtoken', 0 );
 $token              = pafw_get( $_POST, 'token', 0 );
@@ -38,7 +42,7 @@ if ( empty( $selected_method_id ) ) {
 						<?php echo $payment_token->get_display_name(); ?>
                     </label>
                     <div class="payment_box payment_method_<?php echo esc_attr( $payment_token->get_id() ); ?>">
-                        <?php $payment_token->quota_field(); ?>
+						<?php $payment_token->quota_field(); ?>
                     </div>
                 </li>
 			<?php endforeach; ?>

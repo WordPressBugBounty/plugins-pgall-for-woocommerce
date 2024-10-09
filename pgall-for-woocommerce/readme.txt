@@ -5,7 +5,7 @@ Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편�
 Requires at least: 4.6.0
 Tested up to: 6.6
 Requires PHP: 7.2
-Stable tag: 5.0.6
+Stable tag: 5.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.0.6 =
+[결제토큰] 체크아웃 페이지에서 결제금액이 0 원인 경우에도 결제토큰 선택목록이 표시되는 오류 수정
 
 = 5.0.6 =
 [결제수단 노출제어] 정기구독 결제수단 변경 화면에서도 결제수단 노출제어 정책 적용

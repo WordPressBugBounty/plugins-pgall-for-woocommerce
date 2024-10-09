@@ -4,6 +4,7 @@
 namespace CODEM\PGALL\Utility;
 
 
+use WC_Order;
 use WC_Product;
 use WC_Product_Subscription;
 use WC_Shipping;
@@ -18,7 +19,7 @@ if ( ! class_exists( 'WCUtil' ) ) {
 
 	class WCUtil {
 		static function get_product_id( $product, $apply_wpml = false ) {
-			if( is_scalar( $product ) ) {
+			if ( is_scalar( $product ) ) {
 				$product = wc_get_product( $product );
 			}
 
@@ -29,6 +30,48 @@ if ( ! class_exists( 'WCUtil' ) ) {
 			}
 
 			return $product_id;
+		}
+		static function get_shipping_class( $product, $apply_wpml = false ) {
+			if ( is_scalar( $product ) ) {
+				$product = wc_get_product( self::get_product_id( $product, $apply_wpml ) );
+			}
+
+			$shipping_class_id = $product->get_shipping_class_id();
+
+			if ( $apply_wpml ) {
+				$shipping_class_id = apply_filters( 'wpml_object_id', $shipping_class_id, 'product_shipping_class', true, self::wpml_get_default_language() );
+			}
+
+			return $shipping_class_id;
+		}
+		static function get_round_of_renewal_order( $subscription, $order = null ) {
+			$round = 1;
+
+			if ( function_exists( 'wcs_is_subscription' ) ) {
+				$valid_order_statuses = apply_filters( 'cdm_order_status_for_calculate_renewal_order_round', array( 'completed' ) );
+
+				if ( is_null( $subscription ) ) {
+					$subscriptions = wcs_get_subscriptions_for_order( $order );
+					$subscription  = reset( $subscriptions );
+				}
+
+				$ids = $subscription->get_related_orders( 'ids', array( 'renewal' ) );
+
+				if ( $order ) {
+					$ids = array_filter( $ids, function ( $id ) use ( $order ) {
+						return $id < $order->get_id();
+					} );
+				}
+
+				foreach ( $ids as $id ) {
+					$related_order = wc_get_order( $id );
+					if ( $related_order && apply_filters( 'cdm_is_renewal_order', $related_order->has_status( $valid_order_statuses ), $related_order ) ) {
+						$round++;
+					}
+				}
+			}
+
+			return $round;
 		}
 		static function cart_round_discount( $value, $precision ) {
 			if ( ! function_exists( 'wc_cart_round_discount' ) ) {
@@ -176,10 +219,11 @@ if ( ! class_exists( 'WCUtil' ) ) {
 			}
 		}
 		static function wpml_get_default_language_args() {
-			if( has_filter( 'wpml_object_id') ) {
+			if ( has_filter( 'wpml_object_id' ) ) {
 				global $sitepress;
+
 				return 'lang=' . $sitepress->get_default_language() . '&';
-			}else{
+			} else {
 				return '';
 			}
 		}
