@@ -85,9 +85,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$authdata = md5( $mid . $tid . $key );
 
 			if ( 'sandbox' == pafw_get( $this->settings, 'operation_mode' ) ) {
-				wp_enqueue_script( 'lguplus', '//pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js' );
+				wp_enqueue_script( 'lguplus', 'https:///pgweb.tosspayments.com:7085/WEB_SERVER/js/receipt_link.js' );
 			} else {
-				wp_enqueue_script( 'lguplus', '//pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js' );
+				wp_enqueue_script( 'lguplus', 'https://pgweb.tosspayments.com/WEB_SERVER/js/receipt_link.js' );
 			}
 
 			?>

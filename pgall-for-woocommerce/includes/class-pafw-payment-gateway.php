@@ -10,7 +10,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	abstract class PAFW_Payment_Gateway extends WC_Payment_Gateway {
 		protected $master_id = '';
-		protected $api_version = '3.0';
+		protected $api_version = '3.1';
 		protected $pg_title = '';
 		protected static $logger = null;
 		public $method_title = null;
