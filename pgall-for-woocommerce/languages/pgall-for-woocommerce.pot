@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.1.0\n"
+"Project-Id-Version: pgall-for-woocommerce 5.1.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2024-10-11 05:31:22+00:00\n"
+"POT-Creation-Date: 2024-10-14 04:45:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1184,6 +1184,7 @@ msgstr ""
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-advanced.php:18
 #: includes/admin/settings/kicc/class-pafw-settings-kicc-advanced.php:18
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-advanced.php:18
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:34
 #: includes/admin/settings/payco/class-pafw-settings-payco-advanced.php:18
 msgid "결제창 언어"
 msgstr ""
@@ -1200,7 +1201,7 @@ msgstr ""
 #: includes/admin/settings/kakaopay/class-pafw-settings-kakaopay-advanced.php:18
 #: includes/admin/settings/kicc/class-pafw-settings-kicc-advanced.php:36
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-advanced.php:48
-#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:18
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:47
 #: includes/admin/settings/payco/class-pafw-settings-payco-advanced.php:34
 #: includes/admin/settings/settlebank/class-pafw-settings-settlebank-advanced.php:18
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-advanced.php:18
@@ -1213,7 +1214,6 @@ msgstr ""
 #: includes/admin/settings/kakaopay/class-pafw-settings-kakaopay-advanced.php:24
 #: includes/admin/settings/kicc/class-pafw-settings-kicc-advanced.php:42
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-advanced.php:54
-#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:24
 #: includes/admin/settings/payco/class-pafw-settings-payco-advanced.php:40
 #: includes/admin/settings/settlebank/class-pafw-settings-settlebank-advanced.php:24
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-advanced.php:24
@@ -1265,7 +1265,7 @@ msgstr ""
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-advanced.php:71
 #: includes/admin/settings/kicc/class-pafw-settings-kicc-advanced.php:60
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-advanced.php:60
-#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:30
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:55
 #: includes/admin/settings/payco/class-pafw-settings-payco-advanced.php:46
 #: includes/admin/settings/settlebank/class-pafw-settings-settlebank-advanced.php:30
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-advanced.php:30
@@ -1279,7 +1279,7 @@ msgstr ""
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-advanced.php:77
 #: includes/admin/settings/kicc/class-pafw-settings-kicc-advanced.php:66
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-advanced.php:66
-#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:36
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:61
 #: includes/admin/settings/payco/class-pafw-settings-payco-advanced.php:52
 #: includes/admin/settings/settlebank/class-pafw-settings-settlebank-advanced.php:36
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-advanced.php:36
@@ -2477,6 +2477,37 @@ msgstr ""
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-vbank.php:81
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-vbank.php:81
 msgid "사용"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:18
+msgid "사이트 로고 (PC)"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:22
+msgid ""
+"<div class=\"desc2\">결제 창 왼쪽 상단에 가맹점 사이트의 로고를 표시합니다. 가맹점의 로고가 있는 URL을 정확히 "
+"입력하셔야 하며, 입력하지 않으면 표시되지 않습니다. 권장 사이즈는 94 * 25 픽셀 입니다. 해당 사이즈에 맞춰 자동 리사이즈 "
+"됩니다. (예 : http://www.aaa.com/a.jpg)</div>"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:26
+msgid "사이트 로고 (모바일)"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:30
+msgid ""
+"<div class=\"desc2\">모바일 결제창에 표시할 로고 이미지를 지정합니다. 권장 사이즈는 50 * 50 픽셀 "
+"입니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:43
+msgid "<div class=\"desc2\">결제창의 언어를 설정합니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-advanced.php:51
+msgid ""
+"<div class=\"desc2\">결제 페이지가 우커머스 기본 결제 태그와 다른 경우, 결제수단 확인이 가능한 별도 태그를 넣어 "
+"지정할 수 있습니다</div>"
 msgstr ""
 
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-basic.php:60

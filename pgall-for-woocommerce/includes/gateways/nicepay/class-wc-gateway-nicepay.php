@@ -38,7 +38,16 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			return pafw_get( $this->settings, 'merchant_key' );
 		}
 		public function add_register_order_request_params( $params, $order ) {
+			if ( wp_is_mobile() ) {
+				$logo_image = utf8_uri_encode( pafw_get( $this->settings, 'site_logo_mobile', PAFW()->plugin_url() . '/assets/images/default-logo-mobile.jpg' ) );
+			} else {
+				$logo_image = utf8_uri_encode( pafw_get( $this->settings, 'site_logo_pc', PAFW()->plugin_url() . '/assets/images/default-logo.jpg' ) );
+			}
+
 			$params[ $this->get_master_id() ] = array(
+				'wpml_lang'          => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : '',
+				'language_code'      => pafw_get( $this->settings, 'language_code', 'KO' ),
+				'logo_url'           => $logo_image,
 				'account_date_limit' => pafw_get( $this->settings, 'account_date_limit', 3 ),
 				'shopinterest'       => pafw_get( $this->settings, 'shopinterest' ),
 				'quota_interest'     => trim( pafw_get( $this->settings, 'quota_interest' ) ),
@@ -78,7 +87,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order->update_meta_data( "_pafw_card_name", pafw_get( $response, 'card_name' ) );
 			$order->save_meta_data();
 
-			$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array (
+			$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array(
 				'거래번호' => $response['transaction_id']
 			) );
 		}
