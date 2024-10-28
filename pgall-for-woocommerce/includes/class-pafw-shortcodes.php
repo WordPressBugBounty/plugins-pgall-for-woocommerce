@@ -24,6 +24,8 @@ if ( ! class_exists( 'PAFW_Shortcodes' ) ) :
 			}
 
 			add_filter( 'msaddr_field_is_enabled', array( __CLASS__, 'maybe_field_is_enabled' ), 10, 2 );
+			add_filter( 'woocommerce_billing_fields', array( __CLASS__, 'maybe_filter_fields' ), 99, 2 );
+			add_filter( 'woocommerce_shipping_fields', array( __CLASS__, 'maybe_filter_fields' ), 99, 2 );
 		}
 
 		public static function get_default_shortcode_params( $params = array() ) {
@@ -196,7 +198,6 @@ if ( ! class_exists( 'PAFW_Shortcodes' ) ) :
 
 			return ob_get_clean();
 		}
-
 		public static function maybe_field_is_enabled( $enabled, $field ) {
 			static $address_fields = array(
 				'mshop_billing_address',
@@ -218,6 +219,26 @@ if ( ! class_exists( 'PAFW_Shortcodes' ) ) :
 			}
 
 			return $enabled;
+		}
+		public static function maybe_filter_fields( $address, $country ) {
+			if ( defined( 'PAFW_SIMPLE_PAYMENT' ) && 'no' == pafw_get( $_POST, 'need_shipping' ) ) {
+				static $filter_fields = array(
+					'billing_postcode',
+					'billing_address_1',
+					'billing_address_2',
+					'billing_state',
+					'billing_city',
+					'shipping_postcode',
+					'shipping_address_1',
+					'shipping_address_2',
+					'shipping_state',
+					'shipping_city',
+				);
+
+				$address = array_diff_key( $address, array_flip( $filter_fields ) );
+			}
+
+			return $address;
 		}
 	}
 

@@ -5,7 +5,7 @@ Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편�
 Requires at least: 4.6.0
 Tested up to: 6.6
 Requires PHP: 7.2
-Stable tag: 5.1.1
+Stable tag: 5.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.1.2 =
+[숏코드 결제] 대한민국 주소 & 체크아웃 필드 에디터 플러그인을 사용하지 않는 경우, need_shipping="no" 옵션 사용시 오류 수정
+[숏코드 결제] 우커머스 체크아웃 블럭 사용 시 숏코드 결제 버튼 동작 오류 수정
 
 = 5.1.1 =
 [나이스페이] 결제창 언어 및 로고이미지 설정 기능 추가

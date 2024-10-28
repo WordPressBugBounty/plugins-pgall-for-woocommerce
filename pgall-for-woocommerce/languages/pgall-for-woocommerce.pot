@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.1.1\n"
+"Project-Id-Version: pgall-for-woocommerce 5.1.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2024-10-14 04:45:20+00:00\n"
+"POT-Creation-Date: 2024-10-28 01:00:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3416,27 +3416,27 @@ msgstr ""
 msgid "브라우저 새로고침 또는 종료에 따른 취소"
 msgstr ""
 
-#: includes/class-pafw-shortcodes.php:33
+#: includes/class-pafw-shortcodes.php:35
 msgid "=== 결제 정보 확인 후 결제를 진행 해 주세요. ==="
 msgstr ""
 
-#: includes/class-pafw-shortcodes.php:42 includes/class-pafw-shortcodes.php:126
+#: includes/class-pafw-shortcodes.php:44 includes/class-pafw-shortcodes.php:128
 msgid "정보입력"
 msgstr ""
 
-#: includes/class-pafw-shortcodes.php:43 includes/class-pafw-shortcodes.php:127
+#: includes/class-pafw-shortcodes.php:45 includes/class-pafw-shortcodes.php:129
 msgid "이름 또는 내용을 입력하세요."
 msgstr ""
 
-#: includes/class-pafw-shortcodes.php:44 includes/class-pafw-shortcodes.php:128
+#: includes/class-pafw-shortcodes.php:46 includes/class-pafw-shortcodes.php:130
 msgid "금액"
 msgstr ""
 
-#: includes/class-pafw-shortcodes.php:45 includes/class-pafw-shortcodes.php:129
+#: includes/class-pafw-shortcodes.php:47 includes/class-pafw-shortcodes.php:131
 msgid "결제할 금액을 입력하세요."
 msgstr ""
 
-#: includes/class-pafw-shortcodes.php:53
+#: includes/class-pafw-shortcodes.php:55
 msgid "구매하기"
 msgstr ""
 

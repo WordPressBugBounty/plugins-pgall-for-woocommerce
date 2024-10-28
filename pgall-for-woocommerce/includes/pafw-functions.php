@@ -520,7 +520,7 @@ add_action( 'woocommerce_subscription_date_updated', function ( $subscription, $
 }, 10, 3 );
 
 add_filter( 'pafw_enqueue_scripts', function ( $enqueue ) {
-	return $enqueue && 'yes' != get_option( 'pafw-use-woocommerce-blocks', 'no' );
+	return $enqueue && ( defined( 'PAFW_SIMPLE_PAYMENT' ) || 'yes' != get_option( 'pafw-use-woocommerce-blocks', 'no' ) );
 } );
 function pafw_maybe_set_payment_token( $order, $token ) {
 	try {
