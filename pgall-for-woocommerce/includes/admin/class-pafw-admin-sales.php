@@ -28,7 +28,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 				$date_where = "AND ( order_data.date_paid_gmt BETWEEN '{$date_from}' AND '{$date_to}' )";
 
-				$sql = "SELECT count( orders.id) count, SUM(orders.total_amount + orders.tax_amount) order_total
+				$sql = "SELECT count( orders.id) count, IFNULL(SUM(orders.total_amount + orders.tax_amount),0) order_total
 					FROM {$wpdb->prefix}wc_orders orders
 					LEFT JOIN {$wpdb->prefix}wc_order_operational_data AS order_data ON orders.id = order_data.order_id
 					WHERE
@@ -41,7 +41,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 			} else {
 				$date_where = "AND ( ( posts.post_type  = 'shop_order' AND paiddate_meta.meta_value BETWEEN '{$date_from}' AND '{$date_to}' ) OR (posts.post_type  = 'shop_order_refund' AND posts.post_date BETWEEN '{$date_from}' AND '{$date_to}'))";
 
-				$order_total_sql = "SELECT SUM(ordertotal_meta.meta_value) order_total
+				$order_total_sql = "SELECT IFNULL(SUM(ordertotal_meta.meta_value),0) order_total
 					FROM {$wpdb->posts} posts
 					LEFT JOIN {$wpdb->postmeta} AS ordertotal_meta ON posts.ID = ordertotal_meta.post_id AND ordertotal_meta.meta_key = '_order_total'
 					LEFT JOIN {$wpdb->postmeta} AS paiddate_meta ON posts.ID = paiddate_meta.post_id AND paiddate_meta.meta_key = '_paid_date'

@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'WC_Gateway_Kcp_Escrow_Bank' ) ) :
 
 	class WC_Gateway_Kcp_Escrow_Bank extends WC_Gateway_Kcp {
-
 		const ESCROW_TYPE_DELIVERY = 'STE1';
 		const ESCROW_TYPE_CANCEL_IMMEDIATELY = 'STE2';
 		const ESCROW_TYPE_WITHHOLD_SETTLEMENT = 'STE3';
@@ -16,8 +15,6 @@ if ( ! class_exists( 'WC_Gateway_Kcp_Escrow_Bank' ) ) :
 
 		public function __construct() {
 			$this->id = 'kcp_escrow_bank';
-
-			$this->is_escrow = true;
 
 			parent::__construct();
 

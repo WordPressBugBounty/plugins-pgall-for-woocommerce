@@ -22,7 +22,7 @@ if ( is_user_logged_in() ) {
         <div class="pafw-account">
             <div class="customer_info">
 				<?php if ( ! empty( $params['account_header'] ) ) : ?>
-                    <p class="customer_info_header"><?php echo $params['account_header']; ?></p>
+                    <p class="customer_info_header"><?php echo esc_attr( $params['account_header'] ); ?></p>
 				<?php endif; ?>
                 <p class="pafw-billing-name mshop-enable-kr mshop-always-kr"><?php printf( '%s%s ( %s, %s )', $user->get_billing_first_name(), $user->get_billing_last_name(), $user->get_billing_email(), $user->get_billing_phone() ); ?></p>
 				<?php if ( 'yes' == $params['need_shipping'] ) : ?>
@@ -47,14 +47,14 @@ if ( is_user_logged_in() ) {
 	<?php endif; ?>
     <div class='pafw-billing-address' style="display:none">
 		<?php if ( ! empty( $params['account_header'] ) ) : ?>
-            <p class="customer_info_header"><?php echo $params['account_header']; ?></p>
+            <p class="customer_info_header"><?php echo esc_attr( $params['account_header'] ); ?></p>
 		<?php endif; ?>
 		<?php
 		wc_maybe_define_constant( 'WOOCOMMERCE_CHECKOUT', true );
 
 		do_action( 'pafw_instant_payment_before_form_billing' );
 
-		wc_get_template( 'checkout/pafw/form-billing.php', array ( 'checkout' => WC()->checkout(), 'need_shipping' => $params['need_shipping'], 'params' => $params ), '', PAFW()->template_path() );
+		wc_get_template( 'checkout/pafw/form-billing.php', array( 'checkout' => WC()->checkout(), 'need_shipping' => $params['need_shipping'], 'params' => $params ), '', PAFW()->template_path() );
 
 		do_action( 'pafw_instant_payment_after_form_billing' );
 		?>

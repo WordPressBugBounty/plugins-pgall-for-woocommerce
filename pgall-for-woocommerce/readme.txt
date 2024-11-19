@@ -3,9 +3,9 @@ Contributors: Codemstory
 Donate link: http://www.codemshop.com/
 Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편결제, 정기결제
 Requires at least: 4.6.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 5.1.2
+Stable tag: 5.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.2.0 =
+[공통] 숏코드 결제 템플릿 보안 업데이트 적용
+
+= 5.1.4 =
+[심플페이 숏코드] 대한민국 주소 & 체크아웃 필드 에디터 플러그인의 체크아웃 필드 에디터 사용 시, need_shipping 파라미터가 yes 인 경우 주소 필드가 항상 표시됨
+
+= 5.1.3 =
+[결제토큰] 사용자 목록 페이지에 결제수단 컬럼 추가
 
 = 5.1.2 =
 [숏코드 결제] 대한민국 주소 & 체크아웃 필드 에디터 플러그인을 사용하지 않는 경우, need_shipping="no" 옵션 사용시 오류 수정

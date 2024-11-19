@@ -16,11 +16,11 @@ $payment_methods = explode( ',', $params['payment_method'] );
 			$gateway = new $class_name();
 
 			ob_start();
-			wc_get_template( 'checkout/pafw/payment-method.php', array ( 'gateway' => $gateway, 'uid' => $params['uid'] ), '', PAFW()->template_path() );
+			wc_get_template( 'checkout/pafw/payment-method.php', array( 'gateway' => $gateway, 'uid' => $params['uid'] ), '', PAFW()->template_path() );
 			$gateway_tags .= ob_get_clean();
 
 			ob_start();
-			wc_get_template( 'checkout/pafw/payment-field.php', array ( 'gateway' => $gateway ), '', PAFW()->template_path() );
+			wc_get_template( 'checkout/pafw/payment-field.php', array( 'gateway' => $gateway ), '', PAFW()->template_path() );
 			$gateway_field_tags .= ob_get_clean();
 		}
 	}

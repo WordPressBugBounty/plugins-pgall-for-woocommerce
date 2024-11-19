@@ -10,7 +10,7 @@ $always_issue_receipt = 'yes' == get_option( 'pafw_bacs_always_issue_receipt', '
 ?>
 
 <div class="pafw_bacs_receipt_wrapper">
-    <input type="hidden" name="pafw_bacs_receipt_use_default" value="<?php echo $use_default; ?>">
+    <input type="hidden" name="pafw_bacs_receipt_use_default" value="<?php esc_attr_e(  $use_default ); ?>">
 
 	<?php if ( 'yes' == $use_default ) : ?>
         <div class="pafw_bacs_default_info">

@@ -9,9 +9,9 @@ $bill_key = get_user_meta( get_current_user_id(), $payment_gateway->get_subscrip
 
 ?>
 
-<div class="pafw-card pafw-<?php echo $master_id; ?>">
+<div class="pafw-card pafw-<?php esc_attr_e( $master_id ); ?>">
 	<?php if ( empty( $bill_key ) ) : ?>
-        <div class="pafw-not-registered" data-payment_method="<?php echo $payment_gateway->id; ?>"></div>
+        <div class="pafw-not-registered" data-payment_method="<?php esc_attr_e(  $payment_gateway->id ); ?>"></div>
 	<?php else: ?>
         <div class="pafw-registered">
 			<?php
