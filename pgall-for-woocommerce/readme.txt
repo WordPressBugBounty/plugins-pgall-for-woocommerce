@@ -5,7 +5,7 @@ Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편�
 Requires at least: 4.6.0
 Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 5.2.0
+Stable tag: 5.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.2.2 =
+[SimplePay Shortcode] Security Update - Special thanks to patchstack (https://patchstack.com/).
+
+= 5.2.1 =
+[공통] 내계정 페이지 스크립트에 Select2 라이브러리 지원 여부에 따른 예외처리 적용
 
 = 5.2.0 =
 [공통] 숏코드 결제 템플릿 보안 업데이트 적용

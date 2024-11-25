@@ -45,6 +45,6 @@ if ( 'yes' == pafw_get( $params, 'need_shipping' ) ) {
         } );
     </script>
     <form class="checkout <?php esc_attr_e( $params['uid'] ); ?>">
-		<?php wc_get_template( 'checkout/pafw/form-' . $params['template'] . '.php', array( 'params' => $params ), '', PAFW()->template_path() ); ?>
+		<?php wc_get_template( 'checkout/pafw/form-' . sanitize_file_name( $params['template'] ) . '.php', array( 'params' => $params ), '', PAFW()->template_path() ); ?>
     </form>
 </div>
