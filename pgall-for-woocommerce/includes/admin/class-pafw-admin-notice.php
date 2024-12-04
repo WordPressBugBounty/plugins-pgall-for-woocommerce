@@ -78,7 +78,7 @@ if ( ! class_exists( 'PAFW_Admin_Notice' ) ) :
 										echo pafw_get( $content, 'rendered' );
 										?>
 										<?php if ( 'no' != self::get_options( $options, 'dismiss', 'yes' ) ) : ?>
-                                            <a href="<?php echo add_query_arg( self::$dismiss_args, $admin_notice['id'] ); ?>" class="button" style="margin-bottom: 10px;">더보지않기</a>
+                                            <a href="<?php echo esc_url( add_query_arg( self::$dismiss_args, $admin_notice['id'] ) ); ?>" class="button" style="margin-bottom: 10px;">더보지않기</a>
 										<?php endif; ?>
                                     </div>
 									<?php
