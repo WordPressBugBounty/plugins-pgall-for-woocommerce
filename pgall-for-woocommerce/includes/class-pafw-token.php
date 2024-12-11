@@ -157,6 +157,10 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 				$tokens    = array();
 				$bill_keys = array();
 				foreach ( PAFW_Token::get_payment_gateways() as $gateway ) {
+					if ( ! $gateway->supports( 'pafw' ) ) {
+						continue;
+					}
+
 					$bill_key = get_user_meta( $user_id, $gateway->get_subscription_meta_key( 'bill_key' ), true );
 
 					if ( ! empty( $bill_key ) ) {
@@ -200,7 +204,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 					foreach ( $subscriptions as $subscription ) {
 						$gateway = pafw_get_payment_gateway_from_order( $subscription );
 
-						if ( $gateway && $gateway->supports( 'add_payment_method' ) ) {
+						if ( $gateway && $gateway->supports( 'pafw' ) && $gateway->supports( 'add_payment_method' ) ) {
 							$bill_key         = $subscription->get_meta( $gateway->get_subscription_meta_key( 'bill_key' ) );
 							$default_bill_key = pafw_get( $bill_keys, $gateway->id );
 
