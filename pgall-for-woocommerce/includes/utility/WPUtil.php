@@ -15,7 +15,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 	class WPUtil {
 		static $roles = null;
 		static function get( $array, $key, $default = '' ) {
-			return array_key_exists( $key, $array ) ? $array[ $key ] : $default;
+			return is_array( $array ) && array_key_exists( $key, $array ) ? $array[ $key ] : $default;
 		}
 		static function get_roles() {
 			if ( is_null( self::$roles ) ) {

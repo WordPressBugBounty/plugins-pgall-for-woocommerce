@@ -142,6 +142,22 @@ if ( ! class_exists( 'WCUtil' ) ) {
 
 			return $category_ids;
 		}
+		static function get_product_image_url( $product ) {
+			$image_url = '';
+
+			if ( $product ) {
+				if ( $product->get_image_id() ) {
+					$image_url = wp_get_attachment_image_url( $product->get_image_id() );
+				} elseif ( $product->get_parent_id() ) {
+					$product = wc_get_product( $product->get_parent_id() );
+					if ( $product && $product->get_image_id() ) {
+						$image_url = wp_get_attachment_image_url( $product->get_image_id() );
+					}
+				}
+			}
+
+			return empty( $image_url ) ? wc_placeholder_img_src() : $image_url;
+		}
 		static function target_search_posts_title_like( $where, &$wp_query ) {
 			global $wpdb;
 			if ( $posts_title = $wp_query->get( 'posts_title' ) ) {
@@ -210,18 +226,18 @@ if ( ! class_exists( 'WCUtil' ) ) {
 			return $results;
 		}
 		static function wpml_get_default_language() {
-			if ( has_filter( 'wpml_object_id' ) ) {
-				global $sitepress;
+			global $sitepress;
 
+			if ( ! is_null( $sitepress ) && has_filter( 'wpml_object_id' ) ) {
 				return $sitepress->get_default_language();
 			} else {
 				return '';
 			}
 		}
 		static function wpml_get_default_language_args() {
-			if ( has_filter( 'wpml_object_id' ) ) {
-				global $sitepress;
+			global $sitepress;
 
+			if ( ! is_null( $sitepress ) && has_filter( 'wpml_object_id' ) ) {
 				return 'lang=' . $sitepress->get_default_language() . '&';
 			} else {
 				return '';

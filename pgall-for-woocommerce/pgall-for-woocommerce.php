@@ -5,7 +5,7 @@
 Plugin Name: 워드프레스 결제 심플페이 - 우커머스 결제 플러그인
 Plugin URI: 
 Description: 코드엠샵에서 개발, 운영되는 우커머스 전용 결제 통합 시스템 입니다.
-Version: 5.2.4
+Version: 5.2.6
 Author: CodeMShop
 Author URI: www.codemshop.com
 License: GPLv2 or later
@@ -28,7 +28,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 
 		private static $_instance = null;
 		protected $slug;
-		protected $version = '5.2.4';
+		protected $version = '5.2.6';
 		protected $plugin_url;
 		protected $plugin_path;
 		public function __construct() {
@@ -246,11 +246,13 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 				$gateway_payment_methods   = array();
 
 				foreach ( PAFW_Token::get_payment_gateways() as $payment_gateway ) {
-					$dependencies[] = $payment_gateway::enqueue_frontend_script();
+					if ( $payment_gateway->supports( 'pafw' ) && is_callable( array( $payment_gateway, 'enqueue_frontend_script' ) ) ) {
+						$dependencies[] = $payment_gateway::enqueue_frontend_script();
 
-					$supported_payment_methods = array_merge( $supported_payment_methods, array( $payment_gateway->id ) );
+						$supported_payment_methods = array_merge( $supported_payment_methods, array( $payment_gateway->id ) );
 
-					$gateway_payment_methods[ $payment_gateway->get_master_id() ] = array( $payment_gateway->id );
+						$gateway_payment_methods[ $payment_gateway->get_master_id() ] = array( $payment_gateway->id );
+					}
 				}
 
 				$dependencies = array_filter( $dependencies );

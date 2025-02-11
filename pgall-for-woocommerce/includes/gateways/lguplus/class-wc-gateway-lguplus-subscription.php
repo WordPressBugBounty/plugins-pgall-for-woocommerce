@@ -37,6 +37,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					'pafw',
 					'refunds',
 					'pafw_additional_charge',
+					'pafw_cancel_bill_key',
+					'pafw_key_in_payment',
 					'add_payment_method',
 				);
 
@@ -104,13 +106,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$post_params = apply_filters( 'pafw_subscription_payment_info', $post_params, $this );
 
 				$params[ $this->get_master_id() ] = array(
-					'card_quota'   => $this->get_card_param( $post_params, 'card_quota', '00' ),
-					'card_no'      => $this->get_card_param( $post_params, 'card_no' ),
-					'expiry_year'  => $this->get_card_param( $post_params, 'expiry_year' ),
-					'expiry_month' => $this->get_card_param( $post_params, 'expiry_month' ),
-					'cert_no'      => $this->get_card_param( $post_params, 'cert_no' ),
-					'password'     => $this->get_card_param( $post_params, 'card_pw' ),
-					'card_type'    => $this->get_card_param( $post_params, 'card_type' ),
+					'card_quota'    => $this->get_card_param( $post_params, 'card_quota', '00' ),
+					'card_no'       => $this->get_card_param( $post_params, 'card_no' ),
+					'expiry_year'   => $this->get_card_param( $post_params, 'expiry_year' ),
+					'expiry_month'  => $this->get_card_param( $post_params, 'expiry_month' ),
+					'cert_no'       => $this->get_card_param( $post_params, 'cert_no' ),
+					'password'      => $this->get_card_param( $post_params, 'card_pw' ),
+					'card_type'     => $this->get_card_param( $post_params, 'card_type' ),
 					'charge_amount' => pafw_is_subscription( $order ) ? 0 : $order->get_total()
 				);
 

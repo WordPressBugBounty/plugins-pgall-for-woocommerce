@@ -5,7 +5,7 @@ Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편�
 Requires at least: 4.6.0
 Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 5.2.4
+Stable tag: 5.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.2.6 =
+[(구)LGUPLUS] 우커머스 토큰결제 지원
+[결제수단 노출제어] 우커머스 체크아웃 블럭 지원
+
+= 5.2.5 =
+[토스페이먼츠 정기결제] 4.1.0 이전 버전에서 사용된 customerKey에 대한 호환성 모드 적용
 
 = 5.2.4 =
 [우커머스 토큰 결제] 토큰 마이그레이션 시 3rd Party 플러그인에 대한 예외처리

@@ -234,14 +234,14 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 				'parent_id'  => array()
 			);
 
-			if( is_checkout_pay_page() ) {
+			if ( is_checkout_pay_page() ) {
 				$order = wc_get_order( absint( get_query_var( 'order-pay' ) ) );
 
-				if( $order ) {
-					foreach( $order->get_items() as $item ) {
+				if ( $order ) {
+					foreach ( $order->get_items() as $item ) {
 						$product_ids['parent_id'][] = $item->get_product_id();
 
-						foreach( $item->get_all_formatted_meta_data() as $meta ) {
+						foreach ( $item->get_all_formatted_meta_data() as $meta ) {
 							$product_ids['variations'][] = array(
 								'attribute' => $meta->key,
 								'slug'      => $meta->value
@@ -249,7 +249,7 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 						}
 					}
 				}
-			}else {
+			} else {
 				if ( is_null( $cart ) ) {
 					$cart = WC()->cart;
 				}
@@ -276,7 +276,7 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 			return $product_ids;
 		}
 		static function filter_available_payment_gateways( $payment_gateways ) {
-			if ( WC()->cart && ( is_checkout() || is_checkout_pay_page() ) ) {
+			if ( WC()->cart && ( is_checkout() || is_checkout_pay_page() || ( function_exists( 'wp_is_serving_rest_request' ) && wp_is_serving_rest_request() ) ) ) {
 				$product_ids = self::get_cart_product_ids();
 
 				$payment_gateways = self::filter_available_payment_gateways_by_product_ids( $payment_gateways, $product_ids );

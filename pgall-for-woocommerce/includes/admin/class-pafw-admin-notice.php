@@ -74,8 +74,7 @@ if ( ! class_exists( 'PAFW_Admin_Notice' ) ) :
 									?>
                                     <div class="notice is-dismissible notice-<?php echo self::get_options( $options, 'type', 'success' ); ?>">
 										<?php
-										$content = pafw_get( $admin_notice, 'content', array() );
-										echo pafw_get( $content, 'rendered' );
+										echo wp_kses_post( $admin_notice['content']['rendered'] );
 										?>
 										<?php if ( 'no' != self::get_options( $options, 'dismiss', 'yes' ) ) : ?>
                                             <a href="<?php echo esc_url( add_query_arg( self::$dismiss_args, $admin_notice['id'] ) ); ?>" class="button" style="margin-bottom: 10px;">더보지않기</a>

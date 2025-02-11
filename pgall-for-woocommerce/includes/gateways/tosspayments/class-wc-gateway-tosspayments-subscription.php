@@ -61,7 +61,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			public function add_subscription_payment_request_params( $params, $order ) {
 				$params[ $this->get_master_id() ] = array(
-					'secret_key' => pafw_get( $this->settings, 'secret_key' ),
+					'secret_key'         => pafw_get( $this->settings, 'secret_key' ),
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
 				);
 
 				return $params;
@@ -95,31 +96,34 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				}
 
 				$params[ $this->get_master_id() ] = array(
-					'secret_key'   => pafw_get( $this->settings, 'secret_key' ),
-					'order_id'     => 'PAFW-BILL-' . strtoupper( bin2hex( openssl_random_pseudo_bytes( 6 ) ) ),
-					'card_no'      => $this->get_card_param( $payment_info, 'card_no' ),
-					'expiry_year'  => $this->get_card_param( $payment_info, 'expiry_year' ),
-					'expiry_month' => $this->get_card_param( $payment_info, 'expiry_month' ),
-					'cert_no'      => $this->get_card_param( $payment_info, 'cert_no' ),
-					'password'     => $this->get_card_param( $payment_info, 'card_pw' ),
-					'card_type'    => $this->get_card_param( $payment_info, 'card_type' ),
-					'user_id'      => $user_id
+					'secret_key'         => pafw_get( $this->settings, 'secret_key' ),
+					'order_id'           => 'PAFW-BILL-' . strtoupper( bin2hex( openssl_random_pseudo_bytes( 6 ) ) ),
+					'card_no'            => $this->get_card_param( $payment_info, 'card_no' ),
+					'expiry_year'        => $this->get_card_param( $payment_info, 'expiry_year' ),
+					'expiry_month'       => $this->get_card_param( $payment_info, 'expiry_month' ),
+					'cert_no'            => $this->get_card_param( $payment_info, 'cert_no' ),
+					'password'           => $this->get_card_param( $payment_info, 'card_pw' ),
+					'card_type'          => $this->get_card_param( $payment_info, 'card_type' ),
+					'user_id'            => $user_id,
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
 				);
 
 				return $params;
 			}
 			public function add_bill_key_request_params( $params, $order ) {
 				$params['order'] = array_merge( array(
-					'transaction_id' => wc_clean( pafw_get( $_GET, 'transaction_id' ) ),
-					'auth_token'     => wc_clean( pafw_get( $_GET, 'auth_token' ) ),
-					'secret_key'     => pafw_get( $this->settings, 'secret_key' ),
+					'transaction_id'     => wc_clean( pafw_get( $_GET, 'transaction_id' ) ),
+					'auth_token'         => wc_clean( pafw_get( $_GET, 'auth_token' ) ),
+					'secret_key'         => pafw_get( $this->settings, 'secret_key' ),
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
 				) );
 
 				return $params;
 			}
 			public function add_subscription_register_form_request_params( $params, $user ) {
 				$params[ $this->get_master_id() ] = array(
-					'client_key' => pafw_get( $this->settings, 'client_key' ),
+					'client_key'         => pafw_get( $this->settings, 'client_key' ),
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
 				);
 
 				return $params;

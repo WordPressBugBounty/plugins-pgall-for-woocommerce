@@ -10,11 +10,13 @@ $supported_payment_methods = array();
 $gateway_payment_methods   = array();
 
 foreach ( $payment_gateways as $payment_gateway ) {
-	$dependencies[] = $payment_gateway::enqueue_frontend_script();
+	if ( $payment_gateway->supports( 'pafw' ) && is_callable( array( $payment_gateway, 'enqueue_frontend_script' ) ) ) {
+		$dependencies[] = $payment_gateway::enqueue_frontend_script();
 
-	$supported_payment_methods = array_merge( $supported_payment_methods, array( $payment_gateway->id ) );
+		$supported_payment_methods = array_merge( $supported_payment_methods, array( $payment_gateway->id ) );
 
-	$gateway_payment_methods[ $payment_gateway->get_master_id() ] = array( $payment_gateway->id );
+		$gateway_payment_methods[ $payment_gateway->get_master_id() ] = array( $payment_gateway->id );
+	}
 }
 
 $dependencies = array_filter( $dependencies );

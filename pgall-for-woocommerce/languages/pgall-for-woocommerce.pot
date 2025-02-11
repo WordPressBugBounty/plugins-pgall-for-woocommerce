@@ -1,15 +1,15 @@
-# Copyright (C) 2024 
+# Copyright (C) 2025 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.2.4\n"
+"Project-Id-Version: pgall-for-woocommerce 5.2.6\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2024-12-11 07:45:09+00:00\n"
+"POT-Creation-Date: 2025-02-11 00:19:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CodeM\n"
 "Poedit: \n"
@@ -3010,8 +3010,8 @@ msgstr ""
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:105
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:110
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:123
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:132
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:159
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:136
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:163
 #: includes/pafw-functions.php:139 includes/pafw-functions.php:143
 #: includes/pafw-functions.php:175 includes/pafw-functions.php:178
 msgid "잘못된 요청입니다."
@@ -3953,7 +3953,7 @@ msgstr ""
 msgid "휴대폰으로 결제합니다"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-subscription.php:153
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-subscription.php:155
 #: includes/gateways/nicepay/class-wc-gateway-nicepay-subscription.php:126
 #: includes/gateways/settlepg/class-wc-gateway-settlepg-subscription.php:144
 msgid "결제 수단이 정상적으로 등록되었습니다."
@@ -4061,7 +4061,7 @@ msgstr ""
 msgid "페이팔(Paypal)"
 msgstr ""
 
-#: includes/gateways/pafw/class-wc-gateway-pafw.php:112
+#: includes/gateways/pafw/class-wc-gateway-pafw.php:111
 msgid "Return to payments"
 msgstr ""
 
@@ -4190,16 +4190,16 @@ msgstr ""
 msgid "WooCommerce"
 msgstr ""
 
-#: pgall-for-woocommerce.php:272 pgall-for-woocommerce.php:321
-#: templates/pafw/payment_methods.php:35
+#: pgall-for-woocommerce.php:274 pgall-for-woocommerce.php:323
+#: templates/pafw/payment_methods.php:37
 msgid "팝업이 차단되어 있습니다. 팝업설정을 변경하신 후 다시 시도해주세요."
 msgstr ""
 
-#: pgall-for-woocommerce.php:337
+#: pgall-for-woocommerce.php:339
 msgid "결제 실패로, 결제를 다시한번 진행 해 주시기 바랍니다."
 msgstr ""
 
-#: pgall-for-woocommerce.php:339 pgall-for-woocommerce.php:342
+#: pgall-for-woocommerce.php:341 pgall-for-woocommerce.php:344
 msgid "정상적인 결제완료로 주문이 접수되었습니다."
 msgstr ""
 
@@ -4584,37 +4584,37 @@ msgctxt "Order date parsed by DateTime::format"
 msgid "M d, Y @ h:i A"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:37 pgall-for-woocommerce.php:352
+#: includes/class-pafw-post-types.php:37 pgall-for-woocommerce.php:354
 msgctxt "Order status"
 msgid "배송중"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:45 pgall-for-woocommerce.php:353
+#: includes/class-pafw-post-types.php:45 pgall-for-woocommerce.php:355
 msgctxt "Order status"
 msgid "배송완료"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:53 pgall-for-woocommerce.php:354
+#: includes/class-pafw-post-types.php:53 pgall-for-woocommerce.php:356
 msgctxt "Order status"
 msgid "주문취소요청"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:61 pgall-for-woocommerce.php:359
+#: includes/class-pafw-post-types.php:61 pgall-for-woocommerce.php:361
 msgctxt "Order status"
 msgid "교환신청"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:69 pgall-for-woocommerce.php:366
+#: includes/class-pafw-post-types.php:69 pgall-for-woocommerce.php:368
 msgctxt "Order status"
 msgid "반품신청"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:77 pgall-for-woocommerce.php:360
+#: includes/class-pafw-post-types.php:77 pgall-for-woocommerce.php:362
 msgctxt "Order status"
 msgid "교환접수"
 msgstr ""
 
-#: includes/class-pafw-post-types.php:85 pgall-for-woocommerce.php:367
+#: includes/class-pafw-post-types.php:85 pgall-for-woocommerce.php:369
 msgctxt "Order status"
 msgid "반품접수"
 msgstr ""

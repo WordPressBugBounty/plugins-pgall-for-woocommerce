@@ -10,7 +10,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	abstract class PAFW_Payment_Gateway extends WC_Payment_Gateway {
 		protected $master_id = '';
-		protected $api_version = '3.1';
+		protected $api_version = '3.2';
 		protected $pg_title = '';
 		protected static $logger = null;
 		public $method_title = null;
@@ -611,8 +611,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				do_action( 'pafw_payment_action', 'completed', $order->get_total(), $order, $this );
 			}
 		}
-
 		static function enqueue_frontend_script() {
+			return '';
 		}
 		function get_title() {
 			$title = parent::get_title();
@@ -1040,6 +1040,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						'redirect_url' => $order->get_view_order_url()
 					);
 				} else {
+					$this->has_enough_stock( $order );
+
 					$order->set_payment_method( $this );
 
 					if ( $order->get_total() > 0 ) {
@@ -1093,6 +1095,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						'redirect_url' => $order->get_view_order_url()
 					);
 				} else {
+					$this->has_enough_stock( $order );
+
 					$order->set_payment_method( $this );
 
 					if ( $order->get_total() > 0 ) {

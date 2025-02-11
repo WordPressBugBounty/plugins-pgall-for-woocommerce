@@ -92,7 +92,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function get_merchant_key() {
 			return pafw_get( $this->settings, 'merchant_key' );
 		}
-
 		static function enqueue_frontend_script() {
 			wp_enqueue_script( "pafw-tosspayment", "https://js.tosspayments.com/v1/payment" );
 		}

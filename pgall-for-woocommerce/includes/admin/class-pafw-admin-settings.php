@@ -539,7 +539,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"id"        => "pafw_bacs_always_issue_receipt",
 								"title"     => __( "현금영수증 항상 발급", "pgall-for-woocommerce" ),
 								"className" => "",
-								'showIf'    => array ( array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes', 'pafw-gw-tosspayments' => 'yes' ), array( 'pafw_use_bacs_receipt' => 'yes' ) ),
+								'showIf'    => array( array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes', 'pafw-gw-tosspayments' => 'yes' ), array( 'pafw_use_bacs_receipt' => 'yes' ) ),
 								"type"      => "Toggle",
 								"default"   => "no",
 								"desc"      => __( '<div class="desc2">무통장입금 결제 시, 현금영수증 발급을 위한 정보를 필수로 입력해야 합니다.</div>', 'pgall-for-woocommerce' ),

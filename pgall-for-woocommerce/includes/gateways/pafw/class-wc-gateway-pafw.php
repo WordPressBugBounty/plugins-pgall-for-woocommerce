@@ -7,9 +7,7 @@ class WC_Gateway_PAFW extends WC_Payment_Gateway {
 		return array ();
 	}
 	public static function checkout_sections( $sections ) {
-		$sections = array_diff_key( $sections, static::get_supported_payment_methods() );
-
-		return $sections;
+		return array_diff_key( $sections, static::get_supported_payment_methods() );
 	}
 	public static function check_default_vbank_noti_url( $value ) {
 		return untrailingslashit( WC()->api_request_url( 'WC_Gateway_Inicis_StdVbank?type=vbank_noti', pafw_check_ssl() ) );
@@ -31,6 +29,7 @@ class WC_Gateway_PAFW extends WC_Payment_Gateway {
 		wp_send_json_success();
 	}
 	public static function enqueue_frontend_script() {
+		return '';
 	}
 
 	public function enqueue_script() {
