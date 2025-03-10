@@ -241,11 +241,13 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 					foreach ( $order->get_items() as $item ) {
 						$product_ids['parent_id'][] = $item->get_product_id();
 
-						foreach ( $item->get_all_formatted_meta_data() as $meta ) {
-							$product_ids['variations'][] = array(
-								'attribute' => $meta->key,
-								'slug'      => $meta->value
-							);
+						if ( is_callable( array( $item, 'get_all_formatted_meta_data' ) ) ) {
+							foreach ( $item->get_all_formatted_meta_data() as $meta ) {
+								$product_ids['variations'][] = array(
+									'attribute' => $meta->key,
+									'slug'      => $meta->value
+								);
+							}
 						}
 					}
 				}

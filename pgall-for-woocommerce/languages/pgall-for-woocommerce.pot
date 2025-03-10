@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.2.6\n"
+"Project-Id-Version: pgall-for-woocommerce 5.2.8\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-02-11 00:19:11+00:00\n"
+"POT-Creation-Date: 2025-03-10 00:16:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3331,7 +3331,7 @@ msgstr ""
 msgid "현금영수증이 발급이 취소되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-method-controller.php:325
+#: includes/class-pafw-payment-method-controller.php:327
 msgid "%s 상품은 장바구니에 있는 상품과 함께 구매하실 수 없습니다."
 msgstr ""
 

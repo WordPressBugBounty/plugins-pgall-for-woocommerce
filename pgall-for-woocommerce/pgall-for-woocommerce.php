@@ -5,7 +5,7 @@
 Plugin Name: 워드프레스 결제 심플페이 - 우커머스 결제 플러그인
 Plugin URI: 
 Description: 코드엠샵에서 개발, 운영되는 우커머스 전용 결제 통합 시스템 입니다.
-Version: 5.2.6
+Version: 5.2.8
 Author: CodeMShop
 Author URI: www.codemshop.com
 License: GPLv2 or later
@@ -28,7 +28,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 
 		private static $_instance = null;
 		protected $slug;
-		protected $version = '5.2.6';
+		protected $version = '5.2.8';
 		protected $plugin_url;
 		protected $plugin_path;
 		public function __construct() {
@@ -56,7 +56,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 
 			add_action( 'woocommerce_init', array( $this, 'woocommerce_init' ) );
 			add_action( 'before_woocommerce_init', array( $this, 'declare_woocommerce_compatibility' ) );
-			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 			add_filter( 'woocommerce_payment_gateways', array( $this, 'woocommerce_payment_gateways' ), 1 );
