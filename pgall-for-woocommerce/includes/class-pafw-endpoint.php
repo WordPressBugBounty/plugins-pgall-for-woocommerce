@@ -7,26 +7,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class PAFW_Endpoint {
-	public static $endpoints = array ();
 	public function __construct() {
-		self::$endpoints = array (
-			'pafw-ex'            => __( '교환 및 반품', 'pgall-for-woocommerce' ),
-		);
-
 		// Actions used to insert a new endpoint in the WordPress.
-		add_action( 'init', array ( $this, 'add_endpoints' ) );
-		add_filter( 'query_vars', array ( $this, 'add_query_vars' ), 0 );
+		add_action( 'init', array( $this, 'add_endpoints' ) );
+		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 
 		// Change the My Accout page title.
-		add_filter( 'the_title', array ( $this, 'endpoint_title' ) );
+		add_filter( 'the_title', array( $this, 'endpoint_title' ) );
+	}
+	public function get_endpoints() {
+		return array(
+			'pafw-ex' => __( '교환 및 반품', 'pgall-for-woocommerce' ),
+		);
 	}
 	public function add_endpoints() {
-		foreach ( self::$endpoints as $endpoint => $label ) {
+		foreach ( self::get_endpoints() as $endpoint => $label ) {
 			add_rewrite_endpoint( $endpoint, EP_ROOT | EP_PAGES );
 		}
 	}
 	public function add_query_vars( $vars ) {
-		foreach ( self::$endpoints as $endpoint => $label ) {
+		foreach ( self::get_endpoints() as $endpoint => $label ) {
 			$vars[] = $endpoint;
 		}
 
@@ -49,13 +49,13 @@ class PAFW_Endpoint {
 			// New page title.
 			$title = $label;
 
-			remove_filter( 'the_title', array ( $this, 'endpoint_title' ) );
+			remove_filter( 'the_title', array( $this, 'endpoint_title' ) );
 		}
 
 		return $title;
 	}
 	public static function install() {
-		foreach ( self::$endpoints as $endpoint => $label ) {
+		foreach ( self::get_endpoints() as $endpoint => $label ) {
 			add_rewrite_endpoint( $endpoint, EP_ROOT | EP_PAGES );
 		}
 
