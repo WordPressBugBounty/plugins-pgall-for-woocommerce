@@ -15,7 +15,7 @@ class PAFW_Endpoint {
 		// Change the My Accout page title.
 		add_filter( 'the_title', array( $this, 'endpoint_title' ) );
 	}
-	public function get_endpoints() {
+	public static function get_endpoints() {
 		return array(
 			'pafw-ex' => __( '교환 및 반품', 'pgall-for-woocommerce' ),
 		);
