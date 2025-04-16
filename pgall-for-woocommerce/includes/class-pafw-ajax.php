@@ -317,7 +317,7 @@ class PAFW_Ajax {
 		$args = array();
 
 		if ( ! empty( $_REQUEST['args'] ) ) {
-			$args['name__like'] = sanitize_title_for_query( $_REQUEST['args'] );
+			$args['name__like'] = sanitize_text_field( $_REQUEST['args'] );
 		}
 
 		$results = self::make_taxonomy_tree( 'product_cat', $args );
@@ -361,7 +361,7 @@ class PAFW_Ajax {
 		return $where;
 	}
 	static function target_search_product() {
-		$keyword = ! empty( $_REQUEST['args'] ) ? sanitize_title_for_query( $_REQUEST['args'] ) : '';
+		$keyword = ! empty( $_REQUEST['args'] ) ? sanitize_text_field( $_REQUEST['args'] ) : '';
 
 		add_filter( 'posts_where', array( __CLASS__, 'target_search_product_posts_title_like' ), 10, 2 );
 

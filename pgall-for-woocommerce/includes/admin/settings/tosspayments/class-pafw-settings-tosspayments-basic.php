@@ -63,7 +63,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.<br>실 결제용 클라이언트 키는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ),
 							'type'      => 'Text'
 						),
 						array(
@@ -124,7 +124,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.<br>실 결제용 클라이언트 키는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ),
 							'type'      => 'Text'
 						),
 						array(
@@ -155,7 +155,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj</code> 입니다.<br>실 결제용 클라이언트 키는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj</code> 입니다.</div>', 'pgall-for-woocommerce' ),
 							'type'      => 'Text'
 						),
 						array(

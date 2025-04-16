@@ -5,7 +5,7 @@ Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편�
 Requires at least: 4.6.0
 Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 5.2.10
+Stable tag: 5.2.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.2.11 =
+[공통] 심플페이 설정 내에서 상품 및 카테고리 검색을 진행할 때, 한국어로 검색이 제대로 되지 않던 현상
 
 = 5.2.10 =
 [공통] 플러그인 활성화 시 endpoint 관련 오류 수정
