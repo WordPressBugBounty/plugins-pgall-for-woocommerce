@@ -384,6 +384,7 @@ if ( ! class_exists( 'PAFW_Admin_Order_Status_Control_Settings' ) ) :
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => PAFW()->slug() . '-update_pafw_order_status_control_settings',
+				'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' ),
 				'settings' => $settings,
 				'slug'     => PAFW()->slug()
 			) );

@@ -76,6 +76,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		function issue_bill_key_when_change_payment_method() {
 			return true;
 		}
+		function get_supported_currency() {
+			return array( 'KRW' );
+		}
 
 		static function gateway_domain() {
 			return 'https://payment.codemshop.com';
@@ -103,8 +106,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			return $this->id == $order->get_payment_method();
 		}
 		public function woocommerce_payment_complete_order_status( $order_status, $order_id, $order = null ) {
-			if ( ! empty( $this->settings['order_status_after_payment'] ) ) {
-				$order_status = $this->settings['order_status_after_payment'];
+			if ( ! empty( $this->settings[ 'order_status_after_payment' ] ) ) {
+				$order_status = $this->settings[ 'order_status_after_payment' ];
 			}
 
 			return $order_status;
@@ -118,11 +121,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				}
 			}
 
-			if ( current_user_can( 'manage_options' ) || in_array( get_woocommerce_currency(), apply_filters( 'pafw_supported_currencies', array( 'KRW' ) ) ) ) {
-				return parent::is_available();
-			} else {
+			if ( ! in_array( get_woocommerce_currency(), apply_filters( 'pafw_supported_currencies', $this->get_supported_currency() ) ) ) {
 				return false;
 			}
+
+			return parent::is_available();
 		}
 		public function is_refundable( $order, $screen = 'admin' ) {
 			if ( 'admin' == $screen ) {
@@ -146,7 +149,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					$product = $item->get_product();
 
 					if ( $product && $product->exists() ) {
-						if ( $product->managing_stock() && ! $product->has_enough_stock( $item['qty'] ) ) {
+						if ( $product->managing_stock() && ! $product->has_enough_stock( $item[ 'qty' ] ) ) {
 							throw new Exception( sprintf( __( '결제오류 : [%d] %s 상품의 재고가 부족합니다.', 'pgall-for-woocommerce' ), $product->get_id(), $product->get_title() ), '1101' );
 						}
 					}
@@ -196,8 +199,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				try {
 					$response = PAFW_Gateway::request_cancel( $order, __( '사용자 주문취소', 'pgall-for-woocommerce' ), __( 'CM_CANCEL_001', 'pgall-for-woocommerce' ), $this );
 					if ( $response == "success" ) {
-						if ( $_POST['refund_request'] ) {
-							unset( $_POST['refund_request'] );
+						if ( $_POST[ 'refund_request' ] ) {
+							unset( $_POST[ 'refund_request' ] );
 						}
 
 						$order->update_status( 'cancelled' );
@@ -241,12 +244,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order = apply_filters( 'pafw_get_order', null, $order_id );
 
 			if ( is_null( $order ) ) {
-				if ( is_null( $order_id ) && isset( $_REQUEST['order_id'] ) ) {
-					$order_id = wc_clean( $_REQUEST['order_id'] );
+				if ( is_null( $order_id ) && isset( $_REQUEST[ 'order_id' ] ) ) {
+					$order_id = wc_clean( $_REQUEST[ 'order_id' ] );
 				}
 
-				if ( is_null( $order_key ) && isset( $_REQUEST['order_key'] ) ) {
-					$order_key = wc_clean( $_REQUEST['order_key'] );
+				if ( is_null( $order_key ) && isset( $_REQUEST[ 'order_key' ] ) ) {
+					$order_key = wc_clean( $_REQUEST[ 'order_key' ] );
 				}
 
 				if ( is_null( $order_id ) ) {
@@ -269,13 +272,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		function process_order_pay() {
 			$params = array();
 
-			if ( ! empty( $_POST['data'] ) ) {
-				parse_str( wc_clean( $_POST['data'] ), $params ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( ! empty( $_POST[ 'data' ] ) ) {
+				parse_str( wc_clean( $_POST[ 'data' ] ), $params ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				$_POST = array_merge( $_POST, $params );
 			}
 
-			wp_send_json_success( $this->process_payment( wc_clean( $_POST['order_id'] ) ) );
+			wp_send_json_success( $this->process_payment( wc_clean( $_POST[ 'order_id' ] ) ) );
 		}
 		function process_payment( $order_id ) {
 			$order = wc_get_order( $order_id );
@@ -302,13 +305,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			try {
 				$order = null;
 
-				if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['order_id'] ) ) {
+				if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'order_id' ] ) ) {
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 				}
 
-				$order = $this->get_order( wc_clean( $_GET['order_id'] ) );
+				$order = $this->get_order( wc_clean( $_GET[ 'order_id' ] ) );
 
-				if ( ! pafw_is_subscription( $order ) && $_GET['transaction_id'] != $order->get_meta( 'pafw_transaction_id' ) ) {
+				if ( ! pafw_is_subscription( $order ) && $_GET[ 'transaction_id' ] != $order->get_meta( 'pafw_transaction_id' ) ) {
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9100' );
 				}
 
@@ -324,24 +327,24 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		function wc_api_request_fail() {
 			$object = null;
 
-			if ( isset( $_GET['order_id'] ) ) {
-				$object = wc_get_order( wc_clean( $this->get_order_id_from_txnid( $_GET['order_id'] ) ) );
-			} else if ( isset( $_GET['user_id'] ) ) {
-				$object = get_userdata( wc_clean( $_GET['user_id'] ) );
+			if ( isset( $_GET[ 'order_id' ] ) ) {
+				$object = wc_get_order( wc_clean( $this->get_order_id_from_txnid( $_GET[ 'order_id' ] ) ) );
+			} elseif ( isset( $_GET[ 'user_id' ] ) ) {
+				$object = get_userdata( wc_clean( $_GET[ 'user_id' ] ) );
 			}
 
-			$e = new Exception( sprintf( "[PAFW-ERR-%s] %s", wc_clean( $_GET['res_cd'] ), wc_clean( $_GET['res_msg'] ) ) );
+			$e = new Exception( sprintf( "[PAFW-ERR-%s] %s", wc_clean( $_GET[ 'res_cd' ] ), wc_clean( $_GET[ 'res_msg' ] ) ) );
 
 			$this->handle_exception( $e, $object );
 		}
 		function wc_api_request_cancel() {
 			$object = null;
 
-			if ( isset( $_GET['order_id'] ) ) {
-				$order_id = $this->get_order_id_from_txnid( wc_clean( $_GET['order_id'] ) );
+			if ( isset( $_GET[ 'order_id' ] ) ) {
+				$order_id = $this->get_order_id_from_txnid( wc_clean( $_GET[ 'order_id' ] ) );
 				$object   = wc_get_order( $order_id );
-			} else if ( isset( $_GET['user_id'] ) ) {
-				$object = get_userdata( wc_clean( $_GET['user_id'] ) );
+			} elseif ( isset( $_GET[ 'user_id' ] ) ) {
+				$object = get_userdata( wc_clean( $_GET[ 'user_id' ] ) );
 			}
 
 			$e = new Exception( __( '결제를 취소하셨습니다.', 'pgall-for-woocommerce' ) );
@@ -350,14 +353,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 
 		function process_payment_response() {
-			$this->add_log( "Process Payment Response : " . wc_clean( $_REQUEST['type'] ) );
+			$this->add_log( "Process Payment Response : " . wc_clean( $_REQUEST[ 'type' ] ) );
 
 			try {
-				if ( empty( $_REQUEST['type'] ) ) {
+				if ( empty( $_REQUEST[ 'type' ] ) ) {
 					throw new Exception( __( '잘못된 요청입니다. - REQUEST TYPE 없음.', 'pgall-for-woocommerce' ) );
 				}
 
-				do_action( 'pafw_' . $this->id . '_' . wc_clean( $_REQUEST['type'] ) );
+				do_action( 'pafw_' . $this->id . '_' . wc_clean( $_REQUEST[ 'type' ] ) );
 
 				die();
 			} catch ( Exception $e ) {
@@ -372,10 +375,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$ids = explode( '_', $txnid );
 
 			if ( count( $ids ) > 0 ) {
-				return $ids[0];
+				return $ids[ 0 ];
 			}
 
-			return -1;
+			return - 1;
 		}
 		function get_txnid( $order ) {
 			$txnid = $order->get_meta( '_pafw_txnid', true );
@@ -444,7 +447,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$cancel_endpoint    = get_permalink( wc_get_page_id( 'cart' ) );
 				$myaccount_endpoint = esc_attr( wc_get_endpoint_url( 'orders', '', wc_get_page_permalink( 'myaccount' ) ) );
 
-				$actions['cancel'] = array(
+				$actions[ 'cancel' ] = array(
 					'url'  => wp_nonce_url( add_query_arg( array(
 						'pafw-cancel-order' => 'true',
 						'order_key'         => $order->get_order_key(),
@@ -454,7 +457,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					'name' => __( 'Cancel', 'woocommerce' )
 				);
 			} else {
-				unset( $actions['cancel'] );
+				unset( $actions[ 'cancel' ] );
 			}
 
 			return $actions;
@@ -476,8 +479,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			if ( PAFW_Gateway::request_cancel( $order, __( '관리자 주문취소', 'pgall-for-woocommerce' ), __( 'CM_CANCEL_002', 'pgall-for-woocommerce' ), $this ) ) {
-				if ( isset( $_POST['refund_request'] ) ) {
-					unset( $_POST['refund_request'] );
+				if ( isset( $_POST[ 'refund_request' ] ) ) {
+					unset( $_POST[ 'refund_request' ] );
 				}
 
 				$order->update_status( 'refunded', '관리자에 의해 주문이 취소 되었습니다.' );
@@ -617,7 +620,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		function get_title() {
 			$title = parent::get_title();
 
-			if ( ! is_admin() || empty( $_REQUEST['page'] ) || ! in_array( wc_clean( $_REQUEST['page'] ), array( 'wc-settings', 'mshop_payment' ) ) ) {
+			if ( ! is_admin() || empty( $_REQUEST[ 'page' ] ) || ! in_array( wc_clean( $_REQUEST[ 'page' ] ), array( 'wc-settings', 'mshop_payment' ) ) ) {
 				if ( $this->is_test_key() ) {
 					$title = __( '[테스트] ', 'pgall-for-woocommerce' ) . $title;
 				}
@@ -630,7 +633,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			if ( is_add_payment_method_page() && ! $this->supports( 'pafw_key_in_payment' ) ) {
 				$description = '';
-			} else if ( ! is_admin() || empty( $_REQUEST['page'] ) || ! in_array( wc_clean( $_REQUEST['page'] ), array( 'wc-settings', 'mshop_payment' ) ) ) {
+			} elseif ( ! is_admin() || empty( $_REQUEST[ 'page' ] ) || ! in_array( wc_clean( $_REQUEST[ 'page' ] ), array( 'wc-settings', 'mshop_payment' ) ) ) {
 				if ( $this->is_test_key() ) {
 					if ( $this->is_vbank() ) {
 						$description = __( '<span style="font-size: 0.9em; color: red;">[ 가상계좌 입금 테스트 시 환불 처리가 어렵습니다. 실제 입금 테스트는 결제대행사에 문의해주세요. ]</span><br>', 'pgall-for-woocommerce' ) . $description;
@@ -661,7 +664,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			if ( 'expiry_month' == $key ) {
 				$value = sprintf( "%02d", intval( $value ) );
-			} else if ( 'expiry_year' == $key ) {
+			} elseif ( 'expiry_year' == $key ) {
 				$value = sprintf( "20%02d", intval( $value ) );
 			}
 
@@ -675,7 +678,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					throw new Exception( __( '주문 관리 권한이 없습니다.', 'pgall-for-woocommerce' ) );
 				}
 
-				$this->process_additional_charge( wc_clean( $_REQUEST['order_id'] ), wc_clean( $_REQUEST['amount'] ), pafw_get( $_REQUEST, 'card_quota', '00' ) );
+				$this->process_additional_charge( wc_clean( $_REQUEST[ 'order_id' ] ), wc_clean( $_REQUEST[ 'amount' ] ), pafw_get( $_REQUEST, 'card_quota', '00' ) );
 
 				wp_send_json_success( '추가 과금 요청이 정상적으로 처리되었습니다.' );
 			} catch ( Exception $e ) {
@@ -701,9 +704,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					$history = array();
 				}
 
-				$history[ $response["transaction_id"] ] = array(
+				$history[ $response[ "transaction_id" ] ] = array(
 					'status'         => 'PAYED',
-					'auth_date'      => $response['paid_date'],
+					'auth_date'      => $response[ 'paid_date' ],
 					'charged_amount' => $amount
 				);;
 
@@ -711,45 +714,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order->save_meta_data();
 
 				$this->add_payment_log( $order, '[ 추가 과금 성공 ]', array(
-					'거래요청번호' => $response["transaction_id"],
+					'거래요청번호' => $response[ "transaction_id" ],
 					'추가과금금액' => wc_price( $amount, array( 'currency' => $order->get_currency() ) ),
 					'할부개월수'  => '00' == $card_quota ? __( '일시불', 'pgall-for-woocommerce' ) : sprintf( '%d개월', intval( $card_quota ) )
 				) );
 			} else {
 				throw new Exception( __( '주문 정보를 찾을 수 없습니다.', 'pgall-for-woocommerce' ), '5002' );
 			}
-		}
-		public function change_payment_method_for_subscription( $subscription, $params ) {
-//			/** 결제수단 변경 중 빌링키가 삭제되지 않도록 filter detach   */
-//			remove_action( 'woocommerce_subscription_status_cancelled', array( $this, 'cancel_subscription' ) );
-//			remove_action( 'woocommerce_subscription_cancelled_' . $this->id, array( $this, 'cancel_subscription' ) );
-//
-//			/** 동일한 결제 수단으로 변경하는 경우, 기존에 발급된 빌링키는 취소한다. */
-//			if ( $this->id == $subscription->get_payment_method() && $this->cancel_bill_key_when_change_to_same_payment_method() ) {
-//				$bill_key = $subscription->get_meta( $this->get_subscription_meta_key( 'bill_key' ) );
-//
-//				if ( ! empty( $bill_key ) ) {
-//					$this->cancel_bill_key( $bill_key );
-//					$this->clear_bill_key( $subscription, $subscription->get_customer_id() );
-//					$this->add_payment_log( $subscription, '[ 정기결제 빌링키 삭제 성공 ]' );
-//				}
-//			}
-//
-//			if ( $this->issue_bill_key_when_change_payment_method() ) {
-//				$bill_key = $this->get_bill_key( $subscription );
-//
-//				if ( ! empty( $params ) && ( 'yes' == pafw_get( $params, $this->get_master_id() . '_issue_bill_key' ) || empty( $bill_key ) ) ) {
-//					PAFW_Gateway::issue_bill_key( $subscription, $this );
-//				}
-//			}
-//
-//			WC_Subscriptions_Change_Payment_Gateway::update_payment_method( $subscription, $this->id );
-//
-//			$this->add_payment_log( $subscription, '[ 결제 수단 변경 ]', array(
-//				'결제수단' => $this->title
-//			) );
-
-			return true;
 		}
 
 		function woocommerce_scheduled_subscription_payment( $amount_to_charge, $order ) {
@@ -760,10 +731,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				if ( $token->get_gateway_id() != $gateway->id ) {
 					if ( apply_filters( 'pafw_use_customer_default_payment_token', true ) ) {
 						$gateway = pafw_get_payment_gateway( $token->get_gateway_id() );
-
-						if ( is_null( $gateway ) ) {
-							throw new Exception( __( "사용가능한 결제 방법이 없습니다. 내계정 - 결제방법 페이지에서 결제수단을 등록해주세요.", "pgall-for-woocommerce" ), 7101 );
-						}
 
 						PAFW_Token::update_token( $order, $token );
 
@@ -778,73 +745,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$message = sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() );
 				$order->update_status( 'failed', $message );
 			}
-		}
-		function cancel_subscription( $subscription ) {
-			if ( 'subscription' == pafw_get( $this->settings, 'management_batch_key', 'subscription' ) && $subscription && $subscription->get_payment_method() == $this->id ) {
-				try {
-					$other_subscription_ids = array();
-
-					$order_ids     = $subscription->get_related_orders( 'ids', array( 'parent' ) );
-					$subscriptions = wcs_get_subscriptions_for_order( reset( $order_ids ), array( 'order_type' => 'parent', 'subscription_status' => 'active' ) );
-
-					if ( ! empty( $subscriptions ) ) {
-						$other_subscription_ids = array_diff( array_keys( $subscriptions ), array( $subscription->get_id() ) );
-					}
-
-					if ( empty( $other_subscription_ids ) ) {
-						$bill_key = $subscription->get_meta( $this->get_subscription_meta_key( 'bill_key' ) );
-
-						if ( ! empty( $bill_key ) ) {
-							$this->cancel_bill_key( $bill_key );
-
-							$this->clear_bill_key( $subscription, $subscription->get_customer_id() );
-
-							$this->add_payment_log( $subscription, '[ 빌링키 삭제 ]', $this->get_title() );
-						}
-					}
-				} catch ( Exception $e ) {
-				}
-			}
-		}
-		public function clear_bill_key( $subscription, $user_id ) {
-			if ( $subscription ) {
-				$subscription->delete_meta_data( $this->get_subscription_meta_key( 'auth_date' ) );
-				$subscription->delete_meta_data( $this->get_subscription_meta_key( 'bill_key' ) );
-				$subscription->delete_meta_data( $this->get_subscription_meta_key( 'card_code' ) );
-				$subscription->delete_meta_data( $this->get_subscription_meta_key( 'card_name' ) );
-				$subscription->delete_meta_data( $this->get_subscription_meta_key( 'auth_date' ) );
-				$subscription->delete_meta_data( $this->get_subscription_meta_key( 'card_num' ) );
-				$subscription->delete_meta_data( '_pafw_is_bill_key_for_order' );
-				$subscription->save_meta_data();
-			}
-			if ( $user_id > 0 ) {
-				delete_user_meta( $user_id, $this->get_subscription_meta_key( 'bill_key' ) );
-				delete_user_meta( $user_id, $this->get_subscription_meta_key( 'card_num' ) );
-				delete_user_meta( $user_id, $this->get_subscription_meta_key( 'card_code' ) );
-				delete_user_meta( $user_id, $this->get_subscription_meta_key( 'card_name' ) );
-				delete_user_meta( $user_id, $this->get_subscription_meta_key( 'payment_method_type' ) );
-				delete_user_meta( $user_id, $this->get_subscription_meta_key( 'register_date' ) );
-			}
-		}
-		public function subscription_cancel_batch_key() {
-			if ( ! current_user_can( 'publish_shop_orders' ) ) {
-				throw new Exception( __( '[ERR-0000003] 잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
-			}
-
-			if ( empty( $_POST['subscription_id'] ) || empty( $_REQUEST['batch_key'] ) ) {
-				throw new Exception( __( '[ERR-0000001] 잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
-			}
-
-			$subscription = wcs_get_subscription( absint( wp_unslash( $_POST['subscription_id'] ) ) );
-			if ( empty( $subscription ) || $this->id !== $subscription->get_payment_method() ) {
-				throw new Exception( __( '[ERR-0000002] 잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
-			}
-
-			$this->cancel_bill_key( wc_clean( $_REQUEST['batch_key'] ) );
-
-			$this->add_payment_log( $subscription, '[ 정기결제 빌링키 삭제 성공 ]' );
-
-			wp_send_json_success( __( '정기결제 배치키 비활성화가 정상적으로 처리되었습니다.' ) );
 		}
 		function get_payment_form_params_by_gateway( $order ) {
 		}
@@ -871,7 +771,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				throw new Exception( __( '주문 관리 권한이 없습니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$order = wc_get_order( absint( wp_unslash( $_REQUEST['order_id'] ) ) );
+			$order = wc_get_order( absint( wp_unslash( $_REQUEST[ 'order_id' ] ) ) );
 
 			PAFW_Gateway::cancel_additional_charge( $order, $this );
 
@@ -899,26 +799,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			return ob_get_clean();
 		}
-
-		function delete_payment_method() {
-			try {
-				$bill_key = get_user_meta( get_current_user_id(), $this->get_subscription_meta_key( 'bill_key' ), true );
-
-				if ( ! empty( $bill_key ) ) {
-					$this->cancel_bill_key( $bill_key );
-				}
-
-				$this->clear_bill_key( null, get_current_user_id() );
-
-				wp_send_json_success();
-			} catch ( Exception $e ) {
-				wp_send_json_error( $e->getMessage() );
-			}
-		}
 		function escrow_register_delivery_info() {
 			$this->check_shop_order_capability();
 
-			if ( empty( $_REQUEST['escrow_type'] ) || empty( $_REQUEST['tracking_number'] ) ) {
+			if ( empty( $_REQUEST[ 'escrow_type' ] ) || empty( $_REQUEST[ 'tracking_number' ] ) ) {
 				throw new Exception( __( '필수 파라미터가 누락되었습니다.', 'pgall-for-woocommerce' ) );
 			}
 
@@ -1018,9 +902,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			do_action( 'pafw_process_payment', $order );
 
 			try {
-				if ( isset( $_POST['issavedtoken'] ) && $_POST['issavedtoken'] && isset( $_POST['token'] ) && intval( $_POST['token'] ) > 0 ) {
-					$token = new WC_Payment_Token_PAFW( $_POST['token'] );
-					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . $_POST['token'], '00' );
+				if ( isset( $_POST[ 'issavedtoken' ] ) && $_POST[ 'issavedtoken' ] && isset( $_POST[ 'token' ] ) && intval( $_POST[ 'token' ] ) > 0 ) {
+					$token = new WC_Payment_Token_PAFW( $_POST[ 'token' ] );
+					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . $_POST[ 'token' ], '00' );
 				} else {
 					$quota = pafw_get( $_REQUEST, 'pafw_' . $this->get_master_id() . '_card_quota', '00' );
 				}
@@ -1072,9 +956,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			do_action( 'pafw_process_payment', $order );
 
 			try {
-				if ( isset( $_POST['issavedtoken'] ) && $_POST['issavedtoken'] && isset( $_POST['token'] ) && intval( $_POST['token'] ) > 0 ) {
-					$token = new WC_Payment_Token_PAFW( $_POST['token'] );
-					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . $_POST['token'], '00' );
+				if ( isset( $_POST[ 'issavedtoken' ] ) && $_POST[ 'issavedtoken' ] && isset( $_POST[ 'token' ] ) && intval( $_POST[ 'token' ] ) > 0 ) {
+					$token = new WC_Payment_Token_PAFW( $_POST[ 'token' ] );
+					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . $_POST[ 'token' ], '00' );
 				} else {
 					$quota = pafw_get( $_REQUEST, 'pafw_' . $this->get_master_id() . '_card_quota', '00' );
 				}
@@ -1086,7 +970,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					do_action( 'pafw_process_payment', $order );
 
 					return $this->get_payment_form( $order_id, $order->get_order_key() );
-				} else if ( pafw_is_subscription( $order ) ) {
+				} elseif ( pafw_is_subscription( $order ) ) {
 					pafw_maybe_set_payment_token( $order, $token );
 
 					return array(

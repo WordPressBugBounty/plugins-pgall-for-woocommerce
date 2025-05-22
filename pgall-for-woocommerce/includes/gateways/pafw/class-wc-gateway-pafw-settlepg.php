@@ -52,6 +52,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_SettlePG' ) ) {
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => PAFW()->slug() . '-update_settlepg_settings',
+				'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' ),
 				'settings' => $settings
 			) );
 

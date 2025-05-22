@@ -47,6 +47,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_LGUPlus' ) ) {
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => PAFW()->slug() . '-update_lguplus_settings',
+				'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' ),
 				'settings' => $settings
 			) );
 

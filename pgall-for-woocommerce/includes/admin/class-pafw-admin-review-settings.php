@@ -172,6 +172,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => PAFW()->slug() . '-update_pafw_review_settings',
+				'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' ),
 				'settings' => $settings,
 				'slug'     => PAFW()->slug()
 			) );

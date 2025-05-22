@@ -47,7 +47,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_TossPayments' ) ) {
 
 			$options = get_option( 'pafw_mshop_tosspayments' );
 
-			$GLOBALS['hide_save_button'] = 'yes' != pafw_get( $options, 'show_save_button', 'no' );
+			$GLOBALS[ 'hide_save_button' ] = 'yes' != pafw_get( $options, 'show_save_button', 'no' );
 
 			$settings = $this->get_settings( 'tosspayments', self::get_supported_payment_methods() );
 
@@ -56,12 +56,13 @@ if ( ! class_exists( 'WC_Gateway_PAFW_TossPayments' ) ) {
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => PAFW()->slug() . '-update_tosspayments_settings',
+				'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' ),
 				'settings' => $settings
 			) );
 
 			?>
             <script>
-                jQuery( document ).ready( function( $ ) {
+                jQuery( document ).ready( function ( $ ) {
                     $( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '200', <?php echo json_encode( $this->get_setting_values( $this->id, $settings ) ); ?>, null, null ] );
                 } );
             </script>

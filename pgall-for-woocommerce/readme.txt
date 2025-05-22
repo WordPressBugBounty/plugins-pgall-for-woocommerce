@@ -1,11 +1,11 @@
 === 워드프레스 결제 심플페이 - 우커머스 결제 플러그인 ===
 Contributors: Codemstory
 Donate link: http://www.codemshop.com/
-Tags: 우커머스 결제, 워드프레스 결제, 코드엠샵 결제, 간편결제, 정기결제
+Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 대한민국 결제
 Requires at least: 4.6.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.2.11
+Stable tag: 5.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,10 +17,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 대한민국에서 우커머스를 가장 많이 경험하고, 가장 많은 노하우를 가지고 있는 코드엠샵에서는 심플페이 워드프레스 결제 플러그인에 결제 기능을 비롯한 우커머스 쇼핑몰 운영에 필요한 다양한 기능을 무료로 제공하며, 보다 효율적이게 쇼핑몰 운영을 할 수 있습니다.
 
-심플페이 결제 상세 정보 :<a href=" https://www.codemshop.com/pgall/" target="_blank"> https://www.codemshop.com/pgall</a>
-플러그인 설치 영상 매뉴얼 : <a href="https://bit.ly/48jN52a" target="_blank">https://bit.ly/48jN52a</a>
-플러그인 상세 설정 영상 매뉴얼 : <a href="https://bit.ly/2YXC9cx" target="_blank">https://bit.ly/2YXC9cx</a>
-플러그인 텍스트 매뉴얼 : <a href="https://bit.ly/2RyZAW6" target="_blank">https://bit.ly/2RyZAW6</a>
+<a href="https://www.codemshop.com/pgall/" target="_blank">심플페이 결제 상세 정보 https://www.codemshop.com/pgall</a>
+<a href="https://www.youtube.com/watch?v=rPWmGM6hhQg" target="_blank">심플페이 플러그인 설치 영상 가이드 https://www.youtube.com/watch?v=rPWmGM6hhQg</a>
+<a href="https://www.youtube.com/watch?v=Gov4xSAIw7k" target="_blank">심플페이 플러그인 상세 설정 영상 가이드 https://www.youtube.com/watch?v=Gov4xSAIw7k</a>
+<a href="https://www.codemshop.com/guide/docs/simplepay/" target="_blank">심플페이 플러그인 사용 가이드 https://www.codemshop.com/guide/docs/simplepay/</a>
 
 [결제 대행사 지원]
 - 토스페이먼츠, 이니시스, 카카오페이, 네이버페이(결제형), 나이스페이, KCP, 페이코, 페이누리, 헥토파이낸셜, 이노페이 결제 시스템 지원
@@ -43,8 +43,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 – 결제수단 노출제어 : 사용자등급, 상품, 카테고리, 상품 속성, 구매 금액, 언어에 따른 결제수단 노출제어
 - 결제 영수증, 현금영수증 발급
 - 전체환불, 부분환불
-- 확장형 : 심플페이 DIY 체크아웃 - 결제 페이지 (체크아웃 페이지) 커스터마이징 기능
-– 확장형 : 심플페이 DIY 결제완료 – 결제완료 페이지 커스터마이징 기능
+- 확장형 : 심플페이 체크아웃 DIY – 결제 페이지 (체크아웃 페이지) 커스터마이징 기능
+– 확장형 : 심플페이 결제완료 DIY – 결제완료 페이지 커스터마이징 기능
 
 [커스텀 기능]
 - 결제창 언어설정 (한국어, 영어, 일어, 중국어)
@@ -66,7 +66,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 = 현재 타사의 결제 플러그인을 이용하고 있는데, 심플페이 교체 사용이 가능한가요? =
 심플페이에서 제공하는 결제 대행사를 이용하고 계신 경우 상점 아이디 추가 발급을 통해 별도 카드사 심사없이 심플페이 이용이 가능합니다.
 
-결제 플러그인 교체 설정은 매뉴얼 사이트를 확인 해 주세요. <a href="https://bit.ly/pg-change/">https://bit.ly/pg-change</a>
+결제 플러그인 교체 설정은 매뉴얼 사이트를 확인 해 주세요. <a href="https://www.codemshop.com/guide/docs/simplepay/replacement/">https://www.codemshop.com/guide/docs/simplepay/replacement/</a>
 
 == Screenshots ==
 
@@ -82,6 +82,19 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.3.3 =
+[매출통계] 결제수단별 매출통계 테이블
+
+= 5.3.2 =
+[Security Update] Security Update - Special thanks to patchstack (https://patchstack.com/).
+
+= 5.3.1 =
+[공통] 다국어 플러그인(WPML) 호환성 업데이트
+
+= 5.3.0 =
+[공통] 워드프레스 6.8 호환성 테스트 완료
+[공통] 코드 리펙토링
 
 = 5.2.11 =
 [공통] 심플페이 설정 내에서 상품 및 카테고리 검색을 진행할 때, 한국어로 검색이 제대로 되지 않던 현상

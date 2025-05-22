@@ -63,6 +63,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_pafw_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -71,6 +73,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_pafw_review_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -79,6 +83,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_pafw_payment_method_control_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -87,6 +93,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_pafw_order_status_control_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -95,6 +103,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_inicis_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -103,6 +113,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_nicepay_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -110,6 +122,8 @@ class PAFW_Ajax {
 		WC_Gateway_PAFW_Nicepay::update_settings();
 	}
 	public static function update_kcp_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -117,6 +131,8 @@ class PAFW_Ajax {
 		WC_Gateway_PAFW_Kcp::update_settings();
 	}
 	public static function update_tosspayments_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -124,6 +140,8 @@ class PAFW_Ajax {
 		WC_Gateway_PAFW_TossPayments::update_settings();
 	}
 	public static function update_lguplus_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -132,6 +150,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_payco_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -140,6 +160,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_kakaopay_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -148,6 +170,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_kicc_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -156,6 +180,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_settlebank_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -164,6 +190,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_settlevbank_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -172,6 +200,8 @@ class PAFW_Ajax {
 	}
 
 	public static function update_settlepg_settings() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -181,10 +211,12 @@ class PAFW_Ajax {
 	public static function pafw_ajax_action() {
 
 		try {
-			if ( isset( $_POST['payment_method'] ) && isset( $_POST['payment_action'] ) ) {
-				$payment_method = wc_clean( $_POST['payment_method'] );
-				$payment_action = wc_clean( $_POST['payment_action'] );
-				$redirect_url   = wc_clean( $_POST['redirect_url'] );
+			check_ajax_referer( 'pgall-for-woocommerce' );
+
+			if ( isset( $_POST[ 'payment_method' ] ) && isset( $_POST[ 'payment_action' ] ) ) {
+				$payment_method = wc_clean( $_POST[ 'payment_method' ] );
+				$payment_action = wc_clean( $_POST[ 'payment_action' ] );
+				$redirect_url   = wc_clean( $_POST[ 'redirect_url' ] );
 
 				if ( ! empty( $redirect_url ) ) {
 					set_transient( 'pafw_redirect_url_' . get_current_user_id(), $redirect_url, 3 * MINUTE_IN_SECONDS );
@@ -207,8 +239,10 @@ class PAFW_Ajax {
 	}
 	public static function pafw_sales_action() {
 		try {
-			if ( isset( $_REQUEST['command'] ) ) {
-				$command = wc_clean( $_REQUEST['command'] );
+			check_ajax_referer( 'pafw-sales' );
+
+			if ( isset( $_REQUEST[ 'command' ] ) ) {
+				$command = wc_clean( $_REQUEST[ 'command' ] );
 
 				if ( is_callable( array( 'PAFW_Admin_Sales', $command ) ) ) {
 					PAFW_Admin_Sales::$command();
@@ -223,8 +257,10 @@ class PAFW_Ajax {
 	}
 	public static function pafw_payment_statistics_action() {
 		try {
-			if ( isset( $_REQUEST['command'] ) ) {
-				$command = wc_clean( $_REQUEST['command'] );
+			check_ajax_referer( 'pafw-payment-statistics' );
+
+			if ( isset( $_REQUEST[ 'command' ] ) ) {
+				$command = wc_clean( $_REQUEST[ 'command' ] );
 
 				if ( is_callable( array( 'PAFW_Admin_Payment_Statistics', $command ) ) ) {
 					PAFW_Admin_Payment_Statistics::$command();
@@ -247,12 +283,12 @@ class PAFW_Ajax {
 			$exchange_return_order = PAFW_Exchange_Return_Manager::create_exchange_return( $_REQUEST );
 
 			WC()->mailer();
-			do_action( 'pafw-' . wc_clean( $_REQUEST['type'] ) . '-request-notification', $exchange_return_order->get_id(), $exchange_return_order );
+			do_action( 'pafw-' . wc_clean( $_REQUEST[ 'type' ] ) . '-request-notification', $exchange_return_order->get_id(), $exchange_return_order );
 
-			$message = sprintf( __( '%s 요청이 접수되었습니다.', 'pgall-for-woocommerce' ), 'exchange' == wc_clean( $_REQUEST['type'] ) ? __( '교환', 'pgall-for-woocommerce' ) : __( '반품', 'pgall-for-woocommerce' ) );
+			$message = sprintf( __( '%s 요청이 접수되었습니다.', 'pgall-for-woocommerce' ), 'exchange' == wc_clean( $_REQUEST[ 'type' ] ) ? __( '교환', 'pgall-for-woocommerce' ) : __( '반품', 'pgall-for-woocommerce' ) );
 
-			$parent_order = wc_get_order( absint( wp_unslash( $_REQUEST['order_id'] ) ) );
-			$parent_order->update_status( wc_clean( $_REQUEST['type'] ) . '-request', $message );
+			$parent_order = wc_get_order( absint( wp_unslash( $_REQUEST[ 'order_id' ] ) ) );
+			$parent_order->update_status( wc_clean( $_REQUEST[ 'type' ] ) . '-request', $message );
 
 			$redirect_url = pafw_get( $_REQUEST, 'redirect_url', wc_get_account_endpoint_url( 'orders' ) );
 
@@ -269,10 +305,10 @@ class PAFW_Ajax {
 		check_ajax_referer( 'order-item', 'security' );
 
 		if ( ! current_user_can( 'edit_shop_orders' ) ) {
-			die( -1 );
+			die( - 1 );
 		}
 
-		$exchange_return_ids = array_map( 'absint', is_array( $_POST['refund_id'] ) ? $_POST['refund_id'] : array( $_POST['refund_id'] ) );
+		$exchange_return_ids = array_map( 'absint', is_array( $_POST[ 'refund_id' ] ) ? $_POST[ 'refund_id' ] : array( $_POST[ 'refund_id' ] ) );
 		foreach ( $exchange_return_ids as $exchange_return_id ) {
 			if ( $exchange_return_id && 'shop_order_pafw_ex' === PAFW_HPOS::get_order_type( $exchange_return_id ) ) {
 				$exchage_return_order = wc_get_order( $exchange_return_id );
@@ -288,7 +324,7 @@ class PAFW_Ajax {
 
 	public static function agree_to_tac() {
 		if ( ! current_user_can( 'edit_shop_orders' ) ) {
-			die( -1 );
+			die( - 1 );
 		}
 
 		update_option( PAFW()->slug() . '-agree-to-tac', 'yes', false );
@@ -298,8 +334,8 @@ class PAFW_Ajax {
 	static function make_taxonomy_tree( $taxonomy, $args, $depth = 0, $parent = 0, $paths = array() ) {
 		$results = array();
 
-		$args['parent'] = $parent;
-		$terms          = get_terms( $taxonomy, $args );
+		$args[ 'parent' ] = $parent;
+		$terms            = get_terms( $taxonomy, $args );
 
 		foreach ( $terms as $term ) {
 			$current_paths = array_merge( $paths, array( $term->name ) );
@@ -316,8 +352,8 @@ class PAFW_Ajax {
 	static function target_search_category( $depth = 0, $parent = 0 ) {
 		$args = array();
 
-		if ( ! empty( $_REQUEST['args'] ) ) {
-			$args['name__like'] = sanitize_text_field( $_REQUEST['args'] );
+		if ( ! empty( $_REQUEST[ 'args' ] ) ) {
+			$args[ 'name__like' ] = sanitize_text_field( $_REQUEST[ 'args' ] );
 		}
 
 		$results = self::make_taxonomy_tree( 'product_cat', $args );
@@ -361,7 +397,7 @@ class PAFW_Ajax {
 		return $where;
 	}
 	static function target_search_product() {
-		$keyword = ! empty( $_REQUEST['args'] ) ? sanitize_text_field( $_REQUEST['args'] ) : '';
+		$keyword = ! empty( $_REQUEST[ 'args' ] ) ? sanitize_text_field( $_REQUEST[ 'args' ] ) : '';
 
 		add_filter( 'posts_where', array( __CLASS__, 'target_search_product_posts_title_like' ), 10, 2 );
 
@@ -369,7 +405,7 @@ class PAFW_Ajax {
 			'post_type'      => 'product',
 			'posts_title'    => $keyword,
 			'post_status'    => 'publish',
-			'posts_per_page' => -1
+			'posts_per_page' => - 1
 		);
 
 		$query = new WP_Query( $args );
@@ -395,8 +431,8 @@ class PAFW_Ajax {
 	}
 
 	public static function target_search() {
-		if ( ! empty( $_REQUEST['type'] ) ) {
-			$type = wc_clean( $_REQUEST['type'] );
+		if ( ! empty( $_REQUEST[ 'type' ] ) ) {
+			$type = wc_clean( $_REQUEST[ 'type' ] );
 
 			switch ( $type ) {
 				case 'product' :
@@ -425,15 +461,15 @@ class PAFW_Ajax {
 
 			add_filter( 'wcml_load_multi_currency', '__return_true' );
 
-			if ( isset( $_REQUEST['payment_method'] ) ) {
-				$order = PAFW_Simple_Pay::get_order_for_simple_payment( wc_clean( $_REQUEST['_pafw_uid'] ) );
+			if ( isset( $_REQUEST[ 'payment_method' ] ) ) {
+				$order = PAFW_Simple_Pay::get_order_for_simple_payment( wc_clean( $_REQUEST[ '_pafw_uid' ] ) );
 
-				$payment_gateway = pafw_get_payment_gateway( wc_clean( $_REQUEST['payment_method'] ) );
+				$payment_gateway = pafw_get_payment_gateway( wc_clean( $_REQUEST[ 'payment_method' ] ) );
 
 				if ( $payment_gateway ) {
 					$result = $payment_gateway->process_payment( $order->get_id() );
 
-					if ( $result && 'success' == $result['result'] ) {
+					if ( $result && 'success' == $result[ 'result' ] ) {
 						die( json_encode( $result ) );
 					} else {
 						$result = array(
@@ -470,11 +506,11 @@ class PAFW_Ajax {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			if ( ! is_user_logged_in() || empty( $_POST['subscription_id'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'pgall-for-woocommerce' ) ) {
+			if ( ! is_user_logged_in() || empty( $_POST[ 'subscription_id' ] ) || ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'pgall-for-woocommerce' ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$subscription = wcs_get_subscription( absint( wp_unslash( $_POST['subscription_id'] ) ) );
+			$subscription = wcs_get_subscription( absint( wp_unslash( $_POST[ 'subscription_id' ] ) ) );
 
 			if ( ! is_a( $subscription, 'WC_Subscription' ) || 'active' != $subscription->get_status() || ! $subscription->can_date_be_updated( 'next_payment' ) || get_current_user_id() != $subscription->get_customer_id() ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
@@ -482,7 +518,7 @@ class PAFW_Ajax {
 
 			$renewal_time = pafw_get_renewal_time( '12:00:00' );
 
-			$next_payment_date = strtotime( wc_clean( $_POST['next_payment_date'] ) . ' ' . $renewal_time ) - get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS;
+			$next_payment_date = strtotime( wc_clean( $_POST[ 'next_payment_date' ] ) . ' ' . $renewal_time ) - get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS;
 
 			if ( $next_payment_date < time() ) {
 				throw new Exception( __( '다음 결제일은 내일 이후로만 설정하실 수 있습니다.', 'pgall-for-woocommerce' ) );
@@ -497,25 +533,25 @@ class PAFW_Ajax {
 	}
 	public static function cancel_subscription() {
 		try {
-			if ( ! is_user_logged_in() || empty( $_POST['subscription_id'] ) || empty( $_POST['cancel_reason'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'pgall-for-woocommerce' ) ) {
+			if ( ! is_user_logged_in() || empty( $_POST[ 'subscription_id' ] ) || empty( $_POST[ 'cancel_reason' ] ) || ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'pgall-for-woocommerce' ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$subscription = wcs_get_subscription( absint( wp_unslash( $_POST['subscription_id'] ) ) );
+			$subscription = wcs_get_subscription( absint( wp_unslash( $_POST[ 'subscription_id' ] ) ) );
 
 			if ( ! is_a( $subscription, 'WC_Subscription' ) || 'active' != $subscription->get_status() || get_current_user_id() != $subscription->get_customer_id() ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			do_action( 'pafw_before_cancel_subscription', $subscription, $_POST['cancel_reason'] );
+			do_action( 'pafw_before_cancel_subscription', $subscription, $_POST[ 'cancel_reason' ] );
 
-			$subscription->add_order_note( sprintf( __( '고객이 구독을 취소하셨습니다.<br>[취소사유] %s', 'pgall-for-woocommerce' ), wc_clean( $_REQUEST['cancel_reason'] ) ) );
+			$subscription->add_order_note( sprintf( __( '고객이 구독을 취소하셨습니다.<br>[취소사유] %s', 'pgall-for-woocommerce' ), wc_clean( $_REQUEST[ 'cancel_reason' ] ) ) );
 
-			$subscription->update_meta_data( '_pafw_cancel_reason', wc_clean( $_REQUEST['cancel_reason'] ) );
+			$subscription->update_meta_data( '_pafw_cancel_reason', wc_clean( $_REQUEST[ 'cancel_reason' ] ) );
 
 			WCS_User_Change_Status_Handler::change_users_subscription( $subscription, 'cancelled' );
 
-			do_action( 'pafw_after_cancel_subscription', $subscription, $_POST['cancel_reason'] );
+			do_action( 'pafw_after_cancel_subscription', $subscription, $_POST[ 'cancel_reason' ] );
 
 			wp_send_json_success();
 		} catch ( Exception $e ) {
@@ -524,7 +560,7 @@ class PAFW_Ajax {
 	}
 	public static function survey_cancel_reason() {
 		try {
-			if ( empty( $_POST['cancel_reason'] ) || empty( $_POST['redirect_url'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'pgall-for-woocommerce' ) ) {
+			if ( empty( $_POST[ 'cancel_reason' ] ) || empty( $_POST[ 'redirect_url' ] ) || ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'pgall-for-woocommerce' ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
@@ -532,20 +568,20 @@ class PAFW_Ajax {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$url    = parse_url( wc_clean( $_REQUEST['redirect_url'] ) );
+			$url    = parse_url( wc_clean( $_REQUEST[ 'redirect_url' ] ) );
 			$params = array();
-			parse_str( $url['query'], $params );
+			parse_str( $url[ 'query' ], $params );
 
-			$order = wc_get_order( $params['order_id'] );
+			$order = wc_get_order( $params[ 'order_id' ] );
 
-			if ( ! is_a( $order, 'WC_Order' ) || $order->get_order_key() != $params['order_key'] ) {
+			if ( ! is_a( $order, 'WC_Order' ) || $order->get_order_key() != $params[ 'order_key' ] ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
 			if ( ( is_user_logged_in() && $order->get_customer_id() == get_current_user_id() ) || ( ! is_user_logged_in() && 'yes' == get_option( 'pafw-gw-support-cancel-guest-order', 'no' ) ) ) {
-				$order->add_order_note( sprintf( __( '고객이 주문을 취소하셨습니다.<br>[취소사유] %s', 'pgall-for-woocommerce' ), wc_clean( $_REQUEST['cancel_reason'] ) ) );
+				$order->add_order_note( sprintf( __( '고객이 주문을 취소하셨습니다.<br>[취소사유] %s', 'pgall-for-woocommerce' ), wc_clean( $_REQUEST[ 'cancel_reason' ] ) ) );
 
-				$order->update_meta_data( '_pafw_cancel_reason', wc_clean( $_REQUEST['cancel_reason'] ) );
+				$order->update_meta_data( '_pafw_cancel_reason', wc_clean( $_REQUEST[ 'cancel_reason' ] ) );
 
 				wp_send_json_success();
 			} else {
@@ -556,7 +592,7 @@ class PAFW_Ajax {
 		}
 	}
 	public static function pafw_cash_receipt() {
-		if ( ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'pgall-for-woocommerce' ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'pgall-for-woocommerce' ) ) {
 			die();
 		}
 
@@ -567,7 +603,7 @@ class PAFW_Ajax {
 				throw new Exception( __( '현금영수증 발행을 지원하는 결제대행사가 없습니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$gateway->issue_cash_receipt( $_POST['order_id'] );
+			$gateway->issue_cash_receipt( $_POST[ 'order_id' ] );
 
 			wp_send_json_success( __( '현금영수증이 발행되었습니다.', 'pgall-for-woocommerce' ) );
 		} catch ( Exception $e ) {
@@ -575,7 +611,7 @@ class PAFW_Ajax {
 		}
 	}
 	public static function pafw_cancel_receipt() {
-		if ( ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'pgall-for-woocommerce' ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'pgall-for-woocommerce' ) ) {
 			die();
 		}
 
@@ -586,7 +622,7 @@ class PAFW_Ajax {
 				throw new Exception( __( '현금영수증 발행을 지원하는 결제대행사가 없습니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$gateway->cancel_cash_receipt( $_POST['order_id'] );
+			$gateway->cancel_cash_receipt( $_POST[ 'order_id' ] );
 
 			wp_send_json_success( __( '발행된 현금영수증이 취소되었습니다.', 'pgall-for-woocommerce' ) );
 		} catch ( Exception $e ) {
@@ -594,6 +630,8 @@ class PAFW_Ajax {
 		}
 	}
 	public static function pafw_search_user() {
+		check_ajax_referer( 'pafw-search-user' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
@@ -602,7 +640,7 @@ class PAFW_Ajax {
 
 		$results = array();
 
-		$keyword = isset( $_REQUEST['args'] ) ? esc_attr( $_REQUEST['args'] ) : '';
+		$keyword = isset( $_REQUEST[ 'args' ] ) ? esc_attr( $_REQUEST[ 'args' ] ) : '';
 
 		$sql = "SELECT user.ID
 				FROM {$wpdb->users} user
@@ -632,12 +670,12 @@ class PAFW_Ajax {
 		die();
 	}
 	public static function pafw_update_receipt_info() {
-		if ( ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'pgall-for-woocommerce' ) || empty( $_POST['order_id'] ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) || ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'pgall-for-woocommerce' ) || empty( $_POST[ 'order_id' ] ) ) {
 			die();
 		}
 
 		try {
-			$order = wc_get_order( $_POST['order_id'] );
+			$order = wc_get_order( $_POST[ 'order_id' ] );
 
 			if ( $order ) {
 
@@ -647,9 +685,9 @@ class PAFW_Ajax {
 					PAFW_Cash_Receipt::insert_receipt_request( $order );
 				}
 
-				$order->update_meta_data( '_pafw_bacs_receipt_usage', $_POST['receipt_usage'] );
-				$order->update_meta_data( '_pafw_bacs_receipt_issue_type', $_POST['receipt_issue_type'] );
-				$order->update_meta_data( '_pafw_bacs_receipt_reg_number', $_POST[ 'reg_number_' . $_POST['receipt_usage'] ] );
+				$order->update_meta_data( '_pafw_bacs_receipt_usage', $_POST[ 'receipt_usage' ] );
+				$order->update_meta_data( '_pafw_bacs_receipt_issue_type', $_POST[ 'receipt_issue_type' ] );
+				$order->update_meta_data( '_pafw_bacs_receipt_reg_number', $_POST[ 'reg_number_' . $_POST[ 'receipt_usage' ] ] );
 				$order->save_meta_data();
 			}
 
@@ -667,37 +705,37 @@ class PAFW_Ajax {
 
 			$receipt_requests = PAFW_Cash_Receipt::get_receipt_requests( $_POST );
 
-			foreach ( $receipt_requests['results'] as &$request ) {
-				$order = wc_get_order( $request['order_id'] );
+			foreach ( $receipt_requests[ 'results' ] as &$request ) {
+				$order = wc_get_order( $request[ 'order_id' ] );
 
 				if ( $order ) {
-					$request['order'] = sprintf( "<a href='%s' target=_blank>#%d</a>", $order->get_edit_order_url(), $request['order_id'] );
-					if ( ! empty( $request['customer_id'] ) ) {
-						$request['customer'] = sprintf( "<a href='%s' target=_blank>%s (#%d)</a>", get_edit_user_link( $request['customer_id'] ), $order->get_billing_last_name() . $order->get_billing_first_name(), $request['customer_id'] );
+					$request[ 'order' ] = sprintf( "<a href='%s' target=_blank>#%d</a>", $order->get_edit_order_url(), $request[ 'order_id' ] );
+					if ( ! empty( $request[ 'customer_id' ] ) ) {
+						$request[ 'customer' ] = sprintf( "<a href='%s' target=_blank>%s (#%d)</a>", get_edit_user_link( $request[ 'customer_id' ] ), $order->get_billing_last_name() . $order->get_billing_first_name(), $request[ 'customer_id' ] );
 					} else {
-						$request['customer'] = __( '비회원', 'pgall-for-woocommerce' );
+						$request[ 'customer' ] = __( '비회원', 'pgall-for-woocommerce' );
 					}
 
-					$request['date'] = date( 'Y-m-d', strtotime( $request['date'] ) );
+					$request[ 'date' ] = date( 'Y-m-d', strtotime( $request[ 'date' ] ) );
 
-					$request['status_label'] = PAFW_Cash_Receipt::get_status_name( $request['status'] );
-					$request['total_price']  = wc_price( $order->get_meta( '_pafw_bacs_receipt_total_price' ) );
-					$request['usage']        = sprintf( "%s<br>%s", PAFW_Cash_Receipt::get_usage_label( $order->get_meta( '_pafw_bacs_receipt_usage' ) ), $order->get_meta( '_pafw_bacs_receipt_reg_number' ) );
+					$request[ 'status_label' ] = PAFW_Cash_Receipt::get_status_name( $request[ 'status' ] );
+					$request[ 'total_price' ]  = wc_price( $order->get_meta( '_pafw_bacs_receipt_total_price' ) );
+					$request[ 'usage' ]        = sprintf( "%s<br>%s", PAFW_Cash_Receipt::get_usage_label( $order->get_meta( '_pafw_bacs_receipt_usage' ) ), $order->get_meta( '_pafw_bacs_receipt_reg_number' ) );
 				} else {
-					$request['order'] = sprintf( "#%d", $request['order_id'] );
-					if ( ! empty( $request['customer_id'] ) ) {
-						$user = new WC_Customer( $request['customer_id'] );
+					$request[ 'order' ] = sprintf( "#%d", $request[ 'order_id' ] );
+					if ( ! empty( $request[ 'customer_id' ] ) ) {
+						$user = new WC_Customer( $request[ 'customer_id' ] );
 
-						$request['customer'] = sprintf( "<a href='%s' target=_blank>%s (#%d)</a>", get_edit_user_link( $request['customer_id'] ), $user->get_billing_last_name() . $user->get_billing_first_name(), $request['customer_id'] );
+						$request[ 'customer' ] = sprintf( "<a href='%s' target=_blank>%s (#%d)</a>", get_edit_user_link( $request[ 'customer_id' ] ), $user->get_billing_last_name() . $user->get_billing_first_name(), $request[ 'customer_id' ] );
 					} else {
-						$request['customer'] = __( '비회원', 'pgall-for-woocommerce' );
+						$request[ 'customer' ] = __( '비회원', 'pgall-for-woocommerce' );
 					}
 
-					$request['date'] = date( 'Y-m-d', strtotime( $request['date'] ) );
+					$request[ 'date' ] = date( 'Y-m-d', strtotime( $request[ 'date' ] ) );
 
-					$request['status_label'] = PAFW_Cash_Receipt::get_status_name( $request['status'] );
-					$request['total_price']  = '-';
-					$request['usage']        = '-';
+					$request[ 'status_label' ] = PAFW_Cash_Receipt::get_status_name( $request[ 'status' ] );
+					$request[ 'total_price' ]  = '-';
+					$request[ 'usage' ]        = '-';
 				}
 			}
 
@@ -710,7 +748,7 @@ class PAFW_Ajax {
 		check_ajax_referer( 'pgall-for-woocommerce' );
 
 		try {
-			$order = wc_get_order( $_POST['order_id'] );
+			$order = wc_get_order( $_POST[ 'order_id' ] );
 
 			if ( ! current_user_can( 'manage_woocommerce' ) && $order->get_customer_id() != get_current_user_id() ) {
 				die();
@@ -743,54 +781,54 @@ class PAFW_Ajax {
 
 		fputcsv( $file, array( '순번', '주문번호', '아이디', '이름', '주문일자', '주문금액', '상태', '용도', '발행정보', '현금영수증번호', '메시지' ) );
 
-		$_REQUEST['pageSize'] = 0;
+		$_REQUEST[ 'pageSize' ] = 0;
 
 		$receipt_requests = PAFW_Cash_Receipt::get_receipt_requests( $_REQUEST );
 
 
-		foreach ( $receipt_requests['results'] as &$request ) {
-			$order = wc_get_order( $request['order_id'] );
+		foreach ( $receipt_requests[ 'results' ] as &$request ) {
+			$order = wc_get_order( $request[ 'order_id' ] );
 
 			if ( $order ) {
-				if ( ! empty( $request['customer_id'] ) ) {
-					$request['customer'] = $order->get_billing_last_name() . $order->get_billing_first_name();
+				if ( ! empty( $request[ 'customer_id' ] ) ) {
+					$request[ 'customer' ] = $order->get_billing_last_name() . $order->get_billing_first_name();
 				} else {
-					$request['customer'] = __( '비회원', 'pgall-for-woocommerce' );
+					$request[ 'customer' ] = __( '비회원', 'pgall-for-woocommerce' );
 				}
 
-				$request['date']         = date( 'Y-m-d', strtotime( $request['date'] ) );
-				$request['status_label'] = PAFW_Cash_Receipt::get_status_name( $request['status'] );
-				$request['total_price']  = wc_price( $order->get_meta( '_pafw_bacs_receipt_total_price' ) );
-				$request['usage']        = PAFW_Cash_Receipt::get_usage_label( $order->get_meta( '_pafw_bacs_receipt_usage' ) );
-				$request['reg_number']   = $order->get_meta( '_pafw_bacs_receipt_reg_number' );
+				$request[ 'date' ]         = date( 'Y-m-d', strtotime( $request[ 'date' ] ) );
+				$request[ 'status_label' ] = PAFW_Cash_Receipt::get_status_name( $request[ 'status' ] );
+				$request[ 'total_price' ]  = wc_price( $order->get_meta( '_pafw_bacs_receipt_total_price' ) );
+				$request[ 'usage' ]        = PAFW_Cash_Receipt::get_usage_label( $order->get_meta( '_pafw_bacs_receipt_usage' ) );
+				$request[ 'reg_number' ]   = $order->get_meta( '_pafw_bacs_receipt_reg_number' );
 			} else {
-				if ( ! empty( $request['customer_id'] ) ) {
-					$user = new WC_Customer( $request['customer_id'] );
+				if ( ! empty( $request[ 'customer_id' ] ) ) {
+					$user = new WC_Customer( $request[ 'customer_id' ] );
 
-					$request['customer'] = $user->get_billing_last_name() . $user->get_billing_first_name();
+					$request[ 'customer' ] = $user->get_billing_last_name() . $user->get_billing_first_name();
 				} else {
-					$request['customer'] = __( '비회원', 'pgall-for-woocommerce' );
+					$request[ 'customer' ] = __( '비회원', 'pgall-for-woocommerce' );
 				}
 
-				$request['date']         = date( 'Y-m-d', strtotime( $request['date'] ) );
-				$request['status_label'] = PAFW_Cash_Receipt::get_status_name( $request['status'] );
-				$request['total_price']  = '-';
-				$request['usage']        = '-';
-				$request['reg_number']   = '-';
+				$request[ 'date' ]         = date( 'Y-m-d', strtotime( $request[ 'date' ] ) );
+				$request[ 'status_label' ] = PAFW_Cash_Receipt::get_status_name( $request[ 'status' ] );
+				$request[ 'total_price' ]  = '-';
+				$request[ 'usage' ]        = '-';
+				$request[ 'reg_number' ]   = '-';
 			}
 
 			fputcsv( $file, array(
-				$request['id'],
-				$request['order_id'],
-				$request['customer_id'],
-				$request['customer'],
-				$request['date'],
-				$request['total_price'],
-				$request['status_label'],
-				$request['usage'],
-				$request['reg_number'],
-				$request['receipt_number'],
-				$request['message'],
+				$request[ 'id' ],
+				$request[ 'order_id' ],
+				$request[ 'customer_id' ],
+				$request[ 'customer' ],
+				$request[ 'date' ],
+				$request[ 'total_price' ],
+				$request[ 'status_label' ],
+				$request[ 'usage' ],
+				$request[ 'reg_number' ],
+				$request[ 'receipt_number' ],
+				$request[ 'message' ],
 			) );
 		}
 

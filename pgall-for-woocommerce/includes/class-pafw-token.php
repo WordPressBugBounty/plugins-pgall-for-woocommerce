@@ -99,13 +99,13 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 		}
 		public static function save_token( $response, $order, $gateway, $user_id ) {
 			$token = new WC_Payment_Token_PAFW();
-			$token->set_token( $response['bill_key'] );
+			$token->set_token( $response[ 'bill_key' ] );
 			$token->set_gateway_id( $gateway->id );
 			$token->set_user_id( $user_id );
 
 			$metas = apply_filters( "pafw_token_meta", array(
 				'pafw_version'  => PAFW_VERSION,
-				'auth_date'     => $response['auth_date'],
+				'auth_date'     => $response[ 'auth_date' ],
 				'card_code'     => pafw_get( $response, 'card_code' ),
 				'card_name'     => pafw_get( $response, 'card_name' ),
 				'card_num'      => pafw_get( $response, 'card_num' ),
@@ -124,25 +124,25 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 		}
 		public static function maybe_change_payment_method_data( $payment_method, $payment_token ) {
 			if ( $payment_token instanceof WC_Payment_Token_PAFW ) {
-				if ( ! str_starts_with( $payment_method['method']['gateway'], 'kakaopay' ) ) {
-					$payment_method['method']['last4'] = substr( $payment_token->get_meta( 'card_num' ), -4 );
+				if ( ! str_starts_with( $payment_method[ 'method' ][ 'gateway' ], 'kakaopay' ) ) {
+					$payment_method[ 'method' ][ 'last4' ] = substr( $payment_token->get_meta( 'card_num' ), - 4 );
 				}
 
-				$payment_method['method']['brand'] = $payment_token->get_meta( 'card_name' );
+				$payment_method[ 'method' ][ 'brand' ] = $payment_token->get_meta( 'card_name' );
 
 			}
 
 			return $payment_method;
 		}
 		public static function output_payment_tokens( $fragments ) {
-			parse_str( $_POST['post_data'], $params );
+			parse_str( $_POST[ 'post_data' ], $params );
 			$_POST = array_merge( $_POST, $params );
 
 			ob_start();
 			wc_get_template( 'checkout/token.php', array( 'checkout' => WC()->checkout(), ), '', PAFW()->template_path() );
 			$token = ob_get_clean();
 
-			$fragments['.woocommerce-checkout-payment-token'] = $token;
+			$fragments[ '.woocommerce-checkout-payment-token' ] = $token;
 
 			return $fragments;
 		}
@@ -173,7 +173,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 								'subscriptions' => array()
 							);
 
-							$tokens[ $bill_key ]['info'] = array(
+							$tokens[ $bill_key ][ 'info' ] = array(
 								'bill_key'            => $bill_key,
 								'auth_date'           => get_user_meta( $user_id, $gateway->get_subscription_meta_key( 'auth_date' ), true ),
 								'card_code'           => get_user_meta( $user_id, $gateway->get_subscription_meta_key( 'card_code' ), true ),
@@ -218,7 +218,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 										)
 									);
 
-									$tokens[ $bill_key ]['info'] = array(
+									$tokens[ $bill_key ][ 'info' ] = array(
 										'bill_key'            => $bill_key,
 										'auth_date'           => $subscription->get_meta( $gateway->get_subscription_meta_key( 'auth_date' ) ),
 										'card_code'           => $subscription->get_meta( $gateway->get_subscription_meta_key( 'card_code' ) ),
@@ -228,10 +228,10 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 										'register_date'       => $subscription->get_meta( $gateway->get_subscription_meta_key( 'register_date' ) )
 									);
 								} else {
-									$tokens[ $bill_key ]['subscriptions'][] = $subscription;
+									$tokens[ $bill_key ][ 'subscriptions' ][] = $subscription;
 								}
-							} else if ( ! empty( $default_bill_key ) && isset( $tokens[ $default_bill_key ] ) ) {
-								$tokens[ $default_bill_key ]['subscriptions'][] = $subscription;
+							} elseif ( ! empty( $default_bill_key ) && isset( $tokens[ $default_bill_key ] ) ) {
+								$tokens[ $default_bill_key ][ 'subscriptions' ][] = $subscription;
 							}
 						}
 					}
@@ -239,10 +239,10 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 
 				if ( ! empty( $tokens ) ) {
 					foreach ( $tokens as $token_data ) {
-						$token = PAFW_Token::save_token( $token_data['info'], null, $token_data['gateway'], $user_id );
+						$token = PAFW_Token::save_token( $token_data[ 'info' ], null, $token_data[ 'gateway' ], $user_id );
 
-						if ( ! empty( $token_data['subscriptions'] ) ) {
-							foreach ( $token_data['subscriptions'] as $subscription ) {
+						if ( ! empty( $token_data[ 'subscriptions' ] ) ) {
+							foreach ( $token_data[ 'subscriptions' ] as $subscription ) {
 								$subscription->add_payment_token( $token );
 							}
 						}

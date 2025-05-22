@@ -131,11 +131,11 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
-			if ( count( $results ) == 0 || $results[0]['date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'date' ] != $start_date ) {
 				array_unshift( $results, array( 'date' => $start_date, 'value' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'date' ] != $end_date ) {
 				$results[] = array( 'date' => $end_date, 'value' => '0' );
 			}
 
@@ -197,11 +197,11 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
-			if ( count( $results ) == 0 || $results[0]['date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'date' ] != $start_date ) {
 				array_unshift( $results, array( 'date' => $start_date, 'value' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'date' ] != $end_date ) {
 				$results[] = array( 'date' => $end_date, 'value' => '0' );
 			}
 
@@ -263,11 +263,11 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
-			if ( count( $results ) == 0 || $results[0]['date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'date' ] != $start_date ) {
 				array_unshift( $results, array( 'date' => $start_date, 'value' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'date' ] != $end_date ) {
 				$results[] = array( 'date' => $end_date, 'value' => '0' );
 			}
 
@@ -387,8 +387,8 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 			$sort_result = array();
 			foreach ( $result as $value ) {
-				$sort_result[ $value['day_of_week'] ]                = $value;
-				$sort_result[ $value['day_of_week'] ]['day_of_week'] = $day_of_weeks[ $value['day_of_week'] ];
+				$sort_result[ $value[ 'day_of_week' ] ]                  = $value;
+				$sort_result[ $value[ 'day_of_week' ] ][ 'day_of_week' ] = $day_of_weeks[ $value[ 'day_of_week' ] ];
 			}
 
 			ksort( $sort_result );
@@ -397,6 +397,44 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 			return $result;
 
+		}
+		static function get_sales_by_payment_gateway( $date_from, $date_to = '', $excluded_order_statuses = null ) {
+			global $wpdb;
+
+			if ( is_null( $excluded_order_statuses ) ) {
+				$excluded_order_statuses = apply_filters( 'pafw_default_excluded_order_status', self::$default_excluded_order_status );
+			}
+
+			$excluded_order_statuses[] = 'wc-refunded';
+
+			if ( empty( $date_to ) ) {
+				$date_to = date( 'Y-m-d 23:59:59', strtotime( current_time( 'mysql' ) ) );
+			}
+
+			$order_statuses_where = "'" . implode( "','", array_diff( array_keys( wc_get_order_statuses() ), $excluded_order_statuses ) ) . "'";
+
+			if ( PAFW_HPOS::enabled() ) {
+				$date_from = pafw_get_gmdate( $date_from );
+				$date_to   = pafw_get_gmdate( $date_to );
+
+				$date_where = "AND ( order_data.date_paid_gmt BETWEEN '{$date_from}' AND '{$date_to}' )";
+
+				$sql = "SELECT orders.payment_method_title, count(orders.id) order_count, SUM(orders.total_amount + orders.tax_amount) order_total
+					FROM {$wpdb->prefix}wc_orders orders
+					LEFT JOIN {$wpdb->prefix}wc_order_operational_data AS order_data ON orders.id = order_data.order_id
+					WHERE
+						orders.type = 'shop_order'
+						AND orders.status IN ( {$order_statuses_where} )
+						{$date_where}
+					GROUP BY orders.payment_method_title";
+			}
+
+			$results = $wpdb->get_results( $sql, ARRAY_A );
+
+			ob_start();
+			include( 'views/html-sales-by-payment-gateway.php' );
+
+			return ob_get_clean();
 		}
 		static function get_sales_by_order_status( $date_from, $date_to = '' ) {
 			global $wpdb;
@@ -446,7 +484,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 			if ( ! empty( $merged_order_statuses ) ) {
 				$_result = array();
 				foreach ( $result as $item ) {
-					$_result[ $item['order_status'] ] = $item;
+					$_result[ $item[ 'order_status' ] ] = $item;
 				}
 
 				$result = $_result;
@@ -462,8 +500,8 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 
 					foreach ( $order_statuses as $order_status ) {
 						if ( ! empty( $result[ 'wc-' . $order_status ] ) ) {
-							$result[ 'wc-' . $key ]['count']  += $result[ 'wc-' . $order_status ]['count'];
-							$result[ 'wc-' . $key ]['amount'] += $result[ 'wc-' . $order_status ]['amount'];
+							$result[ 'wc-' . $key ][ 'count' ]  += $result[ 'wc-' . $order_status ][ 'count' ];
+							$result[ 'wc-' . $key ][ 'amount' ] += $result[ 'wc-' . $order_status ][ 'amount' ];
 							unset( $result[ 'wc-' . $order_status ] );
 						}
 					}
@@ -471,31 +509,32 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 			}
 
 			foreach ( $result as &$item ) {
-				$item['amount'] = number_format( $item['amount'] );
-				$item['count']  = number_format( $item['count'] );
+				$item[ 'amount' ] = number_format( $item[ 'amount' ] );
+				$item[ 'count' ]  = number_format( $item[ 'count' ] );
 			}
 
 			return $result;
 		}
 
 		static function get_data() {
-			$date_from = wc_clean( $_REQUEST['date_from'] ) . ' 00:00:00';
-			$date_to   = wc_clean( $_REQUEST['date_to'] ) . ' 23:59:59';
-			$interval  = wc_clean( $_REQUEST['interval'] );
+			$date_from = wc_clean( $_REQUEST[ 'date_from' ] ) . ' 00:00:00';
+			$date_to   = wc_clean( $_REQUEST[ 'date_to' ] ) . ' 23:59:59';
+			$interval  = wc_clean( $_REQUEST[ 'interval' ] );
 
 			if ( '1d' == $interval ) {
 				$data = self::get_daily_sales_by_date( $date_from, $date_to );
-			} else if ( '1w' == $interval ) {
+			} elseif ( '1w' == $interval ) {
 				$data = self::get_weekly_sales_by_date( $date_from, $date_to );
-			} else if ( '1M' == $interval ) {
+			} elseif ( '1M' == $interval ) {
 				$data = self::get_monthly_sales_by_date( $date_from, $date_to );
 			}
 
 			wp_send_json_success( array(
-				'order_stat_by_date'         => $data,
-				'order_stat_by_day_of_week'  => self::get_sales_by_day_of_week( $date_from, $date_to ),
-				'order_stat_by_hour'         => self::get_sales_by_hour( $date_from, $date_to ),
-				'order_stat_by_order_status' => self::get_sales_by_order_status( $date_from, $date_to ),
+				'order_stat_by_date'            => $data,
+				'order_stat_by_day_of_week'     => self::get_sales_by_day_of_week( $date_from, $date_to ),
+				'order_stat_by_hour'            => self::get_sales_by_hour( $date_from, $date_to ),
+				'order_stat_by_order_status'    => self::get_sales_by_order_status( $date_from, $date_to ),
+				'order_stat_by_payment_gateway' => self::get_sales_by_payment_gateway( $date_from, $date_to ),
 			) );
 		}
 	}

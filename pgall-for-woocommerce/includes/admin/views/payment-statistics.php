@@ -1,32 +1,33 @@
 <?php
-wp_enqueue_style( 'amchart-export', PAFW()->plugin_url() . '/assets/vendor/amcharts/plugins/export/export.css', array (), PAFW_VERSION );
-wp_enqueue_style( 'semantic-ui-daterangepicker', PAFW()->plugin_url() . '/assets/vendor/semantic-ui-daterangepicker/daterangepicker.css', array (), PAFW_VERSION );
-wp_enqueue_style( 'bootstrap', PAFW()->plugin_url() . '/assets/vendor/bootstrap/bootstrap.css', array (), PAFW_VERSION );
-wp_enqueue_style( 'pafw-payment-statistics', PAFW()->plugin_url() . '/assets/css/payment-statistics.css', array (), PAFW_VERSION );
+wp_enqueue_style( 'amchart-export', PAFW()->plugin_url() . '/assets/vendor/amcharts/plugins/export/export.css', array(), PAFW_VERSION );
+wp_enqueue_style( 'semantic-ui-daterangepicker', PAFW()->plugin_url() . '/assets/vendor/semantic-ui-daterangepicker/daterangepicker.css', array(), PAFW_VERSION );
+wp_enqueue_style( 'bootstrap', PAFW()->plugin_url() . '/assets/vendor/bootstrap/bootstrap.css', array(), PAFW_VERSION );
+wp_enqueue_style( 'pafw-payment-statistics', PAFW()->plugin_url() . '/assets/css/payment-statistics.css', array(), PAFW_VERSION );
 
 wp_enqueue_script( 'moment', PAFW()->plugin_url() . '/assets/vendor/moment/moment.min.js' );
-wp_enqueue_script( 'semantic-ui-daterangepicker', PAFW()->plugin_url() . '/assets/vendor/semantic-ui-daterangepicker/daterangepicker.js', array (
+wp_enqueue_script( 'semantic-ui-daterangepicker', PAFW()->plugin_url() . '/assets/vendor/semantic-ui-daterangepicker/daterangepicker.js', array(
 	'jquery',
 	'jquery-ui-core',
 	'moment',
 	'underscore'
 ), PAFW_VERSION );
 
-wp_enqueue_script( 'amchart', PAFW()->plugin_url() . '/assets/vendor/amcharts/amcharts.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'amchart-serial', PAFW()->plugin_url() . '/assets/vendor/amcharts/serial.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'amchart-pie', PAFW()->plugin_url() . '/assets/vendor/amcharts/pie.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'amchart-gauge', PAFW()->plugin_url() . '/assets/vendor/amcharts/gauge.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'amchart-light', PAFW()->plugin_url() . '/assets/vendor/amcharts/themes/light.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'jquery-block-ui', PAFW()->plugin_url() . '/assets/js/jquery.blockUI.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'amchart-export', PAFW()->plugin_url() . '/assets/vendor/amcharts/plugins/export/export.js', array (), PAFW_VERSION );
-wp_enqueue_script( 'amchart-theme-chalk', PAFW()->plugin_url() . '/assets/vendor/amcharts/themes/chalk.js', array (), PAFW_VERSION );
+wp_enqueue_script( 'amchart', PAFW()->plugin_url() . '/assets/vendor/amcharts/amcharts.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'amchart-serial', PAFW()->plugin_url() . '/assets/vendor/amcharts/serial.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'amchart-pie', PAFW()->plugin_url() . '/assets/vendor/amcharts/pie.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'amchart-gauge', PAFW()->plugin_url() . '/assets/vendor/amcharts/gauge.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'amchart-light', PAFW()->plugin_url() . '/assets/vendor/amcharts/themes/light.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'jquery-block-ui', PAFW()->plugin_url() . '/assets/js/jquery.blockUI.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'amchart-export', PAFW()->plugin_url() . '/assets/vendor/amcharts/plugins/export/export.js', array(), PAFW_VERSION );
+wp_enqueue_script( 'amchart-theme-chalk', PAFW()->plugin_url() . '/assets/vendor/amcharts/themes/chalk.js', array(), PAFW_VERSION );
 
-wp_enqueue_script( 'pafw-payment-statistics', PAFW()->plugin_url() . '/assets/js/admin/payment-statistics.js', array (), PAFW_VERSION );
-wp_localize_script( 'pafw-payment-statistics', '_pafw_payment_statistics', array (
-	'action'         => PAFW()->slug() . '-pafw_payment_statistics_action',
-	'start_date'               => date( 'Y-m-d', strtotime( "-30 days" ) ),
-	'end_date'                 => date( "Y-m-d" ),
-	'currency'                 => get_woocommerce_currency_symbol()
+wp_enqueue_script( 'pafw-payment-statistics', PAFW()->plugin_url() . '/assets/js/admin/payment-statistics.js', array(), PAFW_VERSION );
+wp_localize_script( 'pafw-payment-statistics', '_pafw_payment_statistics', array(
+	'action'     => PAFW()->slug() . '-pafw_payment_statistics_action',
+	'start_date' => date( 'Y-m-d', strtotime( "-30 days" ) ),
+	'end_date'   => date( "Y-m-d" ),
+	'currency'   => get_woocommerce_currency_symbol(),
+	'_wpnonce'   => wp_create_nonce( 'pafw-payment-statistics' ),
 ) );
 
 add_action( 'admin_footer', 'pafw_dashboard_footer' );

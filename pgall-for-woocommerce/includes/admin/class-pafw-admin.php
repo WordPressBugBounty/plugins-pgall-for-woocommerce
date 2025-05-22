@@ -57,7 +57,7 @@ if ( ! class_exists( 'PAFW_Admin' ) ) :
 			wp_enqueue_script( 'pafw-admin-menu', PAFW()->plugin_url() . '/assets/js/admin/admin-menu.js', array( 'jquery' ), PAFW_VERSION );
 			wp_localize_script( 'pafw-admin-menu', '_pafw_admin_menu', array(
 				'apply_service_url' => 'https://www.codemshop.com/pgall/apply-online/',
-				'pafw_manual'       => 'https://manual.codemshop.com/docs/pgall/'
+				'pafw_manual'       => 'https://www.codemshop.com/guide/docs/simplepay/'
 			) );
 		}
 	}

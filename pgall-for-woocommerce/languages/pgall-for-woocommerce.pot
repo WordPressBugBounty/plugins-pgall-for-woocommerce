@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.2.11\n"
+"Project-Id-Version: pgall-for-woocommerce 5.3.3\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-04-16 00:26:48+00:00\n"
+"POT-Creation-Date: 2025-05-22 03:59:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -249,6 +249,7 @@ msgstr ""
 #: includes/admin/class-pafw-admin-payment-method-control-settings.php:401
 #: includes/admin/class-pafw-admin-post-types.php:28
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:20
+#: includes/admin/views/html-sales-by-payment-gateway.php:11
 #: templates/order/show-payment-details.php:32
 msgid "결제수단"
 msgstr ""
@@ -876,7 +877,7 @@ msgstr ""
 msgid "이용 약관에 동의합니다."
 msgstr ""
 
-#: includes/admin/class-pafw-admin-settings.php:803
+#: includes/admin/class-pafw-admin-settings.php:805
 msgid "워드프레스 결제 심플페이 플러그인은 약관 동의 후 이용이 가능합니다."
 msgstr ""
 
@@ -982,7 +983,7 @@ msgid "입금정보"
 msgstr ""
 
 #: includes/admin/meta-boxes/views/additional_charge.php:17
-#: includes/class-pafw-payment-gateway.php:716
+#: includes/class-pafw-payment-gateway.php:719
 #: templates/quota/payment-method.php:15 templates/quota/token.php:17
 msgid "일시불"
 msgstr ""
@@ -1176,8 +1177,8 @@ msgid "환불하기"
 msgstr ""
 
 #: includes/admin/setting-manager/pafw-setting-helper.php:100
-#: includes/class-pafw-ajax.php:678 includes/class-pafw-ajax.php:693
-#: includes/class-pafw-ajax.php:758 includes/class-pafw-ajax.php:772
+#: includes/class-pafw-ajax.php:716 includes/class-pafw-ajax.php:731
+#: includes/class-pafw-ajax.php:796 includes/class-pafw-ajax.php:810
 msgid "비회원"
 msgstr ""
 
@@ -2872,120 +2873,134 @@ msgstr ""
 msgid "워드프레스 결제 심플페이 – 우커머스 결제 플러그인"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:41
+#: includes/admin/views/html-sales-by-payment-gateway.php:12
+msgid "결제건수"
+msgstr ""
+
+#: includes/admin/views/html-sales-by-payment-gateway.php:13
+#: includes/fields/class-mfd-product-field.php:20
+#: templates/order/show-payment-details.php:81
+msgid "결제금액"
+msgstr ""
+
+#: includes/admin/views/payment-statistics.php:42
 msgid "결제 요청 및 처리 현황"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:62
+#: includes/admin/views/payment-statistics.php:63
 #: includes/class-pafw-session.php:167
 msgid "결제시도"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:80
+#: includes/admin/views/payment-statistics.php:81
 #: includes/class-pafw-session.php:91 includes/class-pafw-session.php:99
 msgid "결제성공"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:99
+#: includes/admin/views/payment-statistics.php:100
 msgid "결제포기"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:119
+#: includes/admin/views/payment-statistics.php:120
 msgid "결제실패"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:136
+#: includes/admin/views/payment-statistics.php:137
 msgid "결제 요청 처리 현황"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:151
+#: includes/admin/views/payment-statistics.php:152
 msgid "디바이스별 결제 현황"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:167
+#: includes/admin/views/payment-statistics.php:168
 msgid "결제수단별 분석 (결제성공)"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:177
+#: includes/admin/views/payment-statistics.php:178
 msgid "결제실패 디바이스"
 msgstr ""
 
-#: includes/admin/views/payment-statistics.php:189
+#: includes/admin/views/payment-statistics.php:190
 msgid "결제실패 오류코드"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:41
+#: includes/admin/views/sales-statistics.php:42
 msgid "매출현황"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:53
+#: includes/admin/views/sales-statistics.php:54
 msgid "오늘"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:73
+#: includes/admin/views/sales-statistics.php:74
 msgid "이번주"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:92
+#: includes/admin/views/sales-statistics.php:93
 msgid "이번달"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:112
+#: includes/admin/views/sales-statistics.php:113
 msgid "올해"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:142
+#: includes/admin/views/sales-statistics.php:143
 msgid "<a href='%s' target='_blank'>입금대기</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:162
+#: includes/admin/views/sales-statistics.php:163
 msgid "<a href='%s' target='_blank'>입금완료</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:182
+#: includes/admin/views/sales-statistics.php:183
 msgid "<a href='%s' target='_blank'>배송중</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:202
+#: includes/admin/views/sales-statistics.php:203
 msgid "<a href='%s' target='_blank'>배송완료</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:224
+#: includes/admin/views/sales-statistics.php:225
 msgid "<a href='%s' target='_blank'>주문처리완료</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:243
+#: includes/admin/views/sales-statistics.php:244
 msgid "<a href='%s' target='_blank'>취소요청</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:256
+#: includes/admin/views/sales-statistics.php:257
 msgid "<a href='%s' target='_blank'>교환요청</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:269
+#: includes/admin/views/sales-statistics.php:270
 msgid "<a href='%s' target='_blank'>반품요청</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:282
+#: includes/admin/views/sales-statistics.php:283
 msgid "<a href='%s' target='_blank'>취소완료</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:295
+#: includes/admin/views/sales-statistics.php:296
 msgid "<a href='%s' target='_blank'>교환접수</a>"
 msgstr ""
 
-#: includes/admin/views/sales-statistics.php:308
+#: includes/admin/views/sales-statistics.php:309
 msgid "<a href='%s' target='_blank'>반품접수</a>"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:202 includes/class-pafw-ajax.php:218
-#: includes/class-pafw-ajax.php:234 includes/class-pafw-ajax.php:449
-#: includes/class-pafw-ajax.php:470 includes/class-pafw-ajax.php:474
-#: includes/class-pafw-ajax.php:480 includes/class-pafw-ajax.php:501
-#: includes/class-pafw-ajax.php:507 includes/class-pafw-ajax.php:528
-#: includes/class-pafw-ajax.php:532 includes/class-pafw-ajax.php:542
-#: includes/class-pafw-ajax.php:552 includes/class-pafw-payment-gateway.php:306
-#: includes/class-pafw-payment-gateway.php:312
+#: includes/admin/views/sales-statistics.php:366
+msgid "결제수단별 매출"
+msgstr ""
+
+#: includes/class-pafw-ajax.php:234 includes/class-pafw-ajax.php:252
+#: includes/class-pafw-ajax.php:270 includes/class-pafw-ajax.php:485
+#: includes/class-pafw-ajax.php:506 includes/class-pafw-ajax.php:510
+#: includes/class-pafw-ajax.php:516 includes/class-pafw-ajax.php:537
+#: includes/class-pafw-ajax.php:543 includes/class-pafw-ajax.php:564
+#: includes/class-pafw-ajax.php:568 includes/class-pafw-ajax.php:578
+#: includes/class-pafw-ajax.php:588 includes/class-pafw-payment-gateway.php:309
+#: includes/class-pafw-payment-gateway.php:315
 #: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:107
 #: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:134
 #: includes/gateways/kakaopay/class-wc-gateway-kakaopay-subscription.php:106
@@ -3015,48 +3030,48 @@ msgstr ""
 msgid "잘못된 요청입니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:252
+#: includes/class-pafw-ajax.php:288
 msgid "%s 요청이 접수되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:252 includes/class-pafw-endpoint.php:44
+#: includes/class-pafw-ajax.php:288 includes/class-pafw-endpoint.php:44
 #: includes/class-pafw-exchange-return-manager.php:34
 #: templates/myaccount/exchange-return-type.php:20
 msgid "교환"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:252 includes/class-pafw-endpoint.php:46
+#: includes/class-pafw-ajax.php:288 includes/class-pafw-endpoint.php:46
 #: includes/class-pafw-exchange-return-manager.php:36
 #: templates/myaccount/exchange-return-type.php:16
 msgid "반품"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:488
+#: includes/class-pafw-ajax.php:524
 msgid "다음 결제일은 내일 이후로만 설정하실 수 있습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:512
+#: includes/class-pafw-ajax.php:548
 msgid "고객이 구독을 취소하셨습니다.<br>[취소사유] %s"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:546
+#: includes/class-pafw-ajax.php:582
 msgid "고객이 주문을 취소하셨습니다.<br>[취소사유] %s"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:567 includes/class-pafw-ajax.php:586
+#: includes/class-pafw-ajax.php:603 includes/class-pafw-ajax.php:622
 #: includes/class-pafw-cash-receipt.php:207
 msgid "현금영수증 발행을 지원하는 결제대행사가 없습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:572 includes/class-pafw-payment-gateway.php:963
+#: includes/class-pafw-ajax.php:608 includes/class-pafw-payment-gateway.php:847
 msgid "현금영수증이 발행되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:591
+#: includes/class-pafw-ajax.php:627
 msgid "발행된 현금영수증이 취소되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:656
+#: includes/class-pafw-ajax.php:694
 msgid "현금영수증 발행정보가 업데이트 되었습니다."
 msgstr ""
 
@@ -3105,45 +3120,45 @@ msgstr ""
 msgid "Invalid order ID."
 msgstr ""
 
-#: includes/class-pafw-gateway.php:199 includes/class-pafw-gateway.php:222
-#: includes/class-pafw-gateway.php:343 includes/class-pafw-gateway.php:368
-#: includes/class-pafw-gateway.php:412 includes/class-pafw-gateway.php:740
-#: includes/class-pafw-payment-gateway.php:537
-#: includes/class-pafw-payment-gateway.php:778
+#: includes/class-pafw-gateway.php:203 includes/class-pafw-gateway.php:226
+#: includes/class-pafw-gateway.php:347 includes/class-pafw-gateway.php:372
+#: includes/class-pafw-gateway.php:416 includes/class-pafw-gateway.php:744
+#: includes/class-pafw-payment-gateway.php:540
+#: includes/class-pafw-payment-gateway.php:745
 #: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:111
 #: includes/gateways/payco/class-wc-gateway-payco.php:206
 msgid "[PAFW-ERR-%s] %s"
 msgstr ""
 
-#: includes/class-pafw-gateway.php:339
+#: includes/class-pafw-gateway.php:343
 msgid "판매자님께서 고객님의 에스크로 결제 주문을 배송 등록 또는 수정 처리하였습니다."
 msgstr ""
 
-#: includes/class-pafw-gateway.php:357 includes/class-pafw-gateway.php:366
+#: includes/class-pafw-gateway.php:361 includes/class-pafw-gateway.php:370
 msgid "관리자의 요청으로 주문건의 가상계좌 환불처리가 완료되었습니다."
 msgstr ""
 
-#: includes/class-pafw-gateway.php:400
+#: includes/class-pafw-gateway.php:404
 msgid ""
 "고객님께서 에스크로 구매확인을 <font color=blue><strong>확정</strong></font>하였습니다. 거래번호 : "
 "%s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s"
 msgstr ""
 
-#: includes/class-pafw-gateway.php:405
+#: includes/class-pafw-gateway.php:409
 msgid ""
 "고객님께서 에스크로 구매확인을 <font color=red><strong>거절</strong></font>하였습니다. 거래번호 : "
 "%s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s"
 msgstr ""
 
-#: includes/class-pafw-gateway.php:525
+#: includes/class-pafw-gateway.php:529
 msgid "[PAFW-ERR-5001] 빌키 정보가 없습니다."
 msgstr ""
 
-#: includes/class-pafw-gateway.php:602
+#: includes/class-pafw-gateway.php:606
 msgid "추가과금취소"
 msgstr ""
 
-#: includes/class-pafw-gateway.php:654 includes/class-pafw-gateway.php:685
+#: includes/class-pafw-gateway.php:658 includes/class-pafw-gateway.php:689
 msgid "관리자 환불"
 msgstr ""
 
@@ -3171,161 +3186,144 @@ msgstr ""
 msgid "[심플페이] 결제되지 않은 주문이 자동 취소되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:150
+#: includes/class-pafw-payment-gateway.php:153
 msgid "결제오류 : [%d] %s 상품의 재고가 부족합니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:171
-#: includes/class-pafw-payment-gateway.php:675
-#: includes/class-pafw-payment-gateway.php:871
+#: includes/class-pafw-payment-gateway.php:174
+#: includes/class-pafw-payment-gateway.php:678
+#: includes/class-pafw-payment-gateway.php:771
 msgid "주문 관리 권한이 없습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:176
+#: includes/class-pafw-payment-gateway.php:179
 msgid "주문을 취소할 수 없는 상태입니다. 관리자에게 문의해 주세요."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:182
-#: includes/class-pafw-payment-gateway.php:188
-#: includes/class-pafw-payment-gateway.php:205
-#: includes/class-pafw-payment-gateway.php:491
+#: includes/class-pafw-payment-gateway.php:185
+#: includes/class-pafw-payment-gateway.php:191
+#: includes/class-pafw-payment-gateway.php:208
+#: includes/class-pafw-payment-gateway.php:494
 msgid "주문이 정상적으로 취소되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:197
+#: includes/class-pafw-payment-gateway.php:200
 msgid "사용자 주문취소"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:197
+#: includes/class-pafw-payment-gateway.php:200
 msgid "CM_CANCEL_001"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:224
-#: includes/class-pafw-payment-gateway.php:228
+#: includes/class-pafw-payment-gateway.php:227
+#: includes/class-pafw-payment-gateway.php:231
 msgid "사용자 주문취소 시도 실패 (에러메세지 : %s)"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:227
+#: includes/class-pafw-payment-gateway.php:230
 msgid "주문 취소 시도중 오류 (에러메시지 : 거래번호 없음)가 발생했습니다. 관리자에게 문의해주세요."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:253
+#: includes/class-pafw-payment-gateway.php:256
 msgid "필수 파라미터가 누락되었습니다. [주문아이디]"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:259
+#: includes/class-pafw-payment-gateway.php:262
 msgid "주문을 찾을 수 없습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:263
+#: includes/class-pafw-payment-gateway.php:266
 msgid "주문 정보가 올바르지 않습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:347
+#: includes/class-pafw-payment-gateway.php:350
 msgid "결제를 취소하셨습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:357
+#: includes/class-pafw-payment-gateway.php:360
 msgid "잘못된 요청입니다. - REQUEST TYPE 없음."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:416
+#: includes/class-pafw-payment-gateway.php:419
 msgid "유효하지 않은 주문입니다. 주문상태(%s)가 잘못 되었거나 결제 대기시간 초과로 취소된 주문입니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:419
+#: includes/class-pafw-payment-gateway.php:422
 msgid "이미 결제가 완료된 주문입니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:454 includes/pafw-functions.php:44
+#: includes/class-pafw-payment-gateway.php:457 includes/pafw-functions.php:44
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:469
+#: includes/class-pafw-payment-gateway.php:472
 msgid "주문을 취소할 수 없는 상태입니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:475
+#: includes/class-pafw-payment-gateway.php:478
 msgid "주문 정보에 오류가 있습니다. [ 거래번호 없음 ]"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:478
-#: includes/class-pafw-payment-gateway.php:506
+#: includes/class-pafw-payment-gateway.php:481
+#: includes/class-pafw-payment-gateway.php:509
 msgid "관리자 주문취소"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:478
-#: includes/class-pafw-payment-gateway.php:506
+#: includes/class-pafw-payment-gateway.php:481
+#: includes/class-pafw-payment-gateway.php:509
 msgid "CM_CANCEL_002"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:510
+#: includes/class-pafw-payment-gateway.php:513
 msgid "[무통장입금 자동취소] 지불되지 않은 주문이 취소 처리 되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:622
+#: includes/class-pafw-payment-gateway.php:625
 msgid "[테스트] "
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:636
+#: includes/class-pafw-payment-gateway.php:639
 msgid ""
 "<span style=\"font-size: 0.9em; color: red;\">[ 가상계좌 입금 테스트 시 환불 처리가 어렵습니다. "
 "실제 입금 테스트는 결제대행사에 문의해주세요. ]</span><br>"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:638
+#: includes/class-pafw-payment-gateway.php:641
 msgid ""
 "<span style=\"font-size: 0.9em; color: red;\">[ 실제 과금이 되지 않거나 자정에 자동으로 취소가 "
 "됩니다. ]</span><br>"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:682
+#: includes/class-pafw-payment-gateway.php:685
 msgid "[ 추가과금실패 ][PAFW-ERR-%s] %s"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:719
+#: includes/class-pafw-payment-gateway.php:722
 msgid "주문 정보를 찾을 수 없습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:765
-#: includes/class-pafw-payment-gateway.php:772
+#: includes/class-pafw-payment-gateway.php:739
 msgid "사용가능한 결제 방법이 없습니다. 내계정 - 결제방법 페이지에서 결제수단을 등록해주세요."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:831
-msgid "[ERR-0000003] 잘못된 요청입니다."
-msgstr ""
-
-#: includes/class-pafw-payment-gateway.php:835
-msgid "[ERR-0000001] 잘못된 요청입니다."
-msgstr ""
-
-#: includes/class-pafw-payment-gateway.php:840
-msgid "[ERR-0000002] 잘못된 요청입니다."
-msgstr ""
-
-#: includes/class-pafw-payment-gateway.php:847
-msgid "정기결제 배치키 비활성화가 정상적으로 처리되었습니다."
-msgstr ""
-
-#: includes/class-pafw-payment-gateway.php:922
+#: includes/class-pafw-payment-gateway.php:806
 msgid "필수 파라미터가 누락되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:931
+#: includes/class-pafw-payment-gateway.php:815
 #: includes/gateways/payco/class-wc-gateway-payco.php:225
 msgid "배송등록이 처리되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:938
+#: includes/class-pafw-payment-gateway.php:822
 msgid "현금영수증 발행에 필요한 정보가 없습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:982
+#: includes/class-pafw-payment-gateway.php:866
 msgid "현금영수증 발행취소"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:1002
+#: includes/class-pafw-payment-gateway.php:886
 msgid "현금영수증이 발급이 취소되었습니다."
 msgstr ""
 
@@ -3557,11 +3555,6 @@ msgstr ""
 
 #: includes/fields/class-mfd-product-field.php:16
 msgid "결제내용"
-msgstr ""
-
-#: includes/fields/class-mfd-product-field.php:20
-#: templates/order/show-payment-details.php:81
-msgid "결제금액"
 msgstr ""
 
 #: includes/gateways/bacs/class-wc-gateway-pafw-bacs.php:35

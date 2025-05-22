@@ -24,6 +24,7 @@ wp_localize_script( 'pafw-sales', '_pafw_sales', array(
 	'action'     => PAFW()->slug() . '-pafw_sales_action',
 	'start_date' => date( 'Y-m-d', strtotime( "-30 days" ) ),
 	'end_date'   => date( "Y-m-d" ),
+	'_wpnonce'   => wp_create_nonce( 'pafw-sales' ),
 	'currency'   => get_woocommerce_currency_symbol()
 ) );
 
@@ -47,12 +48,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display today">
                     <div class="number">
                         <h3 class="font-green-sharp">
-                            <span class="amount"><?php echo number_format( $summary['today']['order_total'] ); ?></span>
+                            <span class="amount"><?php echo number_format( $summary[ 'today' ][ 'order_total' ] ); ?></span>
                             <small class="font-green-sharp">원</small>
                         </h3>
                         <small><?php _e( '오늘', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-green-sharp small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary['today']['count'] ); ?></span>
+                            <span class="count"><?php echo number_format( $summary[ 'today' ][ 'count' ] ); ?></span>
                             <span>건</span>
                         </h3>
                     </div>
@@ -67,12 +68,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display week">
                     <div class="number">
                         <h3 class="font-red-haze">
-                            <span class="amount"><?php echo number_format( $summary['week']['order_total'] ); ?></span>
+                            <span class="amount"><?php echo number_format( $summary[ 'week' ][ 'order_total' ] ); ?></span>
                             <small class="font-red-haze">원</small>
                         </h3>
                         <small><?php _e( '이번주', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-red-haze small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary['week']['count'] ); ?></span>
+                            <span class="count"><?php echo number_format( $summary[ 'week' ][ 'count' ] ); ?></span>
                             <span>건</span>
                         </h3></div>
                     <div class="icon">
@@ -86,12 +87,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display month">
                     <div class="number">
                         <h3 class="font-blue-sharp">
-                            <span class="amount"><?php echo number_format( $summary['month']['order_total'] ); ?></span>
+                            <span class="amount"><?php echo number_format( $summary[ 'month' ][ 'order_total' ] ); ?></span>
                             <small class="font-blue-sharp">원</small>
                         </h3>
                         <small><?php _e( '이번달', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-blue-sharp small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary['month']['count'] ); ?></span>
+                            <span class="count"><?php echo number_format( $summary[ 'month' ][ 'count' ] ); ?></span>
                             <span>건</span>
                         </h3>
                     </div>
@@ -106,12 +107,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display year">
                     <div class="number">
                         <h3 class="font-purple-soft">
-                            <span class="amount"><?php echo number_format( $summary['year']['order_total'] ); ?></span>
+                            <span class="amount"><?php echo number_format( $summary[ 'year' ][ 'order_total' ] ); ?></span>
                             <small class="font-purple-soft">원</small>
                         </h3>
                         <small><?php _e( '올해', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-purple-soft small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary['year']['count'] ); ?></span>
+                            <span class="count"><?php echo number_format( $summary[ 'year' ][ 'count' ] ); ?></span>
                             <span>건</span>
                         </h3>
                     </div>
@@ -356,5 +357,19 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="pafw-dashboard timeline">
+        <div class="pafw_w12 pafw_dashboard_panel_wrapper">
+            <div class="pafw_dashboard_panel">
+                <p class="pafw_panel_title">
+                    <span><?php _e( "결제수단별 매출", "pgall-for-woocommerce" ); ?></span>
+                </p>
+                <div class="pafw_serialchart_panel">
+                    <div id="order_stat_by_payment_gateway"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

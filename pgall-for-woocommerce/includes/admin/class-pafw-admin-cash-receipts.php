@@ -33,7 +33,7 @@ if ( ! class_exists( 'PAFW_Admin_Cash_Receipts' ) ) :
 								"className"   => "fluid search",
 								'multiple'    => true,
 								'search'      => true,
-								'action'      => 'action=' . PAFW()->slug() . '-pafw_search_user&keyword=',
+								'action'      => '_wpnonce=' . wp_create_nonce( 'pafw-search-user' ) . '&action=' . PAFW()->slug() . '-pafw_search_user&keyword=',
 								"type"        => "SearchSelect",
 								'options'     => array()
 							),
@@ -187,6 +187,7 @@ if ( ! class_exists( 'PAFW_Admin_Cash_Receipts' ) ) :
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => 'mshop_point_update_settings',
+				'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' ),
 				'settings' => $settings,
 				'values'   => PAFW_Setting_Helper::get_settings( $settings ),
 			) );
@@ -199,7 +200,7 @@ if ( ! class_exists( 'PAFW_Admin_Cash_Receipts' ) ) :
             </style>
             <script>
                 jQuery( document ).ready( function () {
-                    jQuery( this ).trigger( 'mshop-setting-manager', ['mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>  ] );
+                    jQuery( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>  ] );
                 } );
             </script>
 

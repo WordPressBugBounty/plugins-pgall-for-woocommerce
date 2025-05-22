@@ -14,7 +14,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 			$commands = explode( '/', $command );
 
-			$params['gateway'] = array(
+			$params[ 'gateway' ] = array(
 				'mall_name'      => get_option( 'blogname' ),
 				'merchant_id'    => $gateway->get_merchant_id(),
 				'merchant_key'   => $gateway->get_merchant_key(),
@@ -46,17 +46,21 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 			if ( is_wp_error( $response ) ) {
 				throw new Exception( $response->get_error_message(), '5001' );
 			} else {
-				$result = json_decode( $response['body'], true );
+				$result = json_decode( $response[ 'body' ], true );
 
 				if ( is_null( $result ) ) {
 					throw new Exception( '결제 게이트웨이 호출 시 오류가 발생했습니다. 관리자에게 문의해주세요.', '5002' );
 				} else {
 					if ( '0000' == pafw_get( $result, 'code' ) ) {
-						do_action( 'pafw_' . implode( '_', $commands ) . '_response_' . $gateway->id, $order, $result['data'] );
+						do_action( 'pafw_' . implode( '_', $commands ) . '_response_' . $gateway->id, $order, $result[ 'data' ] );
 
-						return $result['data'];
+						return $result[ 'data' ];
 					} else {
-						throw new Exception( pafw_get( $result, 'message' ), pafw_get( $result, 'code' ) );
+						if ( is_array( $result ) ) {
+							throw new Exception( pafw_get( $result, 'message' ), pafw_get( $result, 'code' ) );
+						} else {
+							throw new Exception( $result );
+						}
 					}
 				}
 			}
@@ -68,7 +72,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 			if ( pafw_is_subscription( $order ) ) {
 				$redirect_url = $order->get_view_order_url();
-			} else if ( is_a( $order, 'WC_Order' ) ) {
+			} elseif ( is_a( $order, 'WC_Order' ) ) {
 				if ( $order ) {
 					if ( in_array( $order->get_status(), array( 'pending', 'failed' ) ) ) {
 						$gateway->add_log( "Redirect : Checkout" );
@@ -86,10 +90,10 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 						}
 					} else {
 						$gateway->add_log( "Redirect : Referer" );
-						$redirect_url = $_SERVER['HTTP_REFERER'];
+						$redirect_url = $_SERVER[ 'HTTP_REFERER' ];
 					}
 				}
-			} else if ( is_a( $order, 'WP_User' ) ) {
+			} elseif ( is_a( $order, 'WP_User' ) ) {
 				$redirect_url = get_transient( 'pafw_redirect_url_' . $order->ID );
 
 				$redirect_url = empty( $redirect_url ) ? wc_get_account_endpoint_url( 'payment-methods' ) : $redirect_url;
@@ -190,7 +194,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				if ( ! pafw_is_subscription( $order ) ) {
 					$order->set_payment_method( $gateway );
-					$order->update_meta_data( 'pafw_transaction_id', $response['transaction_id'] );
+					$order->update_meta_data( 'pafw_transaction_id', $response[ 'transaction_id' ] );
 					$order->save();
 				}
 
@@ -240,14 +244,14 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 			$response = self::call( $action, $params, $order, $gateway );
 
-			$order->update_meta_data( '_pafw_payment_method', ! empty( $response['payment_method'] ) ? $response['payment_method'] : $gateway->id );
-			$order->update_meta_data( '_pafw_txnid', $response['txnid'] );
-			$order->update_meta_data( '_pafw_paid_date', $response['paid_date'] );
-			$order->update_meta_data( '_pafw_total_price', $response['total_price'] );
+			$order->update_meta_data( '_pafw_payment_method', ! empty( $response[ 'payment_method' ] ) ? $response[ 'payment_method' ] : $gateway->id );
+			$order->update_meta_data( '_pafw_txnid', $response[ 'txnid' ] );
+			$order->update_meta_data( '_pafw_paid_date', $response[ 'paid_date' ] );
+			$order->update_meta_data( '_pafw_total_price', $response[ 'total_price' ] );
 			$order->save_meta_data();
 
-			if ( ! empty( $response['transaction_id'] ) ) {
-				$gateway->payment_complete( $order, $response['transaction_id'] );
+			if ( ! empty( $response[ 'transaction_id' ] ) ) {
+				$gateway->payment_complete( $order, $response[ 'transaction_id' ] );
 			}
 
 			return $response;
@@ -393,16 +397,16 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				$response = self::call( $action, $params, $order, $gateway );
 
-				if ( 'confirm' == $response['action'] ) {
+				if ( 'confirm' == $response[ 'action' ] ) {
 					$order->update_status( 'completed' ); //주문처리완료 상태
 					$order->update_meta_data( '_pafw_escrow_order_confirm', 'yes' );
 					$order->update_meta_data( '_pafw_escrow_order_confirm_time', current_time( 'mysql' ) );
-					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=blue><strong>확정</strong></font>하였습니다. 거래번호 : %s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s', 'pgall-for-woocommerce' ), $response['transaction_id'], $response['res_cd'], $response['decided_date'], $response['decided_time'] ) );
+					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=blue><strong>확정</strong></font>하였습니다. 거래번호 : %s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s', 'pgall-for-woocommerce' ), $response[ 'transaction_id' ], $response[ 'res_cd' ], $response[ 'decided_date' ], $response[ 'decided_time' ] ) );
 				} else {
 					$order->update_status( 'cancel-request' );  //주문처리완료 상태로 변경
 					$order->update_meta_data( '_pafw_escrow_order_confirm_reject', 'yes' );
 					$order->update_meta_data( '_pafw_escrow_order_confirm_reject_time', current_time( 'mysql' ) );
-					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=red><strong>거절</strong></font>하였습니다. 거래번호 : %s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s', 'pgall-for-woocommerce' ), $response['transaction_id'], $response['res_cd'], $response['decided_date'], $response['decided_time'] ) );
+					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=red><strong>거절</strong></font>하였습니다. 거래번호 : %s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s', 'pgall-for-woocommerce' ), $response[ 'transaction_id' ], $response[ 'res_cd' ], $response[ 'decided_date' ], $response[ 'decided_time' ] ) );
 				}
 
 				$order->save_meta_data();
@@ -568,10 +572,10 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 				$order->save_meta_data();
 
 				$gateway->add_payment_log( $order, '[ 정기결제 성공 ]', array(
-					'거래번호' => $response['transaction_id']
+					'거래번호' => $response[ 'transaction_id' ]
 				) );
 
-				$gateway->payment_complete( $order, $response['transaction_id'] );
+				$gateway->payment_complete( $order, $response[ 'transaction_id' ] );
 
 				do_action( 'pafw_subscription_payment_completed', $response, $order, $gateway );
 			} else {
@@ -579,8 +583,8 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 			}
 
 			return array(
-				'transaction_id' => $response['transaction_id'],
-				'paid_date'      => $response['paid_date']
+				'transaction_id' => $response[ 'transaction_id' ],
+				'paid_date'      => $response[ 'paid_date' ]
 			);
 		}
 		public static function cancel_additional_charge( $order, $gateway ) {
@@ -588,33 +592,33 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 				'order'       => array(
 					'id'       => $order->get_id(),
 					'txnid'    => $gateway->get_txnid( $order ),
-					'amount'   => wc_clean( $_REQUEST['amount'] ),
+					'amount'   => wc_clean( $_REQUEST[ 'amount' ] ),
 					'currency' => $order->get_currency(),
 				),
 				'cancel_info' => array(
 					'order_id'        => $order->get_id(),
-					'amount'          => wc_clean( $_REQUEST['amount'] ),
-					'tax_amount'      => PAFW_Tax::get_tax_amount( $order, wc_clean( $_REQUEST['amount'] ) ),
-					'tax_free_amount' => PAFW_Tax::get_tax_free_amount( $order, wc_clean( $_REQUEST['amount'] ) ),
-					'vat'             => PAFW_Tax::get_total_tax( $order, wc_clean( $_REQUEST['amount'] ) ),
+					'amount'          => wc_clean( $_REQUEST[ 'amount' ] ),
+					'tax_amount'      => PAFW_Tax::get_tax_amount( $order, wc_clean( $_REQUEST[ 'amount' ] ) ),
+					'tax_free_amount' => PAFW_Tax::get_tax_free_amount( $order, wc_clean( $_REQUEST[ 'amount' ] ) ),
+					'vat'             => PAFW_Tax::get_total_tax( $order, wc_clean( $_REQUEST[ 'amount' ] ) ),
 					'partial_refund'  => '0',
-					'transaction_id'  => wc_clean( $_REQUEST['tid'] ),
+					'transaction_id'  => wc_clean( $_REQUEST[ 'tid' ] ),
 					'message'         => __( '추가과금취소', 'pgall-for-woocommerce' ),
 				)
 			);
 
 			self::call( 'cancel', $params, $order, $gateway );
 
-			do_action( 'pafw_payment_action', 'cancelled', wc_clean( $_REQUEST['amount'] ), $order, $gateway );
+			do_action( 'pafw_payment_action', 'cancelled', wc_clean( $_REQUEST[ 'amount' ] ), $order, $gateway );
 
 			$gateway->add_payment_log( $order, '[ 추가 과금 취소 성공 ]', array(
-				'거래요청번호' => wc_clean( $_REQUEST['tid'] ),
-				'취소금액'   => wc_price( wc_clean( $_REQUEST['amount'] ), array( 'currency' => $order->get_currency() ) )
+				'거래요청번호' => wc_clean( $_REQUEST[ 'tid' ] ),
+				'취소금액'   => wc_price( wc_clean( $_REQUEST[ 'amount' ] ), array( 'currency' => $order->get_currency() ) )
 			) );
 
 			$history = $order->get_meta( '_pafw_additional_charge_history' );
 
-			$history[ wc_clean( $_REQUEST['tid'] ) ]['status'] = 'CANCELED';
+			$history[ wc_clean( $_REQUEST[ 'tid' ] ) ][ 'status' ] = 'CANCELED';
 
 			$order->update_meta_data( '_pafw_additional_charge_history', $history );
 			$order->save_meta_data();
@@ -680,7 +684,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 				}
 
 				$gateway->add_payment_log( $order, '[ 결제 취소 성공 ]', array(
-					'거래요청번호' => $response["transaction_id"],
+					'거래요청번호' => $response[ "transaction_id" ],
 					'취소금액'   => wc_price( $amount, array( 'currency' => $order->get_currency() ) ),
 					'취소사유'   => empty( $reason ) ? __( '관리자 환불', 'pgall-for-woocommerce' ) : $reason
 				) );
@@ -704,10 +708,10 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				if ( ! empty( $refund_orders ) ) {
 					foreach ( $refund_orders as $refund_order ) {
-						$refunds['amount']          += absint( $refund_order->get_total() );
-						$refunds['vat']             += absint( $refund_order->get_total_tax() );
-						$refunds['tax_free_amount'] += PAFW_Tax::get_tax_free_amount( $refund_order );
-						$refunds['tax_amount']      += $refunds['amount'] - $refunds['vat'] - $refunds['tax_free_amount'];
+						$refunds[ 'amount' ]          += absint( $refund_order->get_total() );
+						$refunds[ 'vat' ]             += absint( $refund_order->get_total_tax() );
+						$refunds[ 'tax_free_amount' ] += PAFW_Tax::get_tax_free_amount( $refund_order );
+						$refunds[ 'tax_amount' ]      += $refunds[ 'amount' ] - $refunds[ 'vat' ] - $refunds[ 'tax_free_amount' ];
 					}
 				}
 
@@ -718,11 +722,11 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 						'id'              => $order->get_id(),
 						'key'             => $order->get_order_key(),
 						'txnid'           => $gateway->get_txnid( $order ),
-						'amount'          => $order->get_total() - $refunds['amount'],
+						'amount'          => $order->get_total() - $refunds[ 'amount' ],
 						'currency'        => $order->get_currency(),
-						'tax_amount'      => PAFW_Tax::get_tax_amount( $order ) - $refunds['tax_amount'],
-						'tax_free_amount' => PAFW_Tax::get_tax_free_amount( $order ) - $refunds['tax_free_amount'],
-						'vat'             => PAFW_Tax::get_total_tax( $order ) - $refunds['vat'],
+						'tax_amount'      => PAFW_Tax::get_tax_amount( $order ) - $refunds[ 'tax_amount' ],
+						'tax_free_amount' => PAFW_Tax::get_tax_free_amount( $order ) - $refunds[ 'tax_free_amount' ],
+						'vat'             => PAFW_Tax::get_total_tax( $order ) - $refunds[ 'vat' ],
 						'item_count'      => count( $order_items ),
 						'items'           => $order_items
 					),
