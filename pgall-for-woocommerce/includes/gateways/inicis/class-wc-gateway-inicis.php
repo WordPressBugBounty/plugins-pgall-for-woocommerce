@@ -79,7 +79,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway {
 	function get_accept_methods() {
 		if ( wp_is_mobile() ) {
 			return array(
-				'ismart_use_sign=Y',
+				'ismart_use_sign=Y'
 			);
 		} else {
 			return array(

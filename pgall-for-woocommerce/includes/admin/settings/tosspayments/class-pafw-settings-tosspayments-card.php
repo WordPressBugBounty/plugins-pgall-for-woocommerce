@@ -13,7 +13,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Card' ) ) {
 				0 => __( '제한없음', 'pgall-for-woocommerce' )
 			);
 
-			for ( $i = 2; $i <= 12; $i ++ ) {
+			for ( $i = 2; $i <= 36; $i ++ ) {
 				$quotabase[ $i ] = $i . '개월';
 			}
 
@@ -92,12 +92,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Card' ) ) {
 							'type'      => 'Select',
 							'default'   => '0',
 							'options'   => $this->get_installment_plan(),
-							'desc2'     => __( '<div class="desc2">카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액이 5만원 이상일 때만 사용할 수 있습니다. <br>만약 값을 6개월로 선택하시면 결제창에서 일시불~6개월 사이로 할부 개월을 선택할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
-							'tooltip'   => array(
-								'title' => array(
-									'content' => __( '카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액(amount)이 5만원 이상일 때만 사용할 수 있습니다. 2부터 12사이의 값을 사용할 수 있고, 0이 들어가면 할부가 아닌 일시불로 결제됩니다. 만약 값을 6으로 설정한다면 결제창에서 일시불~6개월 사이로 할부 개월을 선택할 수 있습니다.', 'pgall-for-woocommerce' ),
-								)
-							)
+							'desc2'     => __( '<div class="desc2">카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액이 5만원 이상일 때만 사용할 수 있습니다. <br>만약 값을 6개월로 선택하시면 결제창에서 일시불~6개월 사이로 할부 개월을 선택할 수 있습니다.<br><span style="color:red">(주의) 13개월 이상 할부를 이용하시려면 토스페이먼츠에 별도로 요청해주셔야 합니다.</span></div>', 'pgall-for-woocommerce' ),
 						),
 						array(
 							'id'        => 'tosspayments_card_app_scheme',

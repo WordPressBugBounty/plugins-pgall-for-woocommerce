@@ -23,6 +23,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					$this->description = $this->settings['description'];
 				}
 
+				$this->settings['enable_quota'] = 'no';
+
 				$this->countries = array( 'KR' );
 				$this->supports  = array(
 					'products',

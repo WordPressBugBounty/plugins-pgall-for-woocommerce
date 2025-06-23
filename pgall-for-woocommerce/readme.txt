@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.3.3
+Stable tag: 5.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.3.4 =
+[토스페이먼츠 신용카드] 할부개월수 옵션 변경 ( 최대 36개월 )
+[토스페이먼츠 정기결제] 할부개월수 옵션 제거
 
 = 5.3.3 =
 [매출통계] 결제수단별 매출통계 테이블
