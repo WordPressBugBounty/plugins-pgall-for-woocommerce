@@ -12,7 +12,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Foreign_Card' ) ) {
 			return array(
 				array(
 					'type'     => 'Section',
-					'title'    => '신용카드 설정',
+					'title'    => '해외카드 설정',
 					'elements' => array(
 						array(
 							'id'        => 'tosspayments_foreign_card_title',
@@ -64,7 +64,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Foreign_Card' ) ) {
 				),
 				array(
 					'type'     => 'Section',
-					'title'    => '신용카드 고급 설정',
+					'title'    => '해외카드 고급 설정',
 					'elements' => array(
 						array(
 							'id'        => 'tosspayments_foreign_card_use_advanced_setting',
@@ -93,7 +93,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Foreign_Card' ) ) {
 							) ),
 							'tooltip'   => array(
 								'title' => array(
-									'content' => __( '신용카드 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다.', 'pgall-for-woocommerce' ),
+									'content' => __( '해외카드 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다.', 'pgall-for-woocommerce' ),
 								)
 							)
 						),
@@ -108,7 +108,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Foreign_Card' ) ) {
 							'options'   => $this->get_order_statuses(),
 							'tooltip'   => array(
 								'title' => array(
-									'content' => __( '신용카드 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다.', 'pgall-for-woocommerce' ),
+									'content' => __( '해외카드 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다.', 'pgall-for-woocommerce' ),
 								)
 							)
 						)

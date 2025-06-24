@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.4.0\n"
+"Project-Id-Version: pgall-for-woocommerce 5.4.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-06-24 03:04:50+00:00\n"
+"POT-Creation-Date: 2025-06-24 07:47:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2004,7 +2004,6 @@ msgstr ""
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-card.php:122
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:100
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-card.php:138
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-foreign-card.php:96
 msgid "신용카드 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다."
 msgstr ""
 
@@ -2014,7 +2013,6 @@ msgstr ""
 #: includes/admin/settings/lguplus/class-pafw-settings-lguplus-card.php:137
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:115
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-card.php:153
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-foreign-card.php:111
 msgid "신용카드 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다."
 msgstr ""
 
@@ -2893,6 +2891,14 @@ msgid ""
 "카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액(amount)이 5만원 이상일 때만 사용할 수 있습니다. "
 "2부터 12사이의 값을 사용할 수 있고, 0이 들어가면 할부가 아닌 일시불로 결제됩니다. 만약 값을 6으로 설정한다면 결제창에서 "
 "일시불~6개월 사이로 할부 개월을 선택할 수 있습니다."
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-foreign-card.php:96
+msgid "해외카드 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다."
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-foreign-card.php:111
+msgid "해외카드 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다."
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-paypal.php:35
