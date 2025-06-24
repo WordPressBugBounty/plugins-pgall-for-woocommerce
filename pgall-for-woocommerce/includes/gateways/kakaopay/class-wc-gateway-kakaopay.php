@@ -26,10 +26,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				add_action( 'pafw_approval_response_' . $this->id, array( $this, 'process_approval_response' ), 10, 2 );
 			}
 		}
-		public function get_merchant_id() {
+		public function get_merchant_id( $order = null ){
 			return pafw_get( $this->settings, 'cid' );
 		}
-		public function get_merchant_key() {
+		public function get_merchant_key( $order = null ) {
 			return '';
 		}
 

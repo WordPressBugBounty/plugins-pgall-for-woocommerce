@@ -36,7 +36,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_register_order_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'client_key'              => pafw_get( $this->settings, 'client_key' ),
+				'client_key'              => $this->get_client_key( $order ),
 				'international_card_only' => 'tosspayments_foreign_card' == $this->id ? 'yes' : 'no',
 				'receipt'                 => pafw_get( $this->settings, 'receipt' ),
 				'max_installment_plan'    => pafw_get( $this->settings, 'max_installment_plan' ),
@@ -48,22 +48,22 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_approval_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'secret_key' => pafw_get( $this->settings, 'secret_key' ),
+				'secret_key' => $this->get_secret_key( $order ),
 			);
 
 			return $params;
 		}
 		public function add_cancel_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'secret_key' => pafw_get( $this->settings, 'secret_key' ),
+				'secret_key' => $this->get_secret_key( $order ),
 			);
 
 			return $params;
 		}
 		public function add_register_shipping_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'mall_ip'          => $_SERVER['SERVER_ADDR'],
-				'sheet_no'         => wc_clean( $_POST['tracking_number'] ),
+				'mall_ip'          => $_SERVER[ 'SERVER_ADDR' ],
+				'sheet_no'         => wc_clean( $_POST[ 'tracking_number' ] ),
 				'dlv_company_name' => pafw_get( $this->settings, 'delivery_company_name' ),
 				'sender_name'      => pafw_get( $this->settings, 'delivery_register_name' )
 			);
@@ -72,7 +72,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_cash_receipt_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'secret_key'   => pafw_get( $this->settings, 'secret_key' ),
+				'secret_key' => $this->get_secret_key( $order ),
 				'reg_num'      => preg_replace( '~\D~', '', $order->get_meta( '_pafw_bacs_receipt_reg_number' ) ),
 				'receipt_type' => $order->get_meta( '_pafw_bacs_receipt_usage' )
 			);
@@ -81,16 +81,22 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_cash_cancel_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'secret_key' => pafw_get( $this->settings, 'secret_key' )
+				'secret_key' => $this->get_secret_key( $order ),
 			);
 
 			return $params;
 		}
-		public function get_merchant_id() {
+		public function get_merchant_id( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
-		public function get_merchant_key() {
+		public function get_merchant_key( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_key' );
+		}
+		public function get_client_key( $order ) {
+			return pafw_get( $this->settings, 'client_key' );
+		}
+		public function get_secret_key( $order ) {
+			return pafw_get( $this->settings, 'secret_key' );
 		}
 		static function enqueue_frontend_script() {
 			wp_enqueue_script( "pafw-tosspayment", "https://js.tosspayments.com/v1/payment" );

@@ -94,10 +94,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
             <a class="button pafw_action_button tips" style="text-align: center;" href="javascript:showReceiptByTID('<?php echo $mid; ?>', '<?php echo $tid; ?>', '<?php echo $authdata; ?>')"><?php _e( '영수증 출력', 'pgall-for-woocommerce' ); ?></a>
 			<?php
 		}
-		public function get_merchant_id() {
+		public function get_merchant_id( $order = null ){
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
-		public function get_merchant_key() {
+		public function get_merchant_key( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_key' );
 		}
 	}

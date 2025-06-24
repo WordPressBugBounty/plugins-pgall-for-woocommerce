@@ -35,7 +35,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway {
 
 		add_filter( 'pafw_cash_receipt_params_' . $this->id, array( $this, 'add_cash_receipt_request_params' ), 10, 2 );
 	}
-	public function get_merchant_id() {
+	public function get_merchant_id( $order = null ){
 		return pafw_get( $this->settings, 'merchant_id' );
 	}
 	public function get_merchant_key_prefix() {
@@ -44,7 +44,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway {
 	public function use_integrated_sign_key() {
 		return in_array( $this->get_merchant_key_prefix(), array( 'CIG', 'CIS', 'CDM', 'CBB' ) );
 	}
-	public function get_merchant_key() {
+	public function get_merchant_key( $order = null ) {
 		if( $this->use_integrated_sign_key() ) {
 			return '';
 		}

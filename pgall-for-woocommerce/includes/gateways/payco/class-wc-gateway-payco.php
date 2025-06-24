@@ -38,11 +38,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 		}
 
-		public function get_merchant_id() {
+		public function get_merchant_id( $order = null ){
 			return pafw_get( $this->settings, 'cpid', 'PARTNERTEST' );
 		}
 
-		public function get_merchant_key() {
+		public function get_merchant_key( $order = null ) {
 			return pafw_get( $this->settings, 'seller_key', 'S0FSJE' );
 		}
 

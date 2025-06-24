@@ -46,11 +46,11 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
 		add_action( 'pafw_' . $this->id . '_register', array( $this, 'wc_api_request_register' ) );
 	}
 
-	public function get_merchant_id() {
+	public function get_merchant_id( $order = null ){
 		return pafw_get( $this->settings, 'subscription_merchant_id' );
 	}
 
-	public function get_merchant_key() {
+	public function get_merchant_key( $order = null ) {
 		if( $this->use_integrated_sign_key() ) {
 			return '';
 		}

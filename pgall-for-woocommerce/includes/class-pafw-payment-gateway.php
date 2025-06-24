@@ -649,7 +649,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			return array();
 		}
 
-		function get_merchant_id() {
+		function get_merchant_id( $order = null ){
 			return '';
 		}
 

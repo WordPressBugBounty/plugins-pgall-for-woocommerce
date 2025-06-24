@@ -55,7 +55,7 @@ class WC_Gateway_Inicis_StdEscrow_Bank extends WC_Gateway_Inicis {
 		return $accept_methods;
 	}
 
-	public function get_merchant_id() {
+	public function get_merchant_id( $order = null ){
 		$merchant_id = parent::get_merchant_id();
 
 		$prefix = substr( $merchant_id, 0, 3 );
@@ -67,7 +67,7 @@ class WC_Gateway_Inicis_StdEscrow_Bank extends WC_Gateway_Inicis {
 		}
 	}
 
-	public function get_merchant_key() {
+	public function get_merchant_key( $order = null ) {
 		if( $this->use_integrated_sign_key() ) {
 			return '';
 		}

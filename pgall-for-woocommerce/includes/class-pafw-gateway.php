@@ -16,8 +16,8 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 			$params[ 'gateway' ] = array(
 				'mall_name'      => get_option( 'blogname' ),
-				'merchant_id'    => $gateway->get_merchant_id(),
-				'merchant_key'   => $gateway->get_merchant_key(),
+				'merchant_id'    => $gateway->get_merchant_id( $order ),
+				'merchant_key'   => $gateway->get_merchant_key( $order ),
 				'home_url'       => home_url(),
 				'api_url'        => untrailingslashit( WC()->api_request_url( get_class( $gateway ), pafw_check_ssl() ) ),
 				'domain'         => preg_replace( "(^https?://|/$)", '', home_url() ),

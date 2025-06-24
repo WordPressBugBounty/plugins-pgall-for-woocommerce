@@ -35,11 +35,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			add_filter( 'pafw_cash_receipt_params_' . $this->id, array( $this, 'add_cash_receipt_request_params' ), 10, 2 );
 		}
 
-		public function get_merchant_id() {
+		public function get_merchant_id( $order = null ){
 			return pafw_get( $this->settings, 'site_cd' );
 		}
 
-		public function get_merchant_key() {
+		public function get_merchant_key( $order = null ) {
 			return pafw_get( $this->settings, 'site_key' );
 		}
 		public function add_register_order_request_params( $params, $order ) {

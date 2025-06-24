@@ -35,10 +35,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return 'popup';
 			}
 		}
-		public function get_merchant_id() {
+		public function get_merchant_id( $order = null ){
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
-		public function get_merchant_key() {
+		public function get_merchant_key( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_key' );
 		}
 		public function get_subscription_meta_key( $meta_key ) {

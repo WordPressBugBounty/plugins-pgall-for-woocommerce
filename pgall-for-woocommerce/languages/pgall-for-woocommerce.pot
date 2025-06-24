@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.3.4\n"
+"Project-Id-Version: pgall-for-woocommerce 5.4.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-06-23 04:53:32+00:00\n"
+"POT-Creation-Date: 2025-06-24 03:04:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2672,6 +2672,42 @@ msgid ""
 "<code>test_sk_N5OWRapdA8d7wP41EbYro1zEqZKL</code> 입니다.</div>"
 msgstr ""
 
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:183
+msgid "<div class=\"desc2\">복수통화 이용 시 통화별 결제정보를 설정합니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:196
+msgid "결제통화"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:200
+msgid "통화"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:202
+msgid "KRW"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:203
+msgid "USD"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:204
+msgid "JPY"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:209
+msgid "상점 아이디"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:217
+msgid "클라이언트 키"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:224
+msgid "시크릿 키"
+msgstr ""
+
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-card.php:13
 msgid "제한없음"
 msgstr ""
@@ -2837,12 +2873,12 @@ msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-foreign-card.php:22
 #: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:27
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-foreign-card.php:20
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-foreign-card.php:21
 msgid "해외카드"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-foreign-card.php:34
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-foreign-card.php:21
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-foreign-card.php:22
 msgid "해외카드(Visa, MasterCard, JCB, UnionPay, AMEX)로 결제합니다."
 msgstr ""
 

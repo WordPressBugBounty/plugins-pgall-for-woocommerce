@@ -167,6 +167,68 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'type'      => 'Text'
 						)
 					)
+				),
+				array(
+					'type'     => 'Section',
+					'title'    => '해외카드 설정',
+					'showIf'   => array( 'pc_pay_method' => 'tosspayments_foreign_card' ),
+					'elements' => array(
+						array(
+							'id'        => 'foreign_card_settings_guide',
+							'title'     => '',
+							'className' => '',
+							'type'      => 'Label',
+							'readonly'  => 'yes',
+							'default'   => '',
+							'desc2'     => __( '<div class="desc2">복수통화 이용 시 통화별 결제정보를 설정합니다.</div>', 'pgall-for-woocommerce' ),
+						),
+						array(
+							'id'        => 'foreign_card_settings',
+							'className' => '',
+							'type'      => 'SortableTable',
+							"repeater"  => true,
+							"sortable"  => true,
+							'editable'  => true,
+							'default'   => array(),
+							"elements"  => array(
+								array(
+									"id"          => "currency",
+									"title"       => __( "결제통화", "pgall-for-woocommerce" ),
+									"className"     => "center aligned three wide column fluid",
+									"cellClassName" => "center aligned ",
+									"type"        => "Select",
+									"placeholder" => __( "통화", "pgall-for-woocommerce" ),
+									'options'     => array(
+										'KRW' => __( "KRW", "pgall-for-woocommerce" ),
+										'USD' => __( "USD", "pgall-for-woocommerce" ),
+										'JPY' => __( "JPY", "pgall-for-woocommerce" ),
+									)
+								),
+								array(
+									'id'            => 'merchant_id',
+									"title"         => __( "상점 아이디", "pgall-for-woocommerce" ),
+									"className"     => "center aligned three wide column fluid",
+									"cellClassName" => "center aligned ",
+									'default'       => '',
+									'type'          => 'Text'
+								),
+								array(
+									'id'        => 'client_key',
+									"title"     => __( "클라이언트 키", "pgall-for-woocommerce" ),
+									"className"     => "center aligned four wide column fluid",
+									"cellClassName" => "center aligned ",
+									'type'      => 'Text'
+								),
+								array(
+									'id'        => 'secret_key',
+									"title"     => __( "시크릿 키", "pgall-for-woocommerce" ),
+									"className"     => "center aligned four wide column fluid",
+									"cellClassName" => "center aligned ",
+									'type'      => 'Text'
+								),
+							)
+						)
+					)
 				)
 			);
 		}
