@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.4.1
+Stable tag: 5.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+= 5.4.2 =
+[공통] 우커머스 블록 사용 옵션이 활성화되어 있을 때, 정기결제권 결제수단 변경 시도 시 발생하는 오류 수정
 
 = 5.4.1 =
 [3rd Party 확장 결제모듈] 토큰결제 지원

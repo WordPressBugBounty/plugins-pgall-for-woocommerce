@@ -211,7 +211,9 @@ class PAFW_Ajax {
 	public static function pafw_ajax_action() {
 
 		try {
-			check_ajax_referer( 'pgall-for-woocommerce' );
+			if ( ! check_ajax_referer( 'pgall-for-woocommerce', false, false ) && ! check_ajax_referer( 'pgall-for-woocommerce-diy-checkout', false, false ) ) {
+				wp_die( - 1, 403 );
+			}
 
 			if ( isset( $_POST[ 'payment_method' ] ) && isset( $_POST[ 'payment_action' ] ) ) {
 				$payment_method = wc_clean( $_POST[ 'payment_method' ] );

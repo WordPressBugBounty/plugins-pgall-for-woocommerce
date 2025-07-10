@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.4.1\n"
+"Project-Id-Version: pgall-for-woocommerce 5.4.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-06-24 07:47:59+00:00\n"
+"POT-Creation-Date: 2025-07-10 03:23:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1177,8 +1177,8 @@ msgid "환불하기"
 msgstr ""
 
 #: includes/admin/setting-manager/pafw-setting-helper.php:100
-#: includes/class-pafw-ajax.php:716 includes/class-pafw-ajax.php:731
-#: includes/class-pafw-ajax.php:796 includes/class-pafw-ajax.php:810
+#: includes/class-pafw-ajax.php:718 includes/class-pafw-ajax.php:733
+#: includes/class-pafw-ajax.php:798 includes/class-pafw-ajax.php:812
 msgid "비회원"
 msgstr ""
 
@@ -3037,13 +3037,13 @@ msgstr ""
 msgid "결제수단별 매출"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:234 includes/class-pafw-ajax.php:252
-#: includes/class-pafw-ajax.php:270 includes/class-pafw-ajax.php:485
-#: includes/class-pafw-ajax.php:506 includes/class-pafw-ajax.php:510
-#: includes/class-pafw-ajax.php:516 includes/class-pafw-ajax.php:537
-#: includes/class-pafw-ajax.php:543 includes/class-pafw-ajax.php:564
-#: includes/class-pafw-ajax.php:568 includes/class-pafw-ajax.php:578
-#: includes/class-pafw-ajax.php:588 includes/class-pafw-payment-gateway.php:309
+#: includes/class-pafw-ajax.php:236 includes/class-pafw-ajax.php:254
+#: includes/class-pafw-ajax.php:272 includes/class-pafw-ajax.php:487
+#: includes/class-pafw-ajax.php:508 includes/class-pafw-ajax.php:512
+#: includes/class-pafw-ajax.php:518 includes/class-pafw-ajax.php:539
+#: includes/class-pafw-ajax.php:545 includes/class-pafw-ajax.php:566
+#: includes/class-pafw-ajax.php:570 includes/class-pafw-ajax.php:580
+#: includes/class-pafw-ajax.php:590 includes/class-pafw-payment-gateway.php:309
 #: includes/class-pafw-payment-gateway.php:315
 #: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:107
 #: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:134
@@ -3074,48 +3074,48 @@ msgstr ""
 msgid "잘못된 요청입니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:288
+#: includes/class-pafw-ajax.php:290
 msgid "%s 요청이 접수되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:288 includes/class-pafw-endpoint.php:44
+#: includes/class-pafw-ajax.php:290 includes/class-pafw-endpoint.php:44
 #: includes/class-pafw-exchange-return-manager.php:34
 #: templates/myaccount/exchange-return-type.php:20
 msgid "교환"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:288 includes/class-pafw-endpoint.php:46
+#: includes/class-pafw-ajax.php:290 includes/class-pafw-endpoint.php:46
 #: includes/class-pafw-exchange-return-manager.php:36
 #: templates/myaccount/exchange-return-type.php:16
 msgid "반품"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:524
+#: includes/class-pafw-ajax.php:526
 msgid "다음 결제일은 내일 이후로만 설정하실 수 있습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:548
+#: includes/class-pafw-ajax.php:550
 msgid "고객이 구독을 취소하셨습니다.<br>[취소사유] %s"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:582
+#: includes/class-pafw-ajax.php:584
 msgid "고객이 주문을 취소하셨습니다.<br>[취소사유] %s"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:603 includes/class-pafw-ajax.php:622
+#: includes/class-pafw-ajax.php:605 includes/class-pafw-ajax.php:624
 #: includes/class-pafw-cash-receipt.php:207
 msgid "현금영수증 발행을 지원하는 결제대행사가 없습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:608 includes/class-pafw-payment-gateway.php:847
+#: includes/class-pafw-ajax.php:610 includes/class-pafw-payment-gateway.php:847
 msgid "현금영수증이 발행되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:627
+#: includes/class-pafw-ajax.php:629
 msgid "발행된 현금영수증이 취소되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:694
+#: includes/class-pafw-ajax.php:696
 msgid "현금영수증 발행정보가 업데이트 되었습니다."
 msgstr ""
 
