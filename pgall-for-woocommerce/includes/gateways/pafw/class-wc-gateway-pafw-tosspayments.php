@@ -25,7 +25,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_TossPayments' ) ) {
 			return array(
 				'tosspayments_card'         => __( '신용카드', 'pgall-for-woocommerce' ),
 				'tosspayments_foreign_card' => __( '해외카드', 'pgall-for-woocommerce' ),
-				'tosspayments_bank'         => __( '실시간 계좌이체', 'pgall-for-woocommerce' ),
+				'tosspayments_bank'         => __( '퀵계좌이체', 'pgall-for-woocommerce' ),
 				'tosspayments_vbank'        => __( '가상계좌', 'pgall-for-woocommerce' ),
 				'tosspayments_phone'        => __( '휴대폰', 'pgall-for-woocommerce' ),
 				'tosspayments_escrow_bank'  => __( '에스크로 계좌이체', 'pgall-for-woocommerce' ),
@@ -60,10 +60,21 @@ if ( ! class_exists( 'WC_Gateway_PAFW_TossPayments' ) ) {
 				'settings' => $settings
 			) );
 
+
+			$values = $this->get_setting_values( $this->id, $settings );
+
+			if ( isset( $values[ 'tosspayments_bank_title' ] ) ) {
+				$values[ 'tosspayments_bank_title' ] = str_replace( "실시간 계좌이체", "퀵계좌이체", $values[ 'tosspayments_bank_title' ] );
+			}
+
+			if ( isset( $values[ 'tosspayments_bank_description' ] ) && __( "실시간 계좌이체를 진행합니다.", 'pgall-for-woocommerce' ) == $values[ 'tosspayments_bank_description' ] ) {
+				$values[ 'tosspayments_bank_description' ] = __( '계좌에서 바로 결제하는 퀵계좌이체 입니다.', 'pgall-for-woocommerce' );
+			}
+
 			?>
             <script>
                 jQuery( document ).ready( function ( $ ) {
-                    $( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '200', <?php echo json_encode( $this->get_setting_values( $this->id, $settings ) ); ?>, null, null ] );
+                    $( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '200', <?php echo json_encode( $values ); ?>, null, null ] );
                 } );
             </script>
             <div id="mshop-setting-wrapper"></div>

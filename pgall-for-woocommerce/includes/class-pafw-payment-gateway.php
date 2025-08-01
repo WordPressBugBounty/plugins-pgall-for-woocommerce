@@ -55,6 +55,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		function get_pg_title() {
 			return $this->pg_title;
 		}
+		function get_method_title() {
+			if ( empty( $this->title ) ) {
+				return $this->method_title;
+			} else {
+				return $this->method_title . ' - ' . $this->title;
+			}
+		}
 
 		function payment_window_mode() {
 			if ( wp_is_mobile() ) {
@@ -295,10 +302,17 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				return array_merge( array( 'result' => 'success' ), $response );
 			} catch ( Exception $e ) {
-				wp_send_json( array(
-					'result'   => 'failure',
-					'messages' => $e->getMessage(),
-				) );
+				if ( 'yes' != get_option( 'pafw-use-woocommerce-blocks', 'no' ) ) {
+					wp_send_json( array(
+						'result'   => 'failure',
+						'messages' => $e->getMessage(),
+					) );
+				} else {
+					return array(
+						'result'  => 'failure',
+						'message' => $e->getMessage(),
+					);
+				}
 			}
 		}
 		function wc_api_request_payment() {
@@ -333,7 +347,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$object = get_userdata( wc_clean( $_GET[ 'user_id' ] ) );
 			}
 
-			$e = new Exception( sprintf( "[PAFW-ERR-%s] %s", wc_clean( $_GET[ 'res_cd' ] ), wc_clean( $_GET[ 'res_msg' ] ) ) );
+			$e = new Exception( sprintf( "[PAFW-ERR-%s] %s", wc_clean( $_GET[ 'res_code' ] ), wc_clean( $_GET[ 'res_msg' ] ) ) );
 
 			$this->handle_exception( $e, $object );
 		}
@@ -649,7 +663,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			return array();
 		}
 
-		function get_merchant_id( $order = null ){
+		function get_merchant_id( $order = null ) {
 			return '';
 		}
 
@@ -1011,6 +1025,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			ob_start();
 			wc_get_template( 'quota/payment-method.php', array( 'payment_gateway' => $this ), '', PAFW()->template_path() );
 			ob_end_flush();
+		}
+		public function get_settings_url() {
+			return admin_url( "admin.php?page=wc-settings&tab=checkout&section=mshop_" . $this->master_id );
 		}
 	}
 }

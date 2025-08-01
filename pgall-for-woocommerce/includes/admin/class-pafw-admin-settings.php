@@ -31,7 +31,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 		}
 
 		static function update_settings() {
-			$_REQUEST = array_merge( $_REQUEST, json_decode( stripslashes( wc_clean( $_REQUEST['values'] ) ), true ) );
+			$_REQUEST = array_merge( $_REQUEST, json_decode( stripslashes( wc_clean( $_REQUEST[ 'values' ] ) ), true ) );
 
 			PAFW_Setting_Helper::update_settings( self::get_setting_fields() );
 
@@ -600,7 +600,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 					array(
 						'type'     => 'Section',
 						'title'    => __( '주문상태 설정', 'pgall-for-woocommerce' ),
-						'showIf'   => array( array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes' ), array( 'pafw_use_bacs_receipt' => 'yes' ) ),
+						'showIf'   => array( array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes', 'pafw-gw-tosspayments' => 'yes' ), array( 'pafw_use_bacs_receipt' => 'yes' ) ),
 						'elements' => array(
 							array(
 								'id'        => 'pafw_bacs_receipt_issue_statuses',
@@ -767,7 +767,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
                 }
             </style>
             <script>
-                jQuery( document ).ready( function() {
+                jQuery( document ).ready( function () {
                     jQuery( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>, null, null ] );
                 } );
             </script>
@@ -792,7 +792,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 
 			?>
             <script>
-                jQuery( document ).ready( function() {
+                jQuery( document ).ready( function () {
                     jQuery( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>, null, null ] );
                 } );
             </script>

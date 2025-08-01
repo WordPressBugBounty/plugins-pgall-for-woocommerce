@@ -14,7 +14,7 @@ abstract class Abstract_PAFW_Payment_Blocks_Support extends AbstractPaymentMetho
 		$this->settings = $this->gateway->settings;
 	}
 	public function is_active() {
-		return $this->gateway->is_available();
+		return $this->gateway && $this->gateway->is_available();
 	}
 
 	public function get_supported_payment_methods() {
@@ -45,8 +45,8 @@ abstract class Abstract_PAFW_Payment_Blocks_Support extends AbstractPaymentMetho
 			wp_register_script(
 				'pafw-payments-blocks',
 				plugins_url( $script_path, PAFW_PLUGIN_FILE ),
-				$script_asset['dependencies'],
-				$script_asset['version'],
+				$script_asset[ 'dependencies' ],
+				$script_asset[ 'version' ],
 				true
 			);
 

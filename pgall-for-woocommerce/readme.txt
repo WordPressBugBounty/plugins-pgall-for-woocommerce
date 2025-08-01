@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.4.2
+Stable tag: 5.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,19 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.4.5 =
+[공통] 결제수단 목록 페이지 개선
+
+= 5.4.4 =
+[공통] 우커머스 블록 사용 시 결제 시도 과정에서 발생하는 오류 메시지 표시 오류 수정
+[공통] 주문실패 URL 리다이렉트시 오류코드 표시 오류 수정
+
+= 5.4.3 =
+[토스페이먼츠] 실시간계좌이체 결제수단 이름을 퀵계좌이체로 변경
+[현금영수증] 토스페이먼츠 이용 시, 현금영수증 설정 화면에서 주문상태 설정 영역이 표시되지 않던 현상 수정
+[공통] 주문목록 화면에서 결제수단별 주문 필터링 기능
+
 = 5.4.2 =
 [공통] 우커머스 블록 사용 옵션이 활성화되어 있을 때, 정기결제권 결제수단 변경 시도 시 발생하는 오류 수정
 
