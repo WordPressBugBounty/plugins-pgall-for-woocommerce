@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.4.6\n"
+"Project-Id-Version: pgall-for-woocommerce 5.4.7\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-08-14 00:38:22+00:00\n"
+"POT-Creation-Date: 2025-08-26 23:15:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1794,13 +1794,7 @@ msgstr ""
 
 #: includes/admin/settings/inicis/class-pafw-settings-inicis-npay.php:21
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:22
-#: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:31
-#: includes/gateways/pafw/class-wc-gateway-pafw-kcp.php:31
-#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:30
-#: includes/gateways/pafw/class-wc-gateway-pafw-settlepg.php:30
-#: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:33
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-npay.php:20
-msgid "네이버페이"
+msgid "Npay"
 msgstr ""
 
 #: includes/admin/settings/inicis/class-pafw-settings-inicis-npay.php:33
@@ -4081,6 +4075,15 @@ msgstr ""
 #: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:30
 #: includes/gateways/settlepg/class-wc-gateway-settlepg-phone.php:21
 msgid "휴대폰"
+msgstr ""
+
+#: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:31
+#: includes/gateways/pafw/class-wc-gateway-pafw-kcp.php:31
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:30
+#: includes/gateways/pafw/class-wc-gateway-pafw-settlepg.php:30
+#: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:33
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-npay.php:20
+msgid "네이버페이"
 msgstr ""
 
 #: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:34

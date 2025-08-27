@@ -18,7 +18,7 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_NPay' ) ) {
 							'title'     => '결제수단 이름',
 							'className' => 'fluid',
 							'type'      => 'Text',
-							'default'   => __( "네이버페이", "pgall-for-woocommerce" ),
+							'default'   => __( "Npay", "pgall-for-woocommerce" ),
 							'tooltip'   => array(
 								'title' => array(
 									'content' => __( '결제 페이지에서 구매자들이 결제 진행 시 선택하는 결제수단명 입니다.', 'pgall-for-woocommerce' )

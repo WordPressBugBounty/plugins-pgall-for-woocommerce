@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.4.6
+Stable tag: 5.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.4.7 =
+[정기결제] 갱신결제 시 사용될 결제 토큰을 변경할 수 있는 필터
 
 = 5.4.6 =
 [공통] 메뉴얼 링크 변경

@@ -82,7 +82,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 				}
 			}
 
-			return $token;
+			return apply_filters( "pafw_get_token_for_order", $token, $order );
 		}
 		public static function update_token( $order, $token ) {
 			if ( $order ) {
