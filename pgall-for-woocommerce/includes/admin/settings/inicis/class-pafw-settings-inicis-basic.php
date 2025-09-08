@@ -55,12 +55,12 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_Basic' ) ) {
 							'className' => 'fluid',
 							'type'      => 'Text',
 							'default'   => 'INIpayTest',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>INIpayTest</code> 입니다.<br>실 결제용 상점 아이디는 <code>CIG</code> 또는 <code>CDM</code>으로 시작해야 합니다. 기존에 발급받은 <code>COD</code> 또는 <code>MOD</code>로 시작하는 상점 아이디도 사용하실 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>INIpayTest</code> 입니다.<br>실 결제용 상점 아이디는 <code>CIG</code> 또는 <code>CIE</code> 또는 <code>CDM</code>으로 시작해야 합니다. 기존에 발급받은 <code>COD</code> 또는 <code>MOD</code>로 시작하는 상점 아이디도 사용하실 수 있습니다.</div>', 'pgall-for-woocommerce' ),
 						),
 						array (
 							'id'        => 'signkey',
 							'title'     => '웹표준 사인키',
-							'showLike' => array ( 'merchant_id' => '!CIG,!CIS,!CDM,!CBB' ),
+							'showLike' => array ( 'merchant_id' => '!CIG,!CIS,!CDM,!CBB,!CIE,!CDB' ),
 							'className' => 'fluid',
 							'default'   => '',
 							'desc2'     => __( '<div class="desc2">웹표준 사인키는 결제시 필요한 필수 값으로 이니시스 상점 관리자 페이지에서 확인이 가능합니다.<br>결제 테스트용 INIpayTest 상점 아이디의 사인키 값은 <code>SU5JTElURV9UUklQTEVERVNfS0VZU1RS</code>입니다.</div>', 'pgall-for-woocommerce' ),
@@ -72,7 +72,7 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_Basic' ) ) {
 					'type'     => 'Section',
 					'title'    => '에스크로 결제 설정',
 					'showIf'   => array ( 'pc_pay_method' => 'inicis_stdescrow_bank' ),
-					'showLike' => array ( 'merchant_id' => '!CIG,!CIS,!CDM,!CBB' ),
+					'showLike' => array ( 'merchant_id' => '!CIG,!CIS,!CDM,!CBB,!CIE,!CDB' ),
 					'elements' => array (
 						array (
 							'id'          => 'escrow_merchant_id',
@@ -124,7 +124,7 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_Basic' ) ) {
 							'className' => 'fluid',
 							'default'   => 'INIBillTst',
 							'type'      => 'Text',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>INIBillTst</code> 입니다.<br>실 결제용 상점 아이디는 <code>CIS</code> 또는 <code>CBB</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>INIBillTst</code> 입니다.<br>실 결제용 상점 아이디는 <code>CIS</code> 또는 <code>CDB</code> 또는 <code>CBB</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
 						),
 						array (
 							'id'        => 'subscription_signkey',

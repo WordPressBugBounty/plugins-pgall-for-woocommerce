@@ -42,7 +42,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway {
 		return substr( $this->get_merchant_id(), 0, 3 );
 	}
 	public function use_integrated_sign_key() {
-		return in_array( $this->get_merchant_key_prefix(), array( 'CIG', 'CIS', 'CDM', 'CBB' ) );
+		return in_array( $this->get_merchant_key_prefix(), array( 'CIG', 'CIS', 'CDM', 'CBB', 'CIE', 'CDB' ) );
 	}
 	public function get_merchant_key( $order = null ) {
 		if( $this->use_integrated_sign_key() ) {
