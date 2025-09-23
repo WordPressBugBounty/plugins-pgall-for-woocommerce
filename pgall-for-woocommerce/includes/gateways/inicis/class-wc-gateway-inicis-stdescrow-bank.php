@@ -60,7 +60,7 @@ class WC_Gateway_Inicis_StdEscrow_Bank extends WC_Gateway_Inicis {
 
 		$prefix = substr( $merchant_id, 0, 3 );
 
-		if ( in_array( $prefix, array( 'CIG', 'CIS', 'CDM', 'CBB', 'CIE', 'CDB' ) )) {
+		if ( in_array( $prefix, array( 'CIG', 'CIS', 'CDM', 'CBB', 'CIE', 'CIB' ) )) {
 			return $merchant_id;
 		} else {
 			return pafw_get( $this->settings, 'escrow_merchant_id' );

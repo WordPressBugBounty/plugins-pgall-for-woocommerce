@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.4.8\n"
+"Project-Id-Version: pgall-for-woocommerce 5.4.10\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2025-09-07 23:38:32+00:00\n"
+"POT-Creation-Date: 2025-09-23 07:55:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1723,7 +1723,7 @@ msgstr ""
 #: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:127
 msgid ""
 "<div class=\"desc2\">결제 테스트용 상점 아이디는 <code>INIBillTst</code> 입니다.<br>실 결제용 "
-"상점 아이디는 <code>CIS</code> 또는 <code>CDB</code> 또는 <code>CBB</code>로 시작해야 "
+"상점 아이디는 <code>CIS</code> 또는 <code>CIB</code> 또는 <code>CBB</code>로 시작해야 "
 "합니다.</div>"
 msgstr ""
 
