@@ -18,6 +18,9 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 			add_action( 'pafw_migrate_token', array( __CLASS__, "migrate_payment_token" ) );
 
 			add_filter( 'woocommerce_get_credit_card_type_label', 'strtoupper', 99 );
+
+			add_action( 'woocommerce_subscription_before_actions', array( __CLASS__, 'output_payment_method_change_button' ), 1 );
+			add_filter( 'wcs_view_subscription_actions', array( __CLASS__, 'maybe_remove_change_payment_method_button' ), 999, 3 );
 		}
 		public static function get_order( $order, $order_id ) {
 			if ( str_contains( $order_id, 'PAFW-BILL' ) ) {
@@ -44,7 +47,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 
 			return self::$payment_gateways;
 		}
-		public static function get_token_for_order( $order ) {
+		public static function get_token_for_order( $order, $use_default_token = true ) {
 			$token = null;
 
 			self::maybe_migrate_payment_token_for_user( $order->get_customer_id() );
@@ -74,7 +77,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 				}
 			}
 
-			if ( empty( $token ) ) {
+			if ( $use_default_token && empty( $token ) ) {
 				$token = WC_Payment_Tokens::get_customer_default_token( $order->get_customer_id() );
 
 				if ( empty( $token ) ) {
@@ -277,6 +280,14 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 					);
 				}
 			}
+		}
+		public static function output_payment_method_change_button( $subscription ) {
+			wc_get_template( "myaccount/change-payment-method.php", array( 'subscription' => $subscription ), '', PAFW()->template_path() );
+		}
+		public static function maybe_remove_change_payment_method_button( $actions, $subscription, $user_id ) {
+			unset( $actions[ 'change_payment_method' ] );
+
+			return $actions;
 		}
 	}
 

@@ -754,7 +754,22 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					}
 				}
 
-				PAFW_Gateway::request_subscription_payment( $order, $gateway, array( 'is_renewal' => true, 'amount_to_charge' => $amount_to_charge ), $token );
+				$args = array(
+					'is_renewal'       => true,
+					'amount_to_charge' => $amount_to_charge
+				);
+
+				if( 'yes' == pafw_get( $gateway->settings, 'enable_quota', 'no' )  ) {
+					$subscriptions = wcs_get_subscriptions_for_order( $order, array( 'order_type' => array( 'renewal' ) ) );
+					$subscription  = reset( $subscriptions );
+
+					$card_quota = intval( $subscription->get_meta( 'pafw_card_quota_for_renewal' ) );
+					if ( $card_quota > 0 ) {
+						$args[ 'card_quota' ] = sprintf( "%02d", $card_quota );
+					}
+				}
+
+				PAFW_Gateway::request_subscription_payment( $order, $gateway, $args, $token );
 			} catch ( Exception $e ) {
 				$message = sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() );
 				$order->update_status( 'failed', $message );

@@ -15,6 +15,8 @@ if ( ! class_exists( 'PAFW_Admin' ) ) :
 			add_action( 'add_meta_boxes', array( 'PAFW_Meta_Box_Cash_Receipt', 'add_meta_boxes' ), 10, 2 );
 
 			add_action( 'admin_enqueue_scripts', array( 'PAFW_Admin', 'admin_enqueue_scripts' ) );
+
+			add_action( 'woocommerce_process_shop_order_meta', array( 'PAFW_Meta_Box_Payment_Info', 'save_meta_boxes' ), 90 );
 		}
 
 		static function admin_menu() {
@@ -36,7 +38,6 @@ if ( ! class_exists( 'PAFW_Admin' ) ) :
 			add_submenu_page( 'pafw_setting', __( '온라인 가입신청', 'pgall-for-woocommerce' ), __( '온라인 가입신청', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_apply_service', '' );
 			add_submenu_page( 'pafw_setting', __( '매뉴얼', 'pgall-for-woocommerce' ), __( '매뉴얼', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_manual', '' );
 		}
-
 		static function sales_statistics() {
 			if ( 0 == count( PAFW()->get_enabled_payment_gateways() ) ) {
 				include( 'views/guide.php' );
@@ -44,7 +45,6 @@ if ( ! class_exists( 'PAFW_Admin' ) ) :
 				include( 'views/sales-statistics.php' );
 			}
 		}
-
 		static function payment_statistics() {
 			if ( 0 == count( PAFW()->get_enabled_payment_gateways() ) ) {
 				include( 'views/guide.php' );
@@ -52,7 +52,6 @@ if ( ! class_exists( 'PAFW_Admin' ) ) :
 				include( 'views/payment-statistics.php' );
 			}
 		}
-
 		static function admin_enqueue_scripts() {
 			wp_enqueue_script( 'pafw-admin-menu', PAFW()->plugin_url() . '/assets/js/admin/admin-menu.js', array( 'jquery' ), PAFW_VERSION );
 			wp_localize_script( 'pafw-admin-menu', '_pafw_admin_menu', array(

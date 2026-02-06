@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						if ( ! empty( $order_items[ $key ] ) ) {
 							$item = $order_items[ $key ];
 
-							$product_id      = ! empty( $item['variation_id'] ) ? $item['variation_id'] : $item['product_id'];
+							$product_id      = ! empty( $item[ 'variation_id' ] ) ? $item[ 'variation_id' ] : $item[ 'product_id' ];
 							$product         = wc_get_product( $product_id );
 							$order_item_meta = wc_display_item_meta( $item, array( 'before' => '', 'after' => '', 'echo' => false ) );
 
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 </div>
                                 <div class="product-info-wrap">
                                     <div class="product-name">
-                                        <span class="item_name"><?php echo $item['name']; ?></span><br>
+                                        <span class="item_name"><?php echo $item[ 'name' ]; ?></span><br>
                                         <span class="price_qty">
                                         <?php
                                         if ( $item->get_total() > 0 ) {
@@ -87,9 +87,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php
 								add_filter( 'msms_skip_price_calculation', '__return_true' );
 								$ex_products = wc_get_products( array(
-									'type'   => 'simple',
-									'number' => -1,
-									'price'  => $product->get_price(),
+									'type'  => 'simple',
+									'limit' => - 1,
+									'price' => $product->get_price(),
 								) );
 								remove_filter( 'msms_skip_price_calculation', '__return_true' );
 
@@ -115,7 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <select name="exchange_item[<?php echo $key; ?>]" style="width: 100%; height: auto;">
                                             <option value=""><?php _e( "교환할 상품을 선택하세요.", "pgall-for-woocommerce" ) ?></option>
 											<?php foreach ( $ex_items as $ex_item ) : ?>
-                                                <option value="<?php echo $ex_item['id']; ?>" data-params="<?php echo esc_attr( json_encode( $ex_item ) ); ?>"><?php echo $ex_item['title']; ?></option>
+                                                <option value="<?php echo $ex_item[ 'id' ]; ?>" data-params="<?php echo esc_attr( json_encode( $ex_item ) ); ?>"><?php echo $ex_item[ 'title' ]; ?></option>
 											<?php endforeach; ?>
                                         </select>
                                     </div>

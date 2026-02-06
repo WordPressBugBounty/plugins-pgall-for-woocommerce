@@ -30,7 +30,7 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_NPay' ) ) {
 							'title'     => '결제수단 설명',
 							'className' => 'fluid',
 							'type'      => 'TextArea',
-							'default'   => __( '네이버페이로 결제합니다.', 'pgall-for-woocommerce' ),
+							'default'   => __( 'Npay로 결제합니다.', 'pgall-for-woocommerce' ),
 							'tooltip'   => array(
 								'title' => array(
 									'content' => __( '결제 페이지에서 구매자들이 결제 진행 시 제공되는 결제수단 상세설명 입니다.', 'pgall-for-woocommerce' )
@@ -41,7 +41,7 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_NPay' ) ) {
 				),
 				array(
 					'type'     => 'Section',
-					'title'    => __( "네이버페이 고급 설정", "pgall-for-woocommerce" ),
+					'title'    => __( "Npay 고급 설정", "pgall-for-woocommerce" ),
 					'elements' => array(
 						array(
 							'id'        => 'inicis_npay_use_advanced_setting',

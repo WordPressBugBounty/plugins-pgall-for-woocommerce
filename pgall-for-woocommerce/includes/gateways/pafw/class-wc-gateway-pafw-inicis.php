@@ -28,7 +28,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_Inicis' ) ) {
 				'inicis_stdhpp'         => __( '휴대폰', 'pgall-for-woocommerce' ),
 				'inicis_stdescrow_bank' => __( '에스크로 계좌이체', 'pgall-for-woocommerce' ),
 				'inicis_kakaopay'       => __( '카카오페이', 'pgall-for-woocommerce' ),
-				'inicis_npay'           => __( '네이버페이', 'pgall-for-woocommerce' ),
+				'inicis_npay'           => __( 'Npay', 'pgall-for-woocommerce' ),
 				'inicis_tosspay'        => __( '토스페이', 'pgall-for-woocommerce' ),
 				'inicis_applepay'       => __( '애플페이', 'pgall-for-woocommerce' ),
 				'inicis_stdsamsungpay'  => __( '삼성페이', 'pgall-for-woocommerce' ),

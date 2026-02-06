@@ -18,6 +18,7 @@ class PAFW_Ajax {
 			'launch_payment'           => true,
 			'change_next_payment_date' => false,
 			'survey_cancel_reason'     => true,
+			'change_payment_method'    => true,
 		);
 
 		if ( is_admin() ) {
@@ -766,7 +767,60 @@ class PAFW_Ajax {
 			wp_send_json_error( $e->getMessage() );
 		}
 	}
+	public static function change_payment_method() {
+		check_ajax_referer( 'pgall-for-woocommerce' );
 
+		try {
+			if ( empty( $_POST[ 'subscription_id' ] ) || empty( $_POST[ 'token_id' ] ) ) {
+				die( 403 );
+			}
+
+			$subscription_id   = $_POST[ 'subscription_id' ];
+			$selected_token_id = $_POST[ 'token_id' ];
+			$subscription = wcs_get_subscription( $subscription_id );
+
+			if ( ! pafw_is_subscription( $subscription ) || $subscription->get_customer_id() != get_current_user_id() ) {
+				die( 403 );
+			}
+
+			if ( 'manual' === $selected_token_id ) {
+				$subscription->set_requires_manual_renewal( true );
+				$subscription->save();
+			} elseif ( intval( $selected_token_id ) > 0 ) {
+				$token = new WC_Payment_Token_PAFW( $selected_token_id );
+				if ( $token->get_user_id() != $subscription->get_customer_id() ) {
+					die( 403 );
+				}
+
+				$current_token = null;
+
+				try {
+					$current_token = PAFW_Token::get_token_for_order( $subscription );
+				} catch ( Exception $e ) {
+
+				}
+
+				if ( is_null( $current_token ) || $current_token->get_id() != $selected_token_id ) {
+					pafw_maybe_set_payment_token( $subscription, $token );
+
+					if ( $current_token ) {
+						$message = sprintf( __( "결제수단이 %s 에서 %s로 변경되었습니다.", "pgall-for-woocommerce" ), $current_token->get_display_name(), $token->get_display_name() );
+					} else {
+						$message = sprintf( __( "결제수단이 %s로 설정되었습니다.", "pgall-for-woocommerce" ), $token->get_display_name() );
+
+					}
+
+					$subscription->add_order_note( $message );
+
+					wp_send_json_success( $message );
+				}
+			}
+
+			wp_send_json_success();
+		} catch ( Exception $e ) {
+			wp_send_json_error( $e->getMessage() );
+		}
+	}
 	public static function export_cash_receipt_logs() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();

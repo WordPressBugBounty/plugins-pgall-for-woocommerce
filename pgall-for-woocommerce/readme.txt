@@ -3,9 +3,9 @@ Contributors: Codemstory
 Donate link: http://www.codemshop.com/
 Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 대한민국 결제
 Requires at least: 4.6.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.2
-Stable tag: 5.4.10
+Stable tag: 5.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,23 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+= 5.5.1 =
+[정기결제] 수동갱신으로 지정된 정기결제권의 결제수단이 기본 결제토큰으로 변경되지 않는 현상
+
+= 5.5.0 =
+[정기결제] 정기결제권 갱신결제 시 할부개월수 설정 기능
+
+= 5.4.14 =
+[교환/반품] 교환 가능 상품이 일부만 보이던 현상 수정
+
+= 5.4.13 =
+[토스페이먼츠] 페이팔 결제수단 지원통화 제한 적용
+
+= 5.4.12 =
+[정기결제] 정기결제권에 연결된 결제토큰 변경 기능
+
+= 5.4.11 =
+[네이버페이] 네이버페이 공식 표기 가이드 변경 정책 반영
 
 = 5.4.10 =
 [이니시스] 정기결제 상점키 Prefix 변경 ( CIB )

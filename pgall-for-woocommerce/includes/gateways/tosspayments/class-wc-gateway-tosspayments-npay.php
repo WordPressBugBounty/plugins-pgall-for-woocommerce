@@ -17,12 +17,15 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				parent::__construct();
 
 				if ( empty( $this->settings['title'] ) ) {
-					$this->title       = __( '네이버페이', 'pgall-for-woocommerce' );
-					$this->description = __( '네이버페이로 결제합니다.', 'pgall-for-woocommerce' );
+					$this->title       = __( 'Npay', 'pgall-for-woocommerce' );
+					$this->description = __( 'Npay로 결제합니다.', 'pgall-for-woocommerce' );
 				} else {
 					$this->title       = $this->settings['title'];
 					$this->description = $this->settings['description'];
 				}
+
+				$this->title       = str_replace( "네이버페이", "Npay", $this->title );
+				$this->description = str_replace( "네이버페이", "Npay", $this->description );
 
 				$this->supports[] = 'refunds';
 			}

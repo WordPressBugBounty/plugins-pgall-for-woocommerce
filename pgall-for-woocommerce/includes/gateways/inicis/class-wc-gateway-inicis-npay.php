@@ -15,13 +15,16 @@ class WC_Gateway_Inicis_NPay extends WC_Gateway_Inicis {
 
 		parent::__construct();
 
-		if ( empty( $this->settings['title'] ) ) {
-			$this->title       = __( '네이버페이 결제', 'pgall-for-woocommerce' );
-			$this->description = __( '네이버페이로 결제합니다.', 'pgall-for-woocommerce' );
+		if ( empty( $this->settings[ 'title' ] ) ) {
+			$this->title       = __( 'Npay 결제', 'pgall-for-woocommerce' );
+			$this->description = __( 'Npay로 결제합니다.', 'pgall-for-woocommerce' );
 		} else {
-			$this->title       = $this->settings['title'];
-			$this->description = $this->settings['description'];
+			$this->title       = $this->settings[ 'title' ];
+			$this->description = $this->settings[ 'description' ];
 		}
+
+		$this->title       = str_replace( "네이버페이", "Npay", $this->title );
+		$this->description = str_replace( "네이버페이", "Npay", $this->description );
 
 		$this->supports[] = 'refunds';
 	}
@@ -46,9 +49,9 @@ class WC_Gateway_Inicis_NPay extends WC_Gateway_Inicis {
 		$order->update_meta_data( "_pafw_card_code", pafw_get( $response, 'card_code' ) );
 		$order->update_meta_data( "_pafw_card_name", pafw_get( $response, 'card_name' ) );
 		$order->save_meta_data();
-		
-		$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array (
-			'거래번호' => $response['transaction_id']
+
+		$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array(
+			'거래번호' => $response[ 'transaction_id' ]
 		) );
 	}
 }

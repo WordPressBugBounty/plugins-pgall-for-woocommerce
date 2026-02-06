@@ -27,7 +27,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$this->supports[] = 'pafw-cash-receipt';
 			}
 			function get_supported_currency() {
-				return array( 'KRW', 'USD' );
+				return array( 'USD' );
 			}
 			public function is_available() {
 				if ( in_array( get_woocommerce_currency(), apply_filters( 'pafw_tosspayments_paypal_supported_currencies', $this->get_supported_currency() ) ) ) {

@@ -28,7 +28,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_Kcp' ) ) {
 				'kcp_mobx'        => __( '휴대폰', 'pgall-for-woocommerce' ),
 				'kcp_escrow_bank' => __( '에스크로 계좌이체', 'pgall-for-woocommerce' ),
 				'kcp_kakaopay'    => __( '카카오페이', 'pgall-for-woocommerce' ),
-				'kcp_npay'        => __( '네이버페이', 'pgall-for-woocommerce' ),
+				'kcp_npay'        => __( 'Npay', 'pgall-for-woocommerce' ),
 				'kcp_tosspay'     => __( '토스페이', 'pgall-for-woocommerce' ),
 				'kcp_applepay'    => __( '애플페이', 'pgall-for-woocommerce' ),
 				'kcp_samsungpay'  => __( '삼성페이', 'pgall-for-woocommerce' ),

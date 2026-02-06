@@ -67,6 +67,17 @@ class PAFW_Meta_Box_Payment_Info {
 					);
 				}
 			}
+
+			if ( pafw_is_subscription( $order ) ) {
+				add_meta_box(
+					'pafw-tokens',
+					__( '결제수단', 'pgall-for-woocommerce' ),
+					array( __CLASS__, 'add_meta_box_tokens' ),
+					PAFW_HPOS::get_shop_order_screen( array( 'shop_subscription' ) ),
+					'side',
+					'high'
+				);
+			}
 		}
 	}
 	static function add_meta_box_payment_info( $post ) {
@@ -82,7 +93,7 @@ class PAFW_Meta_Box_Payment_Info {
 
 			if ( $payment_gateway->is_vbank( $order ) ) {
 				$payment_data = self::get_vbank_payment_data( $order, $payment_gateway );
-			} else if ( $payment_gateway->is_escrow( $order ) ) {
+			} elseif ( $payment_gateway->is_escrow( $order ) ) {
 				$payment_data = self::get_escrow_bank_payment_data( $order, $payment_gateway );
 			} else {
 				$payment_data = self::get_payment_data( $order, $payment_gateway );
@@ -147,6 +158,52 @@ class PAFW_Meta_Box_Payment_Info {
 			include( 'views/additional_charge.php' );
 		}
 	}
+	public static function add_meta_box_tokens( $post ) {
+		$order = PAFW_HPOS::get_order( $post );
+		$payment_gateway = pafw_get_payment_gateway_from_order( $order );
+
+		include( 'views/tokens.php' );
+	}
+	public static function save_meta_boxes( $order_id ) {
+		if ( isset( $_POST[ 'pafw_token' ] ) ) {
+			$subscription = PAFW_HPOS::get_order( $order_id );
+
+			if ( pafw_is_subscription( $subscription ) ) {
+				if ( isset( $_POST[ 'pafw_card_quota' ] ) ) {
+					$subscription->update_meta_data( 'pafw_card_quota_for_renewal', $_POST[ 'pafw_card_quota' ] );
+					$subscription->save_meta_data();
+				}
+
+				$selected_token_id = pafw_get( $_POST, 'pafw_token' );
+
+
+				if ( 'manual' === $selected_token_id ) {
+					$subscription->set_requires_manual_renewal( true );
+				} elseif ( intval( $selected_token_id ) > 0 ) {
+					$current_token = null;
+
+					try {
+						$current_token = PAFW_Token::get_token_for_order( $subscription, false );
+					} catch ( Exception $e ) {
+						$subscription->add_order_note($e->getMessage());
+					}
+
+					if ( is_null( $current_token ) || $current_token->get_id() != $selected_token_id ) {
+						$token = new WC_Payment_Token_PAFW( $selected_token_id );
+						pafw_maybe_set_payment_token( $subscription, $token );
+
+						if ( $current_token ) {
+							$subscription->add_order_note( sprintf( __( "결제수단이 %s 에서 %s로 변경되었습니다.", "pgall-for-woocommerce" ), $current_token->get_display_name(), $token->get_display_name() ) );
+						} else {
+							$subscription->add_order_note( sprintf( __( "결제수단이 %s로 설정되었습니다.", "pgall-for-woocommerce" ), $token->get_display_name() ) );
+						}
+					}else{
+					}
+
+				}
+			}
+		}
+	}
 	protected static function get_payment_data( $order, $payment_gateway ) {
 		$card_info = '';
 		$paid_date = preg_replace( '/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/', '$1-$2-$3 $4:$5', $order->get_meta( '_pafw_paid_date' ) );
@@ -155,7 +212,7 @@ class PAFW_Meta_Box_Payment_Info {
 
 		if ( 12 == strlen( $cart_num ) ) {
 			$card_num = preg_replace( '/([0-9]{4})([0-9]{4})([0-9]{4})/', '$1-$2-$3-0000', $cart_num );
-		} else if ( 16 == strlen( $cart_num ) ) {
+		} elseif ( 16 == strlen( $cart_num ) ) {
 			$card_num = implode( '-', str_split( $cart_num, 4 ) );
 		}
 		if ( ! empty( $card_name ) && ! empty( $card_num ) ) {
@@ -199,7 +256,7 @@ class PAFW_Meta_Box_Payment_Info {
 
 		if ( 12 == strlen( $card_num ) ) {
 			$card_num = preg_replace( '/([0-9]{4})([0-9]{4})([0-9]{4})/', '$1-$2-$3-0000', $card_num );
-		} else if ( 16 == strlen( $card_num ) ) {
+		} elseif ( 16 == strlen( $card_num ) ) {
 			$card_num = implode( '-', str_split( $card_num, 4 ) );
 		}
 		if ( ! empty( $card_name ) && ! empty( $card_num ) ) {
@@ -301,13 +358,13 @@ class PAFW_Meta_Box_Payment_Info {
 			$reject_time  = $order->get_meta( '_pafw_escrow_order_confirm_reject_time' );
 
 			if ( $is_confirmed ) {
-				$confirm_info['상태']   = __( '<span style="color:blue;">구매확인</span>', 'pgall-for-woocommerce' );
-				$confirm_info['확인일시'] = $confirm_time;
-			} else if ( $is_rejected ) {
-				$confirm_info['상태']   = __( '<span style="color:red;">구매거절</span>', 'pgall-for-woocommerce' );
-				$confirm_info['거절일시'] = $reject_time;
+				$confirm_info[ '상태' ]   = __( '<span style="color:blue;">구매확인</span>', 'pgall-for-woocommerce' );
+				$confirm_info[ '확인일시' ] = $confirm_time;
+			} elseif ( $is_rejected ) {
+				$confirm_info[ '상태' ]   = __( '<span style="color:red;">구매거절</span>', 'pgall-for-woocommerce' );
+				$confirm_info[ '거절일시' ] = $reject_time;
 			} else {
-				$confirm_info['상태'] = __( '<span style="color:red;">구매결정 대기</span>', 'pgall-for-woocommerce' );
+				$confirm_info[ '상태' ] = __( '<span style="color:red;">구매결정 대기</span>', 'pgall-for-woocommerce' );
 			}
 
 			$payment_data[] = array(

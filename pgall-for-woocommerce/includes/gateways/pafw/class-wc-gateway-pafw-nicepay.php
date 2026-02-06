@@ -27,7 +27,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_Nicepay' ) ) {
 				'nicepay_vbank'       => __( '가상계좌', 'pgall-for-woocommerce' ),
 				'nicepay_escrow_bank' => __( '에스크로 계좌이체', 'pgall-for-woocommerce' ),
 				'nicepay_kakaopay'    => __( '카카오페이', 'pgall-for-woocommerce' ),
-				'nicepay_npay'        => __( '네이버페이', 'pgall-for-woocommerce' ),
+				'nicepay_npay'        => __( 'Npay', 'pgall-for-woocommerce' ),
 				'nicepay_applepay'    => __( '애플페이', 'pgall-for-woocommerce' ),
 				'nicepay_samsungpay'  => __( '삼성페이', 'pgall-for-woocommerce' ),
 				'nicepay_payco'       => __( 'PAYCO', 'pgall-for-woocommerce' ),
