@@ -5,5 +5,5 @@ $uid = uniqid( 'pafw_settlebank_' );
 
 ?>
 <div class="settlebank-payment-fields">
-	<?php echo esc_html( $gateway->get_description() ); ?>
+	<?php echo $gateway->get_description(); ?>
 </div>

@@ -6,6 +6,6 @@ $uid = uniqid( 'pafw_inicis_' );
 ?>
 <div class="inicis-payment-fields">
     <div class="payment-method-description" style="display: <?php echo empty( $bill_key ) ? 'block' : 'none'; ?>">
-		<?php echo esc_html( $gateway->get_description() ); ?>
+		<?php echo $gateway->get_description(); ?>
     </div>
 </div>
