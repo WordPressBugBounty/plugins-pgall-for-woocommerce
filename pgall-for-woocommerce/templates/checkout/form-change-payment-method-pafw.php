@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -10,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<table class="shop_table">
 		<thead>
 			<tr>
-				<th class="product-name"><?php echo esc_html_x( 'Product', 'table headings in notification email', 'woocommerce-subscriptions' ); ?></th>
-				<th class="product-quantity"><?php echo esc_html_x( 'Quantity', 'table headings in notification email', 'woocommerce-subscriptions' ); ?></th>
-				<th class="product-total"><?php echo esc_html_x( 'Totals', 'table headings in notification email', 'woocommerce-subscriptions' ); ?></th>
+				<th class="product-name"><?php /* phpcs:ignore WordPress.WP.I18n.TextDomainMismatch */ echo esc_html_x( 'Product', 'table headings in notification email', 'woocommerce-subscriptions' ); ?></th>
+				<th class="product-quantity"><?php /* phpcs:ignore WordPress.WP.I18n.TextDomainMismatch */ echo esc_html_x( 'Quantity', 'table headings in notification email', 'woocommerce-subscriptions' ); ?></th>
+				<th class="product-total"><?php /* phpcs:ignore WordPress.WP.I18n.TextDomainMismatch */ echo esc_html_x( 'Totals', 'table headings in notification email', 'woocommerce-subscriptions' ); ?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -37,8 +38,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div id="payment">
 		<?php
 		if ( $subscription->has_payment_gateway() ) {
+            // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 			$pay_order_button_text = _x( 'Change payment method', 'text on button on checkout page', 'woocommerce-subscriptions' );
 		} else {
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 			$pay_order_button_text = _x( 'Add payment method', 'text on button on checkout page', 'woocommerce-subscriptions' );
 		}
 
@@ -75,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</ul>
 		<?php else : ?>
 			<div class="woocommerce-error">
-				<p> <?php echo esc_html( apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems no payment gateways support changing the recurring payment method. Please contact us if you require assistance or to make alternate arrangements.', 'woocommerce-subscriptions' ) ) ); ?></p>
+				<p> <?php /* phpcs:ignore WordPress.WP.I18n.TextDomainMismatch */ echo esc_html( apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems no payment gateways support changing the recurring payment method. Please contact us if you require assistance or to make alternate arrangements.', 'woocommerce-subscriptions' ) ) ); ?></p>
 			</div>
 		<?php endif; ?>
 
@@ -84,7 +87,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="update-all-subscriptions-payment-method-wrap">
 				<?php
 				// translators: $1: opening <strong> tag, $2: closing </strong> tag
-				$label = sprintf( esc_html__( 'Update the payment method used for %1$sall%2$s of my current subscriptions', 'woocommerce-subscriptions' ), '<strong>', '</strong>' );
+                $label = sprintf( esc_html__( 'Update the payment method used for %1$sall%2$s of my current subscriptions', 'woocommerce-subscriptions' ), '<strong>', '</strong>' ); /* phpcs:ignore WordPress.WP.I18n.TextDomainMismatch */
 
 				woocommerce_form_field(
 					'update_all_subscriptions_payment_method',

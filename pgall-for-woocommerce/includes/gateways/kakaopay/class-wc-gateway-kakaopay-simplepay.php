@@ -8,7 +8,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_KakaoPay_Simplepay' ) ) {
 
-		class WC_Gateway_KakaoPay_Simplepay extends WC_Gateway_KakaoPay {
+		class WC_Gateway_KakaoPay_Simplepay extends WC_Gateway_KakaoPay { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 

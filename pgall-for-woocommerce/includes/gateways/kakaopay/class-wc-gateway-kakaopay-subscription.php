@@ -1,6 +1,7 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+// phpcs:disable WordPress.Security.NonceVerification
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -9,7 +10,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_KakaoPay_Subscription' ) ) {
 
-		class WC_Gateway_KakaoPay_Subscription extends WC_Gateway_KakaoPay {
+		class WC_Gateway_KakaoPay_Subscription extends WC_Gateway_KakaoPay { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 
@@ -17,12 +18,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				parent::__construct();
 
-				if ( empty( $this->settings['title'] ) ) {
+				if ( empty( $this->settings[ 'title' ] ) ) {
 					$this->title       = __( '카카오페이 정기결제', 'pgall-for-woocommerce' );
 					$this->description = __( '카카오페이 정기결제로 결제합니다.', 'pgall-for-woocommerce' );
 				} else {
-					$this->title       = $this->settings['title'];
-					$this->description = $this->settings['description'];
+					$this->title       = $this->settings[ 'title' ];
+					$this->description = $this->settings[ 'description' ];
 				}
 
 				$this->countries = array( 'KR' );
@@ -58,9 +59,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			function adjust_settings() {
-				$this->settings['cid']            = $this->settings['cid_subscription'];
-				$this->settings['operation_mode'] = $this->settings['operation_mode_subscription'];
-				$this->settings['test_user_id']   = $this->settings['test_user_id_subscription'];
+				$this->settings[ 'cid' ]            = $this->settings[ 'cid_subscription' ];
+				$this->settings[ 'operation_mode' ] = $this->settings[ 'operation_mode_subscription' ];
+				$this->settings[ 'test_user_id' ]   = $this->settings[ 'test_user_id_subscription' ];
 			}
 
 			public function payment_fields() {
@@ -79,7 +80,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return '_pafw_kakaopay_' . $meta_key;
 			}
 			public function add_register_order_request_params( $params, $order ) {
-				$params['kakaopay'] = array(
+				$params[ 'kakaopay' ] = array(
 					'is_subscription' => pafw_is_subscription( $order ) ? 'yes' : 'no',
 					'card_quota'      => $order->get_meta( '_pafw_card_quota' )
 				);
@@ -91,22 +92,22 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			public function process_subscription_payment_response( $order, $response ) {
 				if ( ! defined( 'PAFW_ADDITIONAL_CHARGE' ) ) {
-					$order->update_meta_data( '_pafw_subscription_batch_key', $response['bill_key'] );
+					$order->update_meta_data( '_pafw_subscription_batch_key', $response[ 'bill_key' ] );
 					$order->save_meta_data();
 				}
 			}
 			function process_subscription_register_complete_response( $user, $response ) {
-				update_user_meta( $user->ID, $this->get_subscription_meta_key( 'payment_method_type' ), $response['payment_method_type'] );
+				update_user_meta( $user->ID, $this->get_subscription_meta_key( 'payment_method_type' ), $response[ 'payment_method_type' ] );
 			}
 			function wc_api_request_register() {
 				try {
 					$user = null;
 
-					if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['user_id'] ) ) {
+					if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'user_id' ] ) ) { // phpcs:ignore Processing form data without nonce verification.
 						throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 					}
 
-					$user_id = str_replace( 'PAFW-BILL-', '', wc_clean( $_GET['user_id'] ) );
+					$user_id = str_replace( 'PAFW-BILL-', '', pafw_get_unslash( $_GET, 'user_id' ) ); // phpcs:ignore Processing form data without nonce verification.
 
 					$user = get_userdata( $user_id );
 
@@ -119,7 +120,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			function add_payment_method() {
 				try {
-					$user = get_currentuserinfo();
+					$user = wp_get_current_user();
 
 					$response = PAFW_Gateway::get_register_form( $user, $this );
 
@@ -147,11 +148,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 							'pafw_version'  => PAFW_VERSION,
 							'auth_date'     => current_time( 'mysql' ),
 							'card_code'     => pafw_get( $response, 'card_code' ),
+							// translators: %s: card name
 							'card_name'     => sprintf( __( "카카오페이 - CARD [%s]", "pgall-for-woocommerce" ), pafw_get( $response, 'card_name' ) ),
 							'card_num'      => pafw_get( $response, 'card_num' ),
 							'register_date' => current_time( 'mysql' )
 						);
-					} else if ( 'MONEY' == pafw_get( $response, 'payment_method_type' ) ) {
+					} elseif ( 'MONEY' == pafw_get( $response, 'payment_method_type' ) ) {
 						$metas = array(
 							'pafw_version'  => PAFW_VERSION,
 							'auth_date'     => current_time( 'mysql' ),

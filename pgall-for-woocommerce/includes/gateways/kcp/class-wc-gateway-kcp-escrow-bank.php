@@ -1,13 +1,13 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
-//소스에 URL로 직접 접근 방지
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'WC_Gateway_Kcp_Escrow_Bank' ) ) :
 
-	class WC_Gateway_Kcp_Escrow_Bank extends WC_Gateway_Kcp {
+	class WC_Gateway_Kcp_Escrow_Bank extends WC_Gateway_Kcp { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 		const ESCROW_TYPE_DELIVERY = 'STE1';
 		const ESCROW_TYPE_CANCEL_IMMEDIATELY = 'STE2';
 		const ESCROW_TYPE_WITHHOLD_SETTLEMENT = 'STE3';

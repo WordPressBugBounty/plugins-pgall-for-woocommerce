@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Nicepay_Bank' ) ) {
 
-		class WC_Gateway_Nicepay_Bank extends WC_Gateway_Nicepay {
+		class WC_Gateway_Nicepay_Bank extends WC_Gateway_Nicepay { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 				$this->id = 'nicepay_bank';

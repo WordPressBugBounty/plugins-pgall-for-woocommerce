@@ -16,7 +16,7 @@ final class PAFW_HPOS {
 	static function get_order( $order ) {
 		if ( is_int( $order ) ) {
 			return wc_get_order( $order );
-		} else if ( $order instanceof WP_Post ) {
+		} elseif ( $order instanceof WP_Post ) {
 			return wc_get_order( $order->ID );
 		}
 
@@ -43,7 +43,7 @@ final class PAFW_HPOS {
 	}
 	static function get_order_admin_url( $order_status = '' ) {
 		if ( PAFW_HPOS::enabled() ) {
-			return add_query_arg( 'status', $order_status, OrderUtil::get_order_admin_new_url() );
+			return add_query_arg( 'status', $order_status, admin_url( 'admin.php?page=wc-orders' ) );
 		} else {
 			return add_query_arg( 'post_status', $order_status, admin_url( "edit.php?post_type=shop_order" ) );
 		}

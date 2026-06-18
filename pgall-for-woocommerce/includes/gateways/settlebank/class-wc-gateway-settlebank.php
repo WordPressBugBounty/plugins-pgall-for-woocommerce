@@ -1,13 +1,13 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
-	class WC_Gateway_Settlebank extends PAFW_Payment_Gateway {
+	class WC_Gateway_Settlebank extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 		protected $target_recurrent_id = null;
 

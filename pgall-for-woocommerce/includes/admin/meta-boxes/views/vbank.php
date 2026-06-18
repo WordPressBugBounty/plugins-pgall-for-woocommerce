@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 $refundable             = $payment_gateway->is_refundable( $order );
 $vbank_refund_bank_code = $order->get_meta( '_pafw_vbank_refund_bank_code' );
@@ -8,7 +9,7 @@ $vbank_refund_reason    = $order->get_meta( '_pafw_vbank_refund_reason' );
 $vbank_refunded         = $order->get_meta( '_pafw_vbank_refunded' );
 $disabled = ( 'yes' != $vbank_refunded && $refundable ) ? '' : 'disabled';
 
-$vbank_lists = is_callable( array ( $payment_gateway, 'get_vbank_list' ) ) ? $payment_gateway->get_vbank_list() : array ();
+$vbank_lists = is_callable( array( $payment_gateway, 'get_vbank_list' ) ) ? $payment_gateway->get_vbank_list() : array();
 
 ?>
 
@@ -19,30 +20,30 @@ $vbank_lists = is_callable( array ( $payment_gateway, 'get_vbank_list' ) ) ? $pa
 
 </script>
 <div class="pafw_payment_info">
-    <h4><?php _e( '가상계좌 환불처리는 전액환불만 가능하며 PG사 계약에 따라 환불 수수료가 부과됩니다.', 'pgall-for-woocommerce' ); ?></h4>
-    <p><?php _e( '환불 은행(코드)', 'pgall-for-woocommerce' ); ?></p>
+    <h4><?php esc_html_e( '가상계좌 환불처리는 전액환불만 가능하며 PG사 계약에 따라 환불 수수료가 부과됩니다.', 'pgall-for-woocommerce' ); ?></h4>
+    <p><?php esc_html_e( '환불 은행(코드)', 'pgall-for-woocommerce' ); ?></p>
     <p>
-        <select id="vbank_refund_bank_code" class="wc-enhanced-select enhanced" title="<?php _e( '환불처리할 은행을 선택해주세요.', 'pgall-for-woocommerce' ); ?>" <?php echo $disabled; ?>>
-            <option value=""><?php _e( '환불은행을 선택하세요.', 'pgall-for-woocommerce' ); ?></option>
+        <select id="vbank_refund_bank_code" class="wc-enhanced-select enhanced" title="<?php esc_attr_e( '환불처리할 은행을 선택해주세요.', 'pgall-for-woocommerce' ); ?>" <?php echo esc_attr( $disabled ); ?>>
+            <option value=""><?php esc_html_e( '환불은행을 선택하세요.', 'pgall-for-woocommerce' ); ?></option>
 			<?php foreach ( $vbank_lists as $code => $name ) : ?>
-                <option value="<?php echo $code; ?>" <?php echo $code == $vbank_refund_bank_code ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                <option value="<?php echo esc_attr( $code ); ?>" <?php echo $code == $vbank_refund_bank_code ? 'selected' : ''; ?>><?php echo esc_html( $name ); ?></option>
 			<?php endforeach; ?>
         </select>
     </p>
     <p>환불 계좌번호</p>
     <p>
-        <input type="text" id="vbank_refund_acc_num" placeholder="번호(숫자)만 입력하세요." value="<?php echo $vbank_refund_acc_num; ?>" <?php echo $disabled; ?>>
+        <input type="text" id="vbank_refund_acc_num" placeholder="번호(숫자)만 입력하세요." value="<?php echo esc_attr( $vbank_refund_acc_num ); ?>" <?php echo esc_attr( $disabled ); ?>>
     </p>
     <p>환불 계좌주명</p>
     <p>
-        <input type="text" id="vbank_refund_acc_name" placeholder="환불 계좌주명" value="<?php echo $vbank_refund_acc_name; ?>" <?php echo $disabled; ?>>
+        <input type="text" id="vbank_refund_acc_name" placeholder="환불 계좌주명" value="<?php echo esc_attr( $vbank_refund_acc_name ); ?>" <?php echo esc_attr( $disabled ); ?>>
     </p>
     <p>취소사유</p>
     <p>
-        <input type="text" id="vbank_refund_reason" placeholder="취소 사유" value="<?php echo $vbank_refund_reason; ?>" <?php echo $disabled; ?>>
+        <input type="text" id="vbank_refund_reason" placeholder="취소 사유" value="<?php echo esc_attr( $vbank_refund_reason ); ?>" <?php echo esc_attr( $disabled ); ?>>
     </p>
 </div>
 
 <div class="pafw_button_wrapper">
-    <input type="button" class="button pafw_action_button tips" id="pafw-vbank-refund-request" value="<?php _e( '환불하기', 'pgall-for-woocommerce' ); ?>" data-tip="이니시스 가상계좌 환불 처리를 수행합니다." <?php echo $refundable ? '' : 'disabled'; ?>>
+    <input type="button" class="button pafw_action_button tips" id="pafw-vbank-refund-request" value="<?php esc_html_e( '환불하기', 'pgall-for-woocommerce' ); ?>" data-tip="이니시스 가상계좌 환불 처리를 수행합니다." <?php echo $refundable ? '' : 'disabled'; ?>>
 </div>

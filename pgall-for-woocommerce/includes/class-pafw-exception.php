@@ -1,7 +1,7 @@
 <?php
 
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

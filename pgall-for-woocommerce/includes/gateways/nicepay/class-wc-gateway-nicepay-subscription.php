@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Nicepay_Subscription' ) ) {
 
-		class WC_Gateway_Nicepay_Subscription extends WC_Gateway_Nicepay {
+		class WC_Gateway_Nicepay_Subscription extends WC_Gateway_Nicepay { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 			public function __construct() {
 				$this->id = 'nicepay_subscription';
 
@@ -116,7 +116,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			function add_payment_method() {
 				try {
-					$user = get_currentuserinfo();
+					$user = wp_get_current_user();
 
 					PAFW_Gateway::register_complete( $user, $this );
 

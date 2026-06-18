@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -21,12 +23,12 @@ if ( empty( $payment_gateway ) || empty( $tid ) || empty( $paid_date ) ) {
 ?>
 
 <div class="msmp-email-section payment-info">
-    <h4><?php _e( '결제 상세 정보', 'pgall-for-woocommerce' ); ?></h4>
+    <h4><?php esc_html_e( '결제 상세 정보', 'pgall-for-woocommerce' ); ?></h4>
     <table class="pafw-payment-details woocommerce-table woocommerce-table--order-details shop_table order_details">
         <thead>
         <tr>
-            <th><?php _e( '결제일시', 'pgall-for-woocommerce' ); ?></th>
-            <td><?php echo $paid_date->date( 'Y-m-d H:i:s' ); ?></td>
+            <th><?php esc_html_e( '결제일시', 'pgall-for-woocommerce' ); ?></th>
+            <td><?php echo esc_html( $paid_date->date( 'Y-m-d H:i:s' ) ); ?></td>
         </tr>
         <tr>
             <th></th>
@@ -36,17 +38,17 @@ if ( empty( $payment_gateway ) || empty( $tid ) || empty( $paid_date ) ) {
                         <script>
                             jQuery( document ).ready( function ( $ ) {
                                 $( 'a.pafw-view-receipt' ).on( 'click', function () {
-                                    window.open( "<?php echo $receipt_url; ?>", "<?php echo $receipt_popup_params['name']; ?>", "<?php echo $receipt_popup_params['features']; ?>" );
+                                    window.open( "<?php echo esc_js( $receipt_url ); ?>", "<?php echo esc_js( $receipt_popup_params['name'] ); ?>", "<?php echo esc_js( $receipt_popup_params['features'] ); ?>" );
                                     return false;
                                 } );
                             } );
                         </script>
-                        <a href="<?php echo $receipt_url; ?>" target="_blank" class="button pafw-view-receipt">
-                            <button class="button button-primary" style="cursor: pointer;padding: 5px 10px;"><?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?></button>
+                        <a href="<?php echo esc_url( $receipt_url ); ?>" target="_blank" class="button pafw-view-receipt">
+                            <button class="button button-primary" style="cursor: pointer;padding: 5px 10px;"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></button>
                         </a>
 					<?php else : ?>
-                        <a href="<?php echo $receipt_url; ?>" target="_blank" class="button">
-                            <button class="button button-primary" style="cursor: pointer;padding: 5px 10px;">><?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?></button>
+                        <a href="<?php echo esc_url( $receipt_url ); ?>" target="_blank" class="button">
+                            <button class="button button-primary" style="cursor: pointer;padding: 5px 10px;">><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></button>
                         </a>
 					<?php endif; ?>
 				<?php else: ?>

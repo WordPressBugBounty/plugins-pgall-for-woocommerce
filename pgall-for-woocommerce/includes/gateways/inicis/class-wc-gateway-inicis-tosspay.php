@@ -8,7 +8,7 @@ if ( class_exists( 'WC_Gateway_Inicis_TossPay' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis_TossPay extends WC_Gateway_Inicis {
+class WC_Gateway_Inicis_TossPay extends WC_Gateway_Inicis { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 	public function __construct() {
 		$this->id = 'inicis_tosspay';

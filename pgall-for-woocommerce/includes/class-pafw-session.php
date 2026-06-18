@@ -1,7 +1,5 @@
 <?php
-
-
-//소스에 URL로 직접 접근 방지
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.DB.DirectDatabaseQuery
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -37,7 +35,18 @@ if ( ! class_exists( 'PAFW_Session' ) ) {
 				$order_id       = $order->get_id();
 				$payment_method = $order->get_payment_method();
 
-				$session_id = $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}pafw_transaction WHERE order_id = {$order_id} AND payment_method = '{$payment_method}' ORDER BY id DESC LIMIT 1" );
+				$session_id = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT id
+					     FROM {$wpdb->prefix}pafw_transaction
+					     WHERE 
+					         order_id = %d
+							 AND payment_method = %s
+					     ORDER BY id DESC
+					     LIMIT 1",
+						$order_id,
+						$payment_method
+					) );
 
 				if ( $session_id ) {
 					self::update_session( $session_id, self::ERR_FAIL, $result_message, $error_code );
@@ -69,7 +78,7 @@ if ( ! class_exists( 'PAFW_Session' ) ) {
 
 		protected static function get_current_session_key() {
 			if ( isset( $_COOKIE[ PAFW_Session::PAYMENT_SESSION_KEY ] ) ) {
-				list( $session_key, $session_id ) = explode( '|', $_COOKIE[ PAFW_Session::PAYMENT_SESSION_KEY ] );
+				list( $session_key, $session_id ) = explode( '|', sanitize_text_field( wp_unslash( $_COOKIE[ PAFW_Session::PAYMENT_SESSION_KEY ] ) ) );
 
 				return $session_key;
 			}
@@ -79,7 +88,7 @@ if ( ! class_exists( 'PAFW_Session' ) ) {
 
 		protected static function get_current_session_id() {
 			if ( isset( $_COOKIE[ PAFW_Session::PAYMENT_SESSION_KEY ] ) ) {
-				list( $session_key, $session_id ) = explode( '|', $_COOKIE[ PAFW_Session::PAYMENT_SESSION_KEY ] );
+				list( $session_key, $session_id ) = explode( '|', sanitize_text_field( wp_unslash( $_COOKIE[ PAFW_Session::PAYMENT_SESSION_KEY ] ) ) );
 
 				return $session_id;
 			}
@@ -93,7 +102,19 @@ if ( ! class_exists( 'PAFW_Session' ) ) {
 				$order_id       = $order->get_id();
 				$payment_method = $order->get_payment_method();
 
-				$session_id = $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}pafw_transaction WHERE order_id = {$order_id} AND payment_method = '{$payment_method}' ORDER BY id DESC LIMIT 1" );
+				$session_id = $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT id
+					     FROM {$wpdb->prefix}pafw_transaction
+					     WHERE 
+					         order_id = %d
+							 AND payment_method = %s
+					     ORDER BY id DESC
+					     LIMIT 1",
+						$order_id,
+						$payment_method
+					)
+				);
 
 				if ( $session_id ) {
 					self::update_session( $session_id, self::ERR_SUCCESS, __( '결제성공', 'pgall-for-woocommerce' ) );
@@ -120,7 +141,15 @@ if ( ! class_exists( 'PAFW_Session' ) ) {
 			global $wpdb;
 
 			if ( ! is_null( $session_id ) ) {
-				return $wpdb->get_var( "SELECT result_code FROM {$wpdb->prefix}pafw_transaction WHERE id = $session_id" );
+				return $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT result_code
+					     FROM {$wpdb->prefix}pafw_transaction
+					     WHERE 
+					         id = %d",
+						$session_id
+					)
+				);
 			}
 
 			return null;

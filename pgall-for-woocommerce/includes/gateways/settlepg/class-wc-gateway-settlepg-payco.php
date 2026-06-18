@@ -1,13 +1,13 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ! class_exists( 'WC_Gateway_SettlePG_Payco' ) ) :
 
-	class WC_Gateway_SettlePG_Payco extends WC_Gateway_SettlePG {
+	class WC_Gateway_SettlePG_Payco extends WC_Gateway_SettlePG { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 		public function __construct() {
 			$this->id = 'settlepg_payco';

@@ -1,13 +1,13 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
-	class WC_Gateway_KCP extends PAFW_Payment_Gateway {
+	class WC_Gateway_KCP extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 		protected $key_for_test = array(
 			'T0000',
 			'T0007'
@@ -35,7 +35,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			add_filter( 'pafw_cash_receipt_params_' . $this->id, array( $this, 'add_cash_receipt_request_params' ), 10, 2 );
 		}
 
-		public function get_merchant_id( $order = null ){
+		public function get_merchant_id( $order = null ) {
 			return pafw_get( $this->settings, 'site_cd' );
 		}
 
@@ -44,8 +44,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_register_order_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'referer'          => $_SERVER['HTTP_REFERER'],
-				'user_agent'       => pafw_get( $_SERVER, 'HTTP_USER_AGENT' ),
+				'referer'          => pafw_get_unslash( $_SERVER, 'HTTP_REFERER' ),
+				'user_agent'       => pafw_get_unslash( $_SERVER, 'HTTP_USER_AGENT' ),
 				'kcp_noint'        => pafw_get( $this->settings, 'kcp_noint' ),
 				'kcp_noint_quota'  => pafw_get( $this->settings, 'kcp_noint_quota' ),
 				'vcnt_expire_term' => pafw_get( $this->settings, 'vcnt_expire_term' ),
@@ -109,11 +109,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order->update_meta_data( "_pafw_card_code", pafw_get( $response, 'card_code' ) );
 			$order->update_meta_data( "_pafw_card_bank_code", pafw_get( $response, 'card_bank_code' ) );
 			$order->update_meta_data( "_pafw_card_name", pafw_get( $response, 'card_name' ) );
-			$order->update_meta_data( "_pafw_card_other_pay_type", $response['card_other_pay_type'] );
+			$order->update_meta_data( "_pafw_card_other_pay_type", $response[ 'card_other_pay_type' ] );
 			$order->save_meta_data();
 
 			$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array(
-				'거래번호' => $response['transaction_id']
+				'거래번호' => $response[ 'transaction_id' ]
 			) );
 		}
 	}

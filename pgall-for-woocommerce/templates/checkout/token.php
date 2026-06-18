@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// phpcs:disable WordPress.Security.NonceVerification
 
 defined( 'ABSPATH' ) || exit;
 
@@ -6,9 +8,9 @@ if ( ! WC()->cart->needs_payment() ) {
 	return;
 }
 
-$selected_method_id = pafw_get( $_POST, 'payment_method' );
-$is_saved_token     = pafw_get( $_POST, 'issavedtoken', 0 );
-$token              = pafw_get( $_POST, 'token', 0 );
+$selected_method_id = pafw_get_unslash( $_POST, 'payment_method' );
+$is_saved_token     = pafw_get_unslash( $_POST, 'issavedtoken', 0 );
+$token              = pafw_get_unslash( $_POST, 'token', 0 );
 $payment_tokens     = array();
 $available_gateways = WC()->payment_gateways()->get_available_payment_gateways();
 
@@ -35,11 +37,11 @@ if ( empty( $selected_method_id ) ) {
 	<?php if ( ! empty( $payment_tokens ) ) : ?>
         <ul class="wc_payment_methods payment_methods methods">
 			<?php foreach ( $payment_tokens as $payment_token ) : ?>
-                <li class="payment-method token <?php echo $payment_token->get_id() == $token ? 'selected' : ''; ?>" data-token="<?php echo $payment_token->get_id(); ?>" data-payment_method="<?php echo $payment_token->get_gateway_id(); ?>" data-method_type="token">
+                <li class="payment-method token <?php echo $payment_token->get_id() == $token ? 'selected' : ''; ?>" data-token="<?php echo esc_attr( $payment_token->get_id() ); ?>" data-payment_method="<?php echo esc_attr( $payment_token->get_gateway_id() ); ?>" data-method_type="token">
                     <input id="payment_method_<?php echo esc_attr( $payment_token->get_id() ); ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $payment_token->get_gateway_id() ); ?>" <?php checked( $payment_token->get_id(), true ); ?>/>
 
-                    <label for="payment_method_<?php echo $payment_token->get_id(); ?>">
-						<?php echo $payment_token->get_display_name(); ?>
+                    <label for="payment_method_<?php echo esc_attr( $payment_token->get_id() ); ?>">
+						<?php echo esc_html( $payment_token->get_display_name() ); ?>
                     </label>
                     <div class="payment_box payment_method_<?php echo esc_attr( $payment_token->get_id() ); ?>">
 						<?php $payment_token->quota_field(); ?>
@@ -47,8 +49,8 @@ if ( empty( $selected_method_id ) ) {
                 </li>
 			<?php endforeach; ?>
         </ul>
-        <input type="hidden" name="issavedtoken" value="<?php echo $is_saved_token; ?>">
-        <input type="hidden" name="token" value="<?php echo $token; ?>">
-        <h6><?php _e( "다른 결제수단 선택", "pgall-for-woocommerce" ); ?></h6>
+        <input type="hidden" name="issavedtoken" value="<?php echo esc_attr( $is_saved_token ); ?>">
+        <input type="hidden" name="token" value="<?php echo esc_attr( $token ); ?>">
+        <h6><?php esc_html_e( "다른 결제수단 선택", "pgall-for-woocommerce" ); ?></h6>
 	<?php endif; ?>
 </div>

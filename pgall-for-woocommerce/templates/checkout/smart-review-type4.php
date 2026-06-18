@@ -1,25 +1,27 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
 ?>
 <script>
-    jQuery(document).ready(function ($) {
-        $('#pafw_write_smart_review').on('click', function () {
-            if ($(this).is(':checked')) {
-                $('div.pafw-review').css('display', 'block');
+    jQuery( document ).ready( function ( $ ) {
+        $( '#pafw_write_smart_review' ).on( 'click', function () {
+            if ( $( this ).is( ':checked' ) ) {
+                $( 'div.pafw-review' ).css( 'display', 'block' );
             } else {
-                $('div.pafw-review').css('display', 'none');
+                $( 'div.pafw-review' ).css( 'display', 'none' );
             }
-        });
+        } );
 
-        $('input[name=pafw_smart_review_rate]').on('click', function () {
-            $('textarea[name=pafw_smart_review_content]').val($('input[name=pafw_smart_review_rate]:checked').data('content'));
-        });
+        $( 'input[name=pafw_smart_review_rate]' ).on( 'click', function () {
+            $( 'textarea[name=pafw_smart_review_content]' ).val( $( 'input[name=pafw_smart_review_rate]:checked' ).data( 'content' ) );
+        } );
 
-        $('input[name=pafw_smart_review_rate]:checked').trigger('click');
-    });
+        $( 'input[name=pafw_smart_review_rate]:checked' ).trigger( 'click' );
+    } );
 </script>
 <style>
     .pafw-review {
@@ -41,8 +43,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         padding-left: 0 !important;
     }
 
-    .pafw-review-wrapper>label:before,
-    .pafw-review-wrapper>label:after,
+    .pafw-review-wrapper > label:before,
+    .pafw-review-wrapper > label:after,
     .pafw-review .pafw-smart-reivew-item label:before,
     .pafw-review .pafw-smart-reivew-item label:after {
         display: none !important;
@@ -73,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         color: white;
         width: 9px;
         height: 9px;
-        background: url("<?php echo PAFW()->plugin_url() . '/assets/images/rating/count/check.png'; ?>") center center !important;
+        background: url("<?php echo esc_url( PAFW()->plugin_url() . '/assets/images/rating/count/check.png' ); ?>") center center !important;
         background-size: cover !important;
         margin: 2px !important;
     }
@@ -114,22 +116,22 @@ if ( ! defined( 'ABSPATH' ) ) {
     }
 </style>
 <div class="pafw-review-wrapper">
-    <h3><?php _e( '구매평 작성하기', 'pgall-for-woocommerce' ); ?></h3>
+    <h3><?php esc_html_e( '구매평 작성하기', 'pgall-for-woocommerce' ); ?></h3>
     <input type="checkbox" id="pafw_write_smart_review" name="pafw_write_smart_review" checked><label
-            for="pafw_write_smart_review"><?php _e( '구매평 자동 등록에 동의합니다.', 'pgall-for-woocommerce' ); ?></label>
+            for="pafw_write_smart_review"><?php esc_html_e( '구매평 자동 등록에 동의합니다.', 'pgall-for-woocommerce' ); ?></label>
     <div class="pafw-review">
 		<?php foreach ( $rate_options as $rate_option ) : ?>
             <div class="pafw-smart-reivew-item">
-                <input type="radio" id="pafw_smart_review_rate<?php echo $rate_option['rate']; ?>"
-                       name="pafw_smart_review_rate" data-content="<?php echo $rate_option['content']; ?>"
-                       value="<?php echo $rate_option['rate']; ?>" <?php echo 'yes' == $rate_option['default'] ? 'checked' : ''; ?>>
-                <label style="background-image: url('<?php echo PAFW()->plugin_url() . '/assets/images/rating/count/' . $rate_option['rate'] . '.png'; ?>')" for="pafw_smart_review_rate<?php echo $rate_option['rate']; ?>">
-                    <span style="padding: 0 6px;"><?php echo $rate_option['label']; ?></span>
+                <input type="radio" id="pafw_smart_review_rate<?php echo esc_attr( $rate_option[ 'rate' ] ); ?>"
+                       name="pafw_smart_review_rate" data-content="<?php echo esc_attr( $rate_option[ 'content' ] ); ?>"
+                       value="<?php echo esc_attr( $rate_option[ 'rate' ] ); ?>" <?php echo 'yes' == $rate_option[ 'default' ] ? 'checked' : ''; ?>>
+                <label style="background-image: url('<?php echo esc_url( PAFW()->plugin_url() . '/assets/images/rating/count/' . $rate_option[ 'rate' ] . '.png' ); ?>')" for="pafw_smart_review_rate<?php echo esc_attr( $rate_option[ 'rate' ] ); ?>">
+                    <span style="padding: 0 6px;"><?php echo esc_html( $rate_option[ 'label' ] ); ?></span>
                 </label>
             </div>
 		<?php endforeach; ?>
         <div style="<?php echo 'no' == get_option( 'pafw-user-can-edit-comment', 'no' ) ? 'display:none' : ''; ?>">
-            <textarea name="pafw_smart_review_content" placeholder="<?php echo get_option( "pafw-smart-review-placeholder", __( '리뷰를 작성 해 주세요.', 'pgall-for-woocommerce' ) ); ?>"></textarea>
+            <textarea name="pafw_smart_review_content" placeholder="<?php echo esc_attr( get_option( "pafw-smart-review-placeholder", __( '리뷰를 작성 해 주세요.', 'pgall-for-woocommerce' ) ) ); ?>"></textarea>
         </div>
     </div>
 </div>

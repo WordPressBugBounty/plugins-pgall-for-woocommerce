@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -46,7 +46,7 @@ if ( ! class_exists( 'PAFW_Settings_Payco_Basic' ) ) {
 							'showIf'      => array ( 'operation_mode' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'seller_key',
@@ -54,7 +54,7 @@ if ( ! class_exists( 'PAFW_Settings_Payco_Basic' ) ) {
 							'className' => '',
 							'type'      => 'Text',
 							'default'   => 'S0FSJE',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 가맹점코드(sellerKey)는 <code>S0FSJE</code>입니다.<br>실 결제용 가맹점코드는 <code>CM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 가맹점코드(sellerKey)는 <code>S0FSJE</code>입니다.<br>실 결제용 가맹점코드는 <code>CM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'cpid',
@@ -62,7 +62,7 @@ if ( ! class_exists( 'PAFW_Settings_Payco_Basic' ) ) {
 							'className' => 'fluid',
 							'type'      => 'Text',
 							'default'   => 'PARTNERTEST',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>PARTNERTEST</code>입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>PARTNERTEST</code>입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'product_id',
@@ -70,7 +70,7 @@ if ( ! class_exists( 'PAFW_Settings_Payco_Basic' ) ) {
 							'className' => 'fluid',
 							'type'      => 'Text',
 							'default'   => 'PROD_EASY',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상품 아이디는 <code>PROD_EASY</code>입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상품 아이디는 <code>PROD_EASY</code>입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						)
 					)
 				)

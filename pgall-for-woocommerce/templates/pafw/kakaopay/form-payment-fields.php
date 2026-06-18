@@ -1,10 +1,11 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 $uid = uniqid( 'pafw_kakaopay_' );
 
 ?>
 <div class="kakaopay-payment-fields">
-	<?php echo $gateway->get_description(); ?>
+	<?php echo esc_html( $gateway->get_description() ); ?>
 	<?php if ( ! is_account_page() ) : ?>
 		<?php $gateway->quota_field(); ?>
 	<?php endif; ?>

@@ -15,7 +15,7 @@ if ( ! class_exists( 'PAFW_Admin_Order_Status_Control_Settings' ) ) :
 		static $emails = null;
 
 		static function update_settings() {
-			$_REQUEST = array_merge( $_REQUEST, json_decode( stripslashes( wc_clean( $_REQUEST['values'] ) ), true ) );
+			$_REQUEST = array_merge( $_REQUEST, json_decode( pafw_get_unslash( $_REQUEST, 'values' ), true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			PAFW_Setting_Helper::update_settings( self::get_setting_fields() );
 
@@ -141,7 +141,7 @@ if ( ! class_exists( 'PAFW_Admin_Order_Status_Control_Settings' ) ) :
 								'type'      => 'Label',
 								'readonly'  => 'yes',
 								'default'   => '',
-								'desc2'     => __( '<div class="desc2">주문에 포함된 상품이 상품별 / 카테고리별 / 상품 속성별 주문상태 자동변경 정책에 적용되는 경우, 해당 정책이 적용됩니다.</div>', 'pgall-for-woocommerce' ),
+								'desc2'     => __( '<div class="desc2">주문에 포함된 상품이 상품별 / 카테고리별 / 상품 속성별 주문상태 자동변경 정책에 적용되는 경우, 해당 정책이 적용됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							)
 						)
 					),

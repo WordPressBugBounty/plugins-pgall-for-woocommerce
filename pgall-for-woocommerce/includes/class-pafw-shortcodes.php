@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly

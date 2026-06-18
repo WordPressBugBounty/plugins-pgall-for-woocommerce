@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $gateway = pafw_get_payment_gateway_from_order( $order );
 
 $disabled = in_array( $order->get_status(), array( 'pending', 'failed', 'cancelled', 'refunded' ) );
@@ -14,12 +15,12 @@ $idx     = 1;
     </p>
 	<?php if ( 'yes' == pafw_get( $gateway->settings, 'enable_quota', 'no' ) ) : ?>
         <select id="subscription_additional_charge_card_quota" name="subscription_additional_charge_card_quota" style="width: 100%;">
-            <option value="00"><?php _e( '일시불', 'pgall-for-woocommerce' ); ?></option>
+            <option value="00"><?php esc_html_e( '일시불', 'pgall-for-woocommerce' ); ?></option>
 			<?php
 			$quotas = explode( ',', pafw_get( $gateway->settings, 'quota' ) );
 			?>
 			<?php foreach ( $quotas as $quota ) : ?>
-                <option value="<?php echo sprintf( "%02d", $quota ); ?>"><?php echo $quota . __( '개월', 'pgall-for-woocommerce' ); ?></option>
+                <option value="<?php echo esc_attr( sprintf( "%02d", $quota ) ); ?>"><?php echo esc_html( $quota . __( '개월', 'pgall-for-woocommerce' ) ); ?></option>
 			<?php endforeach; ?>
         </select>
 	<?php else: ?>
@@ -28,7 +29,7 @@ $idx     = 1;
 </div>
 
 <div class="pafw_button_wrapper">
-    <input type="button" class="button pafw_action_button tips" id="pafw-subscription-additional-charge" value="<?php _e( '과금요청', 'pgall-for-woocommerce' ); ?>" data-tip="발급된 정기결제 배치키를 이용해서 추가 과금을 요청합니다." <?php echo $disabled ? 'disabled="disabled"' : ''; ?>}>
+    <input type="button" class="button pafw_action_button tips" id="pafw-subscription-additional-charge" value="<?php esc_html_e( '과금요청', 'pgall-for-woocommerce' ); ?>" data-tip="발급된 정기결제 배치키를 이용해서 추가 과금을 요청합니다." <?php echo $disabled ? 'disabled="disabled"' : ''; ?>}>
 </div>
 
 <?php if ( ! empty( $history ) ) : ?>
@@ -41,21 +42,21 @@ $idx     = 1;
 				$receipt_url = sprintf( $gateway->view_transaction_url, $tid );
 			}
 			?>
-            <p>[#<?php echo $idx; ?>] 처리시간 : <?php echo date( 'Y-m-d H:i:s', strtotime( $item['auth_date'] ) ); ?></p>
-            <p>[#<?php echo $idx; ?>] 과금금액 : <?php echo number_format( $item['charged_amount'] ); ?></p>
+            <p>[#<?php echo esc_html( $idx ); ?>] 처리시간 : <?php echo esc_html( date( 'Y-m-d H:i:s', strtotime( $item[ 'auth_date' ] ) ) ); ?></p>
+            <p>[#<?php echo esc_html( $idx ); ?>] 과금금액 : <?php echo esc_html( number_format( $item[ 'charged_amount' ] ) ); ?></p>
             <p>
-            [#<?php echo $idx++; ?>] 처리상태 : <?php echo $item['status']; ?>
-			<?php if ( 'PAYED' == $item['status'] ) : ?>
+            [#<?php echo esc_html( $idx ++ ); ?>] 처리상태 : <?php echo esc_html( $item[ 'status' ] ); ?>
+			<?php if ( 'PAYED' == $item[ 'status' ] ) : ?>
                 <div class="pafw_button_wrapper">
-                    <input type="button" class="button tips pafw_action_button pafw-subscription-cancel-additional-charge" data-tid="<?php echo $tid; ?>" data-amount="<?php echo $item['charged_amount']; ?>" value="<?php _e( '취소요청', 'pgall-for-woocommerce' ); ?>" data-tip="추가 과금을 취소합니다.">
+                    <input type="button" class="button tips pafw_action_button pafw-subscription-cancel-additional-charge" data-tid="<?php echo esc_attr( $tid ); ?>" data-amount="<?php echo esc_attr( $item[ 'charged_amount' ] ); ?>" value="<?php esc_attr_e( '취소요청', 'pgall-for-woocommerce' ); ?>" data-tip="추가 과금을 취소합니다.">
 
 					<?php if ( ! empty( $receipt_url ) ) : ?>
-                        <input type="button" class="button pafw_action_button pafw-check-additional-charge-receipt tips" data-tip="<?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?>" data-receipt_url="<?php echo $receipt_url; ?>" value="<?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?>">
+                        <input type="button" class="button pafw_action_button pafw-check-additional-charge-receipt tips" data-tip="<?php esc_attr_e( '영수증 확인', 'pgall-for-woocommerce' ); ?>" data-receipt_url="<?php echo esc_attr( $receipt_url ); ?>" value="<?php esc_attr_e( '영수증 확인', 'pgall-for-woocommerce' ); ?>">
 					<?php endif; ?>
                 </div>
 			<?php elseif ( ! empty( $receipt_url ) ) : ?>
                 <div class="pafw_button_wrapper">
-                    <input type="button" class="button pafw_action_button pafw-check-additional-charge-receipt tips" data-tip="<?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?>" data-receipt_url="<?php echo $receipt_url; ?>" value="<?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?>">
+                    <input type="button" class="button pafw_action_button pafw-check-additional-charge-receipt tips" data-tip="<?php esc_attr_e( '영수증 확인', 'pgall-for-woocommerce' ); ?>" data-receipt_url="<?php echo esc_attr( $receipt_url ); ?>" value="<?php esc_attr_e( '영수증 확인', 'pgall-for-woocommerce' ); ?>">
                 </div>
 			<?php endif; ?>
             </p>

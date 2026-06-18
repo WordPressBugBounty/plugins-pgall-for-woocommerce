@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.DB.DirectDatabaseQuery
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -13,11 +14,8 @@ if ( ! class_exists( 'PAFW_Admin_Dashboard' ) ) {
 			}
 		}
 		public static function setup_dashboard_widget() {
-			wp_register_style( 'pafw-dashboard', plugins_url( '/assets/css/dashboard.css', PAFW_PLUGIN_FILE ), array(), PAFW_VERSION );
-			wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' );
-
-			wp_enqueue_style( 'pafw-dashboard' );
-			wp_enqueue_style( 'font-awesome' );
+			wp_enqueue_style( 'pafw-dashboard', plugins_url( '/assets/css/dashboard.css', PAFW_PLUGIN_FILE ), array(), PAFW_VERSION );
+			wp_enqueue_style( 'pafw-font-awesome', plugins_url( '/assets/vendor/font-awesome/css/font-awesome.min.css', PAFW_PLUGIN_FILE ), array(), PAFW_VERSION );
 
 			add_meta_box(
 				'codem_sell_status',
@@ -55,7 +53,7 @@ if ( ! class_exists( 'PAFW_Admin_Dashboard' ) ) {
                           AND posts.post_status IN ( {$order_statuses})
                           AND posts.post_date_gmt BETWEEN '{$date_from}' AND '{$date_to}'";
 
-			return $wpdb->get_row( $query, ARRAY_A );
+			return $wpdb->get_row( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 		static function get_sale_data_for_hpos( $order_type, $date_from, $date_to, $order_statuses ) {
 			global $wpdb;
@@ -68,7 +66,7 @@ if ( ! class_exists( 'PAFW_Admin_Dashboard' ) ) {
                           AND date_created_gmt between '{$date_from}' AND '{$date_to}'
             ";
 
-			return $wpdb->get_row( $query, ARRAY_A );
+			return $wpdb->get_row( $query, ARRAY_A );; // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 		static function sell_total_widget() {
             $sale_data_method = PAFW_HPOS::enabled() ? 'get_sale_data_for_hpos' : 'get_sale_data_for_legacy';
@@ -99,13 +97,13 @@ if ( ! class_exists( 'PAFW_Admin_Dashboard' ) ) {
                     <h2>TODAY</h2>
                     <p class="b_line"></p>
                     <p class="badge red"><?php echo number_format( $today_sales['order_count'] ); ?></p>
-                    <h1><?php echo wc_price( $today_sales['order_total'] + $today_refund['order_total'] ); ?></h1>
+                    <h1><?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo wc_price( $today_sales['order_total'] + $today_refund['order_total'] ); ?></h1>
                 </div>
                 <div class="chat_box chat_top gray">
                     <h2>MONTH</h2>
                     <p class="b_line"></p>
                     <p class="badge red"><?php echo number_format( $month_sales['order_count'] ); ?></p>
-                    <h1><?php echo wc_price( $month_sales['order_total'] + $month_refund['order_total'] ); ?></h1>
+                    <h1><?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo wc_price( $month_sales['order_total'] + $month_refund['order_total'] ); ?></h1>
                 </div>
             </div>
 			<?php

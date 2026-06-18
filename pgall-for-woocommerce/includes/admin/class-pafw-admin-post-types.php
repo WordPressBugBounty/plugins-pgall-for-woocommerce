@@ -1,5 +1,4 @@
 <?php
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -24,21 +23,23 @@ class PAFW_Admin_Post_Types {
 		}
 
 		if ( in_array( $order_type, wc_get_order_types( 'order-meta-boxes' ) ) ) {
-			$selected_payment_gateway = isset( $_REQUEST[ 'pafw_payment_gateway' ] ) ? wc_clean( wp_unslash( $_REQUEST[ 'pafw_payment_gateway' ] ) ) : '';
+			$selected_payment_gateway = isset( $_REQUEST[ 'pafw_payment_gateway' ] ) ? pafw_get_unslash( $_REQUEST, 'pafw_payment_gateway' ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			$payment_gateways = WC()->payment_gateways()->get_available_payment_gateways();
 
 			echo '<select name="pafw_payment_gateway">';
+			// phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.EscapeOutput.OutputNotEscaped
 			printf( __( '<option value="" %s>모든 결제수단</option>', 'pgall-for-woocommerce' ), $selected_payment_gateway == '' ? 'selected' : '' );
 			foreach ( $payment_gateways as $payment_gateway ) {
+				// phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf( '<option value="%s" %s>%s</option>', $payment_gateway->id, $selected_payment_gateway == $payment_gateway->id ? 'selected' : '', $payment_gateway->title );
 			}
 			echo '<select>';
 		}
 	}
 	public static function add_shop_order_list_table_prepare_items_query_args( $order_query_args ) {
-		if ( ! empty( $_REQUEST[ 'pafw_payment_gateway' ] ) ) {
-			$order_query_args[ 'payment_method' ] = $_REQUEST[ 'pafw_payment_gateway' ];
+		if ( ! empty( $_REQUEST[ 'pafw_payment_gateway' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$order_query_args[ 'payment_method' ] = pafw_get_unslash( $_REQUEST, 'pafw_payment_gateway' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		return $order_query_args;
@@ -52,7 +53,7 @@ class PAFW_Admin_Post_Types {
 
 		if ( ! is_feed() && is_admin() && $q->is_main_query() ) {
 
-			if ( ! empty( $_REQUEST[ 'pafw_payment_gateway' ] ) ) {
+			if ( ! empty( $_REQUEST[ 'pafw_payment_gateway' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$meta_query = $q->get( 'meta_query' );
 
 				if ( empty( $meta_query ) ) {
@@ -61,7 +62,7 @@ class PAFW_Admin_Post_Types {
 
 				$meta_query[] = array(
 					'key'     => '_payment_method',
-					'value'   => sanitize_text_field( $_REQUEST[ 'pafw_payment_gateway' ] ),
+					'value'   => pafw_get_unslash( $_REQUEST, 'pafw_payment_gateway' ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					'compare' => '='
 				);
 

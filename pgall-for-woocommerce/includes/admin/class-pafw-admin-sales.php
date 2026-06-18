@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.DB.DirectDatabaseQuery
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -37,7 +38,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 						{$date_where}
 					";
 
-				return $wpdb->get_row( $sql, ARRAY_A );
+				return $wpdb->get_row( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			} else {
 				$date_where = "AND ( ( posts.post_type  = 'shop_order' AND paiddate_meta.meta_value BETWEEN '{$date_from}' AND '{$date_to}' ) OR (posts.post_type  = 'shop_order_refund' AND posts.post_date BETWEEN '{$date_from}' AND '{$date_to}'))";
 
@@ -65,8 +66,8 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 					";
 
 				return array(
-					'count'       => $wpdb->get_var( $order_count_sql ),
-					'order_total' => $wpdb->get_var( $order_total_sql )
+					'count'       => $wpdb->get_var( $order_count_sql ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+					'order_total' => $wpdb->get_var( $order_total_sql ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				);
 			}
 		}
@@ -129,6 +130,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 					GROUP BY date";
 			}
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
 			if ( count( $results ) == 0 || $results[ 0 ][ 'date' ] != $start_date ) {
@@ -195,6 +197,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 						GROUP BY year, week";
 			}
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
 			if ( count( $results ) == 0 || $results[ 0 ][ 'date' ] != $start_date ) {
@@ -261,6 +264,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 					GROUP BY year, month";
 			}
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
 			if ( count( $results ) == 0 || $results[ 0 ][ 'date' ] != $start_date ) {
@@ -317,6 +321,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 					GROUP BY hour";
 			}
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			return $wpdb->get_results( $sql, ARRAY_A );
 		}
 		static function get_sales_by_day_of_week( $date_from, $date_to = '', $excluded_order_statuses = null ) {
@@ -373,7 +378,9 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 				'7' => '토요일'
 			);
 
-			$result       = $wpdb->get_results( $sql, ARRAY_A );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$result = $wpdb->get_results( $sql, ARRAY_A );
+
 			$keys         = wp_list_pluck( $result, 'day_of_week' );
 			$keys         = array_flip( $keys );
 			$missing_data = array_diff_key( $day_of_weeks, $keys );
@@ -429,6 +436,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 					GROUP BY orders.payment_method_title";
 			}
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
 			ob_start();
@@ -447,14 +455,15 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 				$date_from = pafw_get_gmdate( $date_from );
 				$date_to   = pafw_get_gmdate( $date_to );
 
-				$date_where = "AND ( order_data.date_paid_gmt BETWEEN '{$date_from}' AND '{$date_to}' )";
-
 				$sql = "SELECT orders.status order_status, count( orders.id ) count, SUM(orders.total_amount + orders.tax_amount) amount
 					FROM {$wpdb->prefix}wc_orders orders
 					LEFT JOIN {$wpdb->prefix}wc_order_operational_data AS order_data ON orders.id = order_data.order_id
 					WHERE
 						orders.type = 'shop_order'
-						{$date_where}
+						AND (
+						    ( orders.status = 'wc-on-hold' AND orders.date_created_gmt BETWEEN '{$date_from}' AND '{$date_to}' )
+						    OR ( orders.status <> 'wc-on-hold' AND order_data.date_paid_gmt BETWEEN '{$date_from}' AND '{$date_to}' )
+				        )
 					GROUP BY order_status";
 			} else {
 				$sql = "SELECT posts.post_status order_status, count( posts.ID ) count, SUM(ordertotal_meta.meta_value) amount
@@ -470,6 +479,7 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 					GROUP BY order_status";
 			}
 
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$result = $wpdb->get_results( $sql, ARRAY_A );
 
 			$merged_order_statuses = array(
@@ -517,9 +527,9 @@ if ( ! class_exists( 'PAFW_Admin_Sales' ) ) :
 		}
 
 		static function get_data() {
-			$date_from = wc_clean( $_REQUEST[ 'date_from' ] ) . ' 00:00:00';
-			$date_to   = wc_clean( $_REQUEST[ 'date_to' ] ) . ' 23:59:59';
-			$interval  = wc_clean( $_REQUEST[ 'interval' ] );
+			$date_from = pafw_get_unslash( $_REQUEST, 'date_from' ) . ' 00:00:00'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$date_to   = pafw_get_unslash( $_REQUEST, 'date_to' ) . ' 23:59:59'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$interval  = pafw_get_unslash( $_REQUEST, 'interval' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( '1d' == $interval ) {
 				$data = self::get_daily_sales_by_date( $date_from, $date_to );

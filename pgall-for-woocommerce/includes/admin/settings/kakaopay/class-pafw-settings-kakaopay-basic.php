@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -48,7 +48,7 @@ if ( ! class_exists( 'PAFW_Settings_KakaoPay_Basic' ) ) {
 							'showIf'      => array ( 'operation_mode' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'cid',
@@ -56,7 +56,7 @@ if ( ! class_exists( 'PAFW_Settings_KakaoPay_Basic' ) ) {
 							'className' => '',
 							'type'      => 'Text',
 							'default'   => 'TC0ONETIME',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 가맹점코드(CID)는 <code>TC0ONETIME</code>입니다.<br>실 결제용 가맹점코드(CID)는 <code>CD</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 가맹점코드(CID)는 <code>TC0ONETIME</code>입니다.<br>실 결제용 가맹점코드(CID)는 <code>CD</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						)
 					)
 				),
@@ -85,7 +85,7 @@ if ( ! class_exists( 'PAFW_Settings_KakaoPay_Basic' ) ) {
 							'showIf'      => array ( 'operation_mode_subscription' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'cid_subscription',
@@ -93,7 +93,7 @@ if ( ! class_exists( 'PAFW_Settings_KakaoPay_Basic' ) ) {
 							'className' => '',
 							'type'      => 'Text',
 							'default'   => 'TCSUBSCRIP',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 가맹점코드(CID)는 <code>TCSUBSCRIP</code>입니다.<br>실 결제용 가맹점코드(CID)는 <code>CD</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 가맹점코드(CID)는 <code>TCSUBSCRIP</code>입니다.<br>실 결제용 가맹점코드(CID)는 <code>CD</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						)
 					)
 				)

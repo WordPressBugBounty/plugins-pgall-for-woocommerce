@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -24,40 +26,40 @@ $order_cancel_url = pafw_get_order_cancel_url( $order, is_user_logged_in() ? $or
 
 <div class="pafw-payment-details-section">
 	<?php if ( ! empty( $tid ) && ! empty( $paid_date ) ) : ?>
-        <h2><?php echo __( '결제 상세 정보', 'pgall-for-woocommerce' ); ?></h2>
+        <h2><?php esc_html_e( '결제 상세 정보', 'pgall-for-woocommerce' ); ?></h2>
 
         <table class="pafw-payment-details woocommerce-table woocommerce-table--order-details shop_table order_details">
             <thead>
             <tr>
-                <th class="woocommerce-table__ex-table ex-payment-method"><?php _e( '결제수단', 'pgall-for-woocommerce' ); ?></th>
-                <th class="woocommerce-table__ex-table ex-payment-date"><?php _e( '결제일시', 'pgall-for-woocommerce' ); ?></th>
+                <th class="woocommerce-table__ex-table ex-payment-method"><?php esc_html_e( '결제수단', 'pgall-for-woocommerce' ); ?></th>
+                <th class="woocommerce-table__ex-table ex-payment-date"><?php esc_html_e( '결제일시', 'pgall-for-woocommerce' ); ?></th>
                 <th class="woocommerce-table__ex-table ex-action"></th>
             </tr>
             </thead>
             <tr>
-                <td><?php echo $payment_gateway->get_title(); ?></td>
-                <td><?php echo $paid_date->date( 'Y-m-d H:i:s' ); ?></td>
+                <td><?php echo esc_html( $payment_gateway->get_title() ); ?></td>
+                <td><?php echo esc_html( $paid_date->date( 'Y-m-d H:i:s' ) ); ?></td>
                 <td>
 					<?php if ( ! empty( $receipt_url ) ) : ?>
 						<?php if ( ! empty( $receipt_popup_params ) ) : ?>
                             <script>
-                                jQuery(document).ready(function($) {
-                                    $('a.pafw-view-receipt').on('click', function() {
-                                        window.open("<?php echo $receipt_url; ?>", "<?php echo $receipt_popup_params['name']; ?>", "<?php echo $receipt_popup_params['features']; ?>");
+                                jQuery( document ).ready( function ( $ ) {
+                                    $( 'a.pafw-view-receipt' ).on( 'click', function () {
+                                        window.open( "<?php echo esc_js( $receipt_url ); ?>", "<?php echo esc_js( $receipt_popup_params[ 'name' ] ); ?>", "<?php echo esc_js( $receipt_popup_params[ 'features' ] ); ?>" );
                                         return false;
-                                    });
-                                });
+                                    } );
+                                } );
                             </script>
-                            <a href="<?php echo $receipt_url; ?>" target="_blank" class="button pafw-view-receipt"><?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
+                            <a href="<?php echo esc_url( $receipt_url ); ?>" target="_blank" class="button pafw-view-receipt"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
 						<?php else : ?>
-                            <a href="<?php echo $receipt_url; ?>" target="_blank" class="button"><?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
+                            <a href="<?php echo esc_url( $receipt_url ); ?>" target="_blank" class="button"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
 						<?php endif; ?>
 					<?php else: ?>
 						<?php do_action( 'pafw_view_order_receipt_button_' . $payment_gateway->id, $order ); ?>
 					<?php endif; ?>
 
 					<?php if ( ! empty( $order_cancel_url ) ) : ?>
-                        <a href="<?php echo $order_cancel_url; ?>" class="button button-primary cancel"><?php $payment_gateway->supports( 'pafw-vbank' ) ? _e( "주문취소요청", "pgall-for-woocommerce" ) : _e( "주문취소", "pgall-for-woocommerce" ); ?></a>
+                        <a href="<?php echo esc_url( $order_cancel_url ); ?>" class="button button-primary cancel"><?php $payment_gateway->supports( 'pafw-vbank' ) ? esc_html_e( "주문취소요청", "pgall-for-woocommerce" ) : esc_html_e( "주문취소", "pgall-for-woocommerce" ); ?></a>
 					<?php endif; ?>
                 </td>
             </tr>
@@ -66,20 +68,20 @@ $order_cancel_url = pafw_get_order_cancel_url( $order, is_user_logged_in() ? $or
 
 	<?php if ( ! empty( $additional_charge_history ) ) : ?>
         <script>
-            jQuery(document).ready(function($) {
-                $('.pafw-check-additional-charge-receipt').on('click', function() {
-                    window.open($(this).data('receipt_url'), "<?php echo $receipt_popup_params['name']; ?>", "<?php echo $receipt_popup_params['features']; ?>");
-                });
-            });
+            jQuery( document ).ready( function ( $ ) {
+                $( '.pafw-check-additional-charge-receipt' ).on( 'click', function () {
+                    window.open( $( this ).data( 'receipt_url' ), "<?php echo esc_js( $receipt_popup_params[ 'name' ] ); ?>", "<?php echo esc_js( $receipt_popup_params[ 'features' ] ); ?>" );
+                } );
+            } );
         </script>
-        <h2><?php echo __( '추가과금 내역', 'pgall-for-woocommerce' ); ?></h2>
+        <h2><?php esc_html_e( '추가과금 내역', 'pgall-for-woocommerce' ); ?></h2>
 
         <table class="pafw-payment-details woocommerce-table woocommerce-table--order-details shop_table order_details">
             <thead>
             <tr>
-                <th class="woocommerce-table__ex-table ex-payment-date"><?php _e( '결제일시', 'pgall-for-woocommerce' ); ?></th>
-                <th class="woocommerce-table__ex-table ex-payment-method"><?php _e( '결제금액', 'pgall-for-woocommerce' ); ?></th>
-                <th class="woocommerce-table__ex-table ex-payment-method"><?php _e( '상태', 'pgall-for-woocommerce' ); ?></th>
+                <th class="woocommerce-table__ex-table ex-payment-date"><?php esc_html_e( '결제일시', 'pgall-for-woocommerce' ); ?></th>
+                <th class="woocommerce-table__ex-table ex-payment-method"><?php esc_html_e( '결제금액', 'pgall-for-woocommerce' ); ?></th>
+                <th class="woocommerce-table__ex-table ex-payment-method"><?php esc_html_e( '상태', 'pgall-for-woocommerce' ); ?></th>
                 <th class="woocommerce-table__ex-table ex-action"></th>
             </tr>
             </thead>
@@ -91,12 +93,12 @@ $order_cancel_url = pafw_get_order_cancel_url( $order, is_user_logged_in() ? $or
 				}
 				?>
                 <tr>
-                    <td><?php echo date( 'Y-m-d H:i:s', strtotime( $item['auth_date'] ) ); ?></td>
-                    <td><?php echo number_format( $item['charged_amount'] ); ?></td>
-                    <td><?php echo $item['status']; ?></td>
+                    <td><?php echo esc_html( date( 'Y-m-d H:i:s', strtotime( $item[ 'auth_date' ] ) ) ); ?></td>
+                    <td><?php echo esc_html( number_format( $item[ 'charged_amount' ] ) ); ?></td>
+                    <td><?php echo esc_html( $item[ 'status' ] ); ?></td>
                     <td>
 						<?php if ( ! empty( $receipt_url ) ) : ?>
-                            <input type="button" class="button pafw_action_button pafw-check-additional-charge-receipt tips" data-tip="<?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?>" data-receipt_url="<?php echo $receipt_url; ?>" value="<?php _e( '영수증 확인', 'pgall-for-woocommerce' ); ?>">
+                            <input type="button" class="button pafw_action_button pafw-check-additional-charge-receipt tips" data-tip="<?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?>" data-receipt_url="<?php echo esc_attr( $receipt_url ); ?>" value="<?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?>">
 						<?php endif; ?>
                     </td>
                 </tr>

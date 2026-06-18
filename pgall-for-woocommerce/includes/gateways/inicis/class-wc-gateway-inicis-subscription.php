@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,18 +9,18 @@ if ( class_exists( 'WC_Gateway_Inicis_Subscription' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
+class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	public function __construct() {
 		$this->id = 'inicis_subscription';
 
 		parent::__construct();
 
-		if ( empty( $this->settings['title'] ) ) {
+		if ( empty( $this->settings[ 'title' ] ) ) {
 			$this->title       = __( '신용카드 정기결제', 'pgall-for-woocommerce' );
 			$this->description = __( '신용카드 결제를 진행 합니다.', 'pgall-for-woocommerce' );
 		} else {
-			$this->title       = $this->settings['title'];
-			$this->description = $this->settings['description'];
+			$this->title       = $this->settings[ 'title' ];
+			$this->description = $this->settings[ 'description' ];
 		}
 
 		$this->countries = array( 'KR' );
@@ -46,12 +47,12 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
 		add_action( 'pafw_' . $this->id . '_register', array( $this, 'wc_api_request_register' ) );
 	}
 
-	public function get_merchant_id( $order = null ){
+	public function get_merchant_id( $order = null ) {
 		return pafw_get( $this->settings, 'subscription_merchant_id' );
 	}
 
 	public function get_merchant_key( $order = null ) {
-		if( $this->use_integrated_sign_key() ) {
+		if ( $this->use_integrated_sign_key() ) {
 			return '';
 		}
 
@@ -84,7 +85,7 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
 
 		$accept_methods = apply_filters( 'pafw_inicis_accept_methods', $this->get_accept_methods(), $user, $this );
 
-		$params['inicis'] = array(
+		$params[ 'inicis' ] = array(
 			'api_url'       => untrailingslashit( WC()->api_request_url( get_class( $this ), pafw_check_ssl() ) ),
 			'wpml_lang'     => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : '',
 			'language_code' => pafw_get( $this->settings, 'language_code', 'ko' ),
@@ -103,11 +104,11 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
 		try {
 			$order = null;
 
-			if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['order_id'] ) ) {
+			if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'order_id' ] ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 			}
 
-			$order = $this->get_order( wc_clean( $_GET['order_id'] ) );
+			$order = $this->get_order( absint( pafw_get_unslash( $_GET, 'order_id' ) ) );
 
 			$this->validate_order_status( $order );
 
@@ -130,11 +131,11 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
 		try {
 			$user = null;
 
-			if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['user_id'] ) ) {
+			if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'user_id' ] ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 			}
 
-			$user_id = str_replace( 'PAFW-BILL-', '', wc_clean( $_GET['user_id'] ) );
+			$user_id = str_replace( 'PAFW-BILL-', '', absint( pafw_get_unslash( $_GET, 'user_id' ) ) );
 
 			$user = get_userdata( $user_id );
 
@@ -147,7 +148,7 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis {
 	}
 	function add_payment_method() {
 		try {
-			$user = get_currentuserinfo();
+			$user = wp_get_current_user();
 
 			$response = PAFW_Gateway::get_register_form( $user, $this );
 

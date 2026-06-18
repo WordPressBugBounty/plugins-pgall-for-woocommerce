@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 if ( $order->get_status() == 'failed' ) {
 	return;
@@ -26,40 +27,40 @@ if ( 'yes' != $order->get_meta( '_pafw_sent_vacc_info' ) ) {
 
 
 <div class="msmp-email-section bank-account-info">
-    <h4><?php _e( '가상계좌 무통장입금 안내', 'pgall-for-woocommerce' ); ?></h4>
+    <h4><?php esc_html_e( '가상계좌 무통장입금 안내', 'pgall-for-woocommerce' ); ?></h4>
     <p></p>
 
     <table>
         <tbody>
         <tr>
-            <td colspan="2"><?php _e( '가상계좌 무통장입금 안내로 주문이 접수되었습니다. 아래 지정된 계좌번호로 입금기한내에 반드시 입금하셔야 하며, 송금자명으로 입금 해주셔야 주문이 정상 접수 됩니다.', 'pgall-for-woocommerce' ); ?></td>
+            <td colspan="2"><?php esc_html_e( '가상계좌 무통장입금 안내로 주문이 접수되었습니다. 아래 지정된 계좌번호로 입금기한내에 반드시 입금하셔야 하며, 송금자명으로 입금 해주셔야 주문이 정상 접수 됩니다.', 'pgall-for-woocommerce' ); ?></td>
         </tr>
 		<?php if ( ! empty( $vacc_bank_name ) ) : ?>
             <tr>
-                <th><?php _e( '은행명:', 'pgall-for-woocommerce' ); ?></th>
-                <td data-title="<?php _e( '은행명:', 'pgall-for-woocommerce' ); ?>"><?php echo $vacc_bank_name; ?></td>
+                <th><?php esc_html_e( '은행명:', 'pgall-for-woocommerce' ); ?></th>
+                <td data-title="<?php esc_html_e( '은행명:', 'pgall-for-woocommerce' ); ?>"><?php echo esc_html( $vacc_bank_name ); ?></td>
             </tr>
 		<?php endif; ?>
         <tr>
-            <th><?php _e( '계좌번호:', 'pgall-for-woocommerce' ); ?></th>
-            <td data-title="<?php _e( '계좌번호:', 'pgall-for-woocommerce' ); ?>"><?php echo $vacc_num; ?></td>
+            <th><?php esc_html_e( '계좌번호:', 'pgall-for-woocommerce' ); ?></th>
+            <td data-title="<?php esc_html_e( '계좌번호:', 'pgall-for-woocommerce' ); ?>"><?php echo esc_html( $vacc_num ); ?></td>
         </tr>
 		<?php if ( ! empty( $vacc_name ) ) : ?>
             <tr>
-                <th><?php _e( '예금주:', 'pgall-for-woocommerce' ); ?></th>
-                <td data-title="<?php _e( '예금주:', 'pgall-for-woocommerce' ); ?>"><?php echo $vacc_name; ?></td>
+                <th><?php esc_html_e( '예금주:', 'pgall-for-woocommerce' ); ?></th>
+                <td data-title="<?php esc_html_e( '예금주:', 'pgall-for-woocommerce' ); ?>"><?php echo esc_html( $vacc_name ); ?></td>
             </tr>
 		<?php endif; ?>
 		<?php if ( ! empty( $vacc_input_name ) ) : ?>
             <tr>
-                <th><?php _e( '송금자:', 'pgall-for-woocommerce' ); ?></th>
-                <td data-title="<?php _e( '송금자:', 'pgall-for-woocommerce' ); ?>"><?php echo $vacc_input_name; ?></td>
+                <th><?php esc_html_e( '송금자:', 'pgall-for-woocommerce' ); ?></th>
+                <td data-title="<?php esc_html_e( '송금자:', 'pgall-for-woocommerce' ); ?>"><?php echo esc_html( $vacc_input_name ); ?></td>
             </tr>
 		<?php endif; ?>
 		<?php if ( ! empty ( $vacc_date ) ) : ?>
             <tr>
-                <th><?php _e( '입금기한:', 'pgall-for-woocommerce' ); ?></th>
-                <td data-title="<?php _e( '입금기한:', 'pgall-for-woocommerce' ); ?>"><?php echo $vacc_date_format; ?></td>
+                <th><?php esc_html_e( '입금기한:', 'pgall-for-woocommerce' ); ?></th>
+                <td data-title="<?php esc_html_e( '입금기한:', 'pgall-for-woocommerce' ); ?>"><?php echo esc_html( $vacc_date_format ); ?></td>
             </tr>
 		<?php endif; ?>
         </tbody>

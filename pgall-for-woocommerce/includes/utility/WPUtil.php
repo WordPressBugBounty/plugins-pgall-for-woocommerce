@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 
 
 namespace CODEM\PGALL\Utility;
@@ -17,6 +19,16 @@ if ( ! class_exists( 'WPUtil' ) ) {
 		static function get( $array, $key, $default = '' ) {
 			return is_array( $array ) && array_key_exists( $key, $array ) ? $array[ $key ] : $default;
 		}
+		static function get_unslash( $array, $key, $default = '' ) {
+			return wp_unslash( self::get( $array, $key, $default ) );
+		}
+		static function is_ajax() {
+			if ( function_exists( 'is_ajax' ) ) {
+				return is_ajax();
+			} else {
+				return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : defined( 'DOING_AJAX' );
+			}
+		}
 		static function get_roles() {
 			if ( is_null( self::$roles ) ) {
 				self::$roles = array();
@@ -25,7 +37,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 					self::$roles[ $role ] = translate_user_role( $name );
 				}
 
-				self::$roles['guest'] = __( 'Guest', 'codem-wp-util' );
+				self::$roles[ 'guest' ] = __( 'Guest', 'pgall-for-woocommerce' );
 
 				self::$roles = apply_filters( 'codem_get_roles', self::$roles );
 			}
@@ -48,7 +60,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 			if ( is_numeric( $user_id ) ) {
 				$user       = new WP_User( $user_id );
 				$user_roles = $user->roles;
-			} else if ( $user_id instanceof WP_User ) {
+			} elseif ( $user_id instanceof WP_User ) {
 				$user_roles = $user_id->roles;
 			}
 
@@ -97,7 +109,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 			$results = array();
 			$args    = array();
 
-			$keyword = isset( $_REQUEST['args'] ) ? esc_attr( sanitize_text_field( $_REQUEST['args'] ) ) : '';
+			$keyword = ! empty( $_REQUEST[ 'args' ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ 'args' ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( ! empty( $keyword ) ) {
 				$args = array(
@@ -118,7 +130,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 			return $results;
 		}
 		static function target_search_menu() {
-			$menu_items = wp_get_nav_menu_items( sanitize_text_field( $_REQUEST['menu'] ) );
+			$menu_items = wp_get_nav_menu_items( sanitize_text_field( self::get_unslash( $_REQUEST, 'menu' ) ) );
 
 			$results = array();
 			foreach ( $menu_items as $menu_item ) {
@@ -133,12 +145,14 @@ if ( ! class_exists( 'WPUtil' ) ) {
 		static function make_taxonomy_tree( $taxonomy, $args, $depth = 0, $parent = 0, $paths = array() ) {
 			$results = array();
 
-			$args['parent'] = $parent;
+			$args[ 'parent' ]   = $parent;
+			$args[ 'taxonomy' ] = $taxonomy;
+
 			if ( $parent > 0 ) {
-				unset( $args['name__like'] );
+				unset( $args[ 'name__like' ] );
 			}
 
-			$terms = get_terms( $taxonomy, $args );
+			$terms = get_terms( $args );
 
 			foreach ( $terms as $term ) {
 				$current_paths = array_merge( $paths, array( $term->name ) );
@@ -157,8 +171,8 @@ if ( ! class_exists( 'WPUtil' ) ) {
 				'hide_empty' => false
 			);
 
-			if ( ! empty( $_REQUEST['args'] ) ) {
-				$args['name__like'] = sanitize_text_field( $_REQUEST['args'] );
+			if ( ! empty( $_REQUEST[ 'args' ] ) ) {
+				$args[ 'name__like' ] = sanitize_text_field( wp_unslash( $_REQUEST[ 'args' ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
 			return self::make_taxonomy_tree( $taxonomy, $args );
@@ -166,13 +180,15 @@ if ( ! class_exists( 'WPUtil' ) ) {
 		static function target_search_posts_title_like( $where, &$wp_query ) {
 			global $wpdb;
 			if ( $posts_title = $wp_query->get( 'posts_title' ) ) {
-				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_title LIKE '%%%s%%'", $posts_title );
+				$like = '%' . $wpdb->esc_like( $posts_title ) . '%';
+
+				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_title LIKE %s", $like );
 			}
 
 			return $where;
 		}
 		static function target_search_page() {
-			$keyword = ! empty( $_REQUEST['args'] ) ? sanitize_text_field( $_REQUEST['args'] ) : '';
+			$keyword = ! empty( $_REQUEST[ 'args' ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ 'args' ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			add_filter( 'posts_where', array( __CLASS__, 'target_search_posts_title_like' ), 10, 2 );
 			$args = array(
@@ -181,7 +197,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 				'post_status'    => 'publish',
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
-				'posts_per_page' => -1
+				'posts_per_page' => - 1
 			);
 
 			$query = new WP_Query( $args );
@@ -200,7 +216,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 			return $results;
 		}
 		static function target_search_post( $post_type ) {
-			$keyword = ! empty( $_REQUEST['args'] ) ? sanitize_text_field( $_REQUEST['args'] ) : '';
+			$keyword = ! empty( $_REQUEST[ 'args' ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ 'args' ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			add_filter( 'posts_where', array( __CLASS__, 'target_search_posts_title_like' ), 10, 2 );
 			$args = array(
@@ -209,7 +225,7 @@ if ( ! class_exists( 'WPUtil' ) ) {
 				'post_status'    => 'publish',
 				'orderby'        => 'ID',
 				'order'          => 'ASC',
-				'posts_per_page' => -1
+				'posts_per_page' => - 1
 			);
 
 			$query = new WP_Query( $args );

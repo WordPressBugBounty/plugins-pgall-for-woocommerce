@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 $customer = new WC_Customer( $order->get_customer_id() );
 
@@ -8,14 +9,14 @@ foreach ( $order->get_items() as $item ) {
 	$products[] = $item->get_name();
 }
 
-$product_name = count( $products ) == 1 ? $products[0] : sprintf( "%s 외 %d건", $products[0], count( $products ) - 1 );
+$product_name = count( $products ) == 1 ? $products[ 0 ] : sprintf( "%s 외 %d건", $products[ 0 ], count( $products ) - 1 );
 
 function pafw_masking( $str ) {
 	$length = mb_strlen( $str );
 
 	$mask_length = intval( $length / 3 );
 
-	return mb_substr( $str, 0, $mask_length ) . str_repeat( '*', $length - 2 * $mask_length ) . mb_substr( $str, -1 * $mask_length );
+	return mb_substr( $str, 0, $mask_length ) . str_repeat( '*', $length - 2 * $mask_length ) . mb_substr( $str, - 1 * $mask_length );
 }
 
 ?>
@@ -23,7 +24,7 @@ function pafw_masking( $str ) {
 <head>
     <meta http-equiv="content-type" content="text/html; charset=euc-kr">
 	<?php wp_print_scripts( 'jquery' ); ?>
-    <title><?php _e( '현금영수증', 'pgall-for-woocommerce' ); ?></title>
+    <title><?php esc_html_e( '현금영수증', 'pgall-for-woocommerce' ); ?></title>
     <style>
         body {
             font-size: 14px;
@@ -151,34 +152,34 @@ function pafw_masking( $str ) {
         </div>
         <div style="text-align: center; margin-bottom: 5px;">
             <h1 style="margin-bottom: 5px;">현금영수증</h1>
-            <span class="description">(<?php echo $payment_gateway->get_receipt_usage_description( $order->get_meta( '_pafw_bacs_receipt_usage' ) ) . ' - ' . pafw_masking( $order->get_meta( '_pafw_bacs_receipt_reg_number' ) ); ?>)</span>
+            <span class="description">(<?php echo esc_html( $payment_gateway->get_receipt_usage_description( $order->get_meta( '_pafw_bacs_receipt_usage' ) ) . ' - ' . pafw_masking( $order->get_meta( '_pafw_bacs_receipt_reg_number' ) ) ); ?>)</span>
         </div>
         <div class="section">
             <table>
                 <tbody>
                 <tr>
                     <td>상호</td>
-                    <td><?php echo get_option( 'pafw_bacs_receipt_company_name' ); ?></td>
+                    <td><?php echo esc_html( get_option( 'pafw_bacs_receipt_company_name' ) ); ?></td>
                 </tr>
                 <tr>
                     <td>대표자</td>
-                    <td><?php echo get_option( 'pafw_bacs_receipt_ceo_name' ); ?></td>
+                    <td><?php echo esc_html( get_option( 'pafw_bacs_receipt_ceo_name' ) ); ?></td>
                 </tr>
                 <tr>
                     <td>사업자등록번호</td>
-                    <td><?php echo get_option( 'pafw_bacs_receipt_reg_number' ); ?></td>
+                    <td><?php echo esc_html( get_option( 'pafw_bacs_receipt_reg_number' ) ); ?></td>
                 </tr>
                 <tr>
                     <td>전화번호</td>
-                    <td><?php echo get_option( 'pafw_bacs_receipt_phone_number' ); ?></td>
+                    <td><?php echo esc_html( get_option( 'pafw_bacs_receipt_phone_number' ) ); ?></td>
                 </tr>
                 <tr>
                     <td>주소</td>
-                    <td><?php echo get_option( 'pafw_bacs_receipt_address' ); ?></td>
+                    <td><?php echo esc_html( get_option( 'pafw_bacs_receipt_address' ) ); ?></td>
                 </tr>
                 <tr>
                     <td>URL</td>
-                    <td><?php echo home_url(); ?></td>
+                    <td><?php echo esc_url( home_url() ); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -193,42 +194,42 @@ function pafw_masking( $str ) {
                 <tbody>
                 <tr class="order-total">
                     <td>총 결제금액</td>
-                    <td><?php echo wc_price( $order->get_total() ); ?></td>
+                    <td><?php echo wc_price( $order->get_total() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                 </tr>
                 <tr>
                     <td>과세금액</td>
-                    <td><?php echo wc_price( PAFW_Tax::get_tax_amount( $order ) ); ?></td>
+                    <td><?php echo wc_price( PAFW_Tax::get_tax_amount( $order ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                 </tr>
                 <tr>
                     <td>부가세</td>
-                    <td><?php echo wc_price( PAFW_Tax::get_total_tax( $order ) ); ?></td>
+                    <td><?php echo wc_price( PAFW_Tax::get_total_tax( $order ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                 </tr>
                 <tr>
                     <td>면세금액</td>
-                    <td><?php echo wc_price( PAFW_Tax::get_tax_free_amount( $order ) ); ?></td>
+                    <td><?php echo wc_price( PAFW_Tax::get_tax_free_amount( $order ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                 </tr>
                 <tr>
                     <td>구매자</td>
-                    <td><?php echo pafw_masking( $order->get_billing_last_name() . $order->get_billing_first_name() ); ?></td>
+                    <td><?php echo esc_html( pafw_masking( $order->get_billing_last_name() . $order->get_billing_first_name() ) ); ?></td>
                 </tr>
                 <tr>
                     <td>상품명</td>
-                    <td><?php echo $product_name; ?></td>
+                    <td><?php echo esc_html( $product_name ); ?></td>
                 </tr>
                 <tr>
                     <td>거래일시</td>
-                    <td><?php echo wc_format_datetime( $order->get_date_paid() ); ?></td>
+                    <td><?php echo esc_html( wc_format_datetime( $order->get_date_paid() ) ); ?></td>
                 </tr>
                 <tr>
                     <td>현금영수증 번호</td>
-                    <td><?php echo $order->get_meta( '_pafw_bacs_receipt_receipt_number' ); ?></td>
+                    <td><?php echo esc_html( $order->get_meta( '_pafw_bacs_receipt_receipt_number' ) ); ?></td>
                 </tr>
                 </tbody>
             </table>
         </div>
 		<?php if ( ! empty( $order->get_meta( '_pafw_bacs_receipt_via' ) ) ) : ?>
             <div class="section">
-                <div class="bacs_receipt_via">현금영수증 사업자 : <?php echo $order->get_meta( '_pafw_bacs_receipt_via' ); ?></div>
+                <div class="bacs_receipt_via">현금영수증 사업자 : <?php echo esc_html( $order->get_meta( '_pafw_bacs_receipt_via' ) ); ?></div>
             </div>
 		<?php endif; ?>
     </div>

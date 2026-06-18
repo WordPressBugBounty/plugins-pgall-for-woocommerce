@@ -3,7 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-class WC_Payment_Token_PAFW extends WC_Payment_Token {
+class WC_Payment_Token_PAFW extends WC_Payment_Token { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	protected $type = 'PAFW';
 	protected $extra_data = array(
 		'last4'        => '',
@@ -13,7 +13,8 @@ class WC_Payment_Token_PAFW extends WC_Payment_Token {
 	);
 	public function get_display_name( $deprecated = '' ) {
 		if ( ! str_starts_with( $this->get_gateway_id(), 'kakaopay' ) && ! empty( $this->get_meta( 'card_num' ) ) ) {
-			return sprintf( esc_html__( '%1$s ending in %2$s', 'woocommerce' ),
+			// translators: 1: card name, 2: card number
+			return sprintf( esc_html__( '%1$s ending in %2$s', 'pgall-for-woocommerce' ),
 				esc_html( $this->get_meta( 'card_name' ) ),
 				esc_html( substr( $this->get_meta( 'card_num' ), -4 ) )
 			);

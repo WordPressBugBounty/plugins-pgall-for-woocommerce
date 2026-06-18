@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,21 +9,21 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_TossPayments_Subscription' ) ) {
 
-		class WC_Gateway_TossPayments_Subscription extends WC_Gateway_TossPayments {
+		class WC_Gateway_TossPayments_Subscription extends WC_Gateway_TossPayments { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 			public function __construct() {
 				$this->id = 'tosspayments_subscription';
 
 				parent::__construct();
 
-				if ( empty( $this->settings['title'] ) ) {
+				if ( empty( $this->settings[ 'title' ] ) ) {
 					$this->title       = __( '신용카드 정기결제', 'pgall-for-woocommerce' );
 					$this->description = __( '신용카드 정기결제를 진행합니다.', 'pgall-for-woocommerce' );
 				} else {
-					$this->title       = $this->settings['title'];
-					$this->description = $this->settings['description'];
+					$this->title       = $this->settings[ 'title' ];
+					$this->description = $this->settings[ 'description' ];
 				}
 
-				$this->settings['enable_quota'] = 'no';
+				$this->settings[ 'enable_quota' ] = 'no';
 
 				$this->countries = array( 'KR' );
 				$this->supports  = array(
@@ -74,10 +74,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order->save_meta_data();
 			}
 			function adjust_settings() {
-				$this->settings['merchant_id']    = $this->settings['subscription_merchant_id'];
-				$this->settings['operation_mode'] = $this->settings['operation_mode_subscription'];
-				$this->settings['client_key']     = $this->settings['subscription_client_key'];
-				$this->settings['secret_key']     = $this->settings['subscription_secret_key'];
+				$this->settings[ 'merchant_id' ]    = $this->settings[ 'subscription_merchant_id' ];
+				$this->settings[ 'operation_mode' ] = $this->settings[ 'operation_mode_subscription' ];
+				$this->settings[ 'client_key' ]     = $this->settings[ 'subscription_client_key' ];
+				$this->settings[ 'secret_key' ]     = $this->settings[ 'subscription_secret_key' ];
 			}
 
 			public function get_subscription_meta_key( $meta_key ) {
@@ -87,13 +87,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$user_id      = 0;
 				$payment_info = array();
 
-				parse_str( $_POST['params'], $payment_info ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				parse_str( pafw_get_unslash( $_POST, 'params' ), $payment_info ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 				$payment_info = apply_filters( 'pafw_subscription_payment_info', $payment_info, $this );
 
 				if ( is_a( $order, 'WC_Order' ) ) {
 					$user_id = $order->get_customer_id();
-				} else if ( is_a( $order, 'WP_User' ) ) {
+				} elseif ( is_a( $order, 'WP_User' ) ) {
 					$user_id = $order->ID;
 				}
 
@@ -113,7 +113,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return $params;
 			}
 			public function add_bill_key_request_params( $params, $order ) {
-				$params['order'] = array_merge( array(
+				$params[ 'order' ] = array_merge( array(
 					'transaction_id'     => wc_clean( pafw_get( $_GET, 'transaction_id' ) ),
 					'auth_token'         => wc_clean( pafw_get( $_GET, 'auth_token' ) ),
 					'secret_key'         => pafw_get( $this->settings, 'secret_key' ),
@@ -134,11 +134,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				try {
 					$order = null;
 
-					if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['order_id'] ) ) {
+					if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'order_id' ] ) ) {
 						throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 					}
 
-					$order = $this->get_order( wc_clean( $_GET['order_id'] ) );
+					$order = $this->get_order( absint( pafw_get_unslash( $_GET, 'order_id' ) ) );
 
 					$this->validate_order_status( $order );
 
@@ -161,11 +161,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				try {
 					$user = null;
 
-					if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['customer_key'] ) ) {
+					if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'customer_key' ] ) ) {
 						throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 					}
 
-					$user_id = str_replace( $this->get_merchant_id() . '_', '', wc_clean( $_GET['customer_key'] ) );
+					$user_id = str_replace( $this->get_merchant_id() . '_', '', pafw_get_unslash( $_GET, 'customer_key' ) );
 
 					$user = get_userdata( $user_id );
 
@@ -192,7 +192,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			function add_payment_method() {
 				try {
-					$user = get_currentuserinfo();
+					$user = wp_get_current_user();
 
 					$response = PAFW_Gateway::get_register_form( $user, $this );
 

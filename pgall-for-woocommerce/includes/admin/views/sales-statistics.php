@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 wp_enqueue_style( 'amchart-export', PAFW()->plugin_url() . '/assets/vendor/amcharts/plugins/export/export.css', array(), PAFW_VERSION );
 wp_enqueue_style( 'semantic-ui-daterangepicker', PAFW()->plugin_url() . '/assets/vendor/semantic-ui-daterangepicker/daterangepicker.css', array(), PAFW_VERSION );
 wp_enqueue_style( 'bootstrap', PAFW()->plugin_url() . '/assets/vendor/bootstrap/bootstrap.css', array(), PAFW_VERSION );
@@ -39,7 +41,7 @@ function pafw_dashboard_footer() {
 $summary = PAFW_Admin_Sales::get_summary_data();
 
 ?>
-<h3><?php _e( '매출현황', 'pgall-for-woocommerce' ); ?></h3>
+<h3><?php esc_html_e( '매출현황', 'pgall-for-woocommerce' ); ?></h3>
 
 <div id="pafw-dashboard-wrapper">
     <div class="pafw-dashboard stat invert">
@@ -48,12 +50,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display today">
                     <div class="number">
                         <h3 class="font-green-sharp">
-                            <span class="amount"><?php echo number_format( $summary[ 'today' ][ 'order_total' ] ); ?></span>
+                            <span class="amount"><?php echo esc_html( number_format( $summary[ 'today' ][ 'order_total' ] ) ); ?></span>
                             <small class="font-green-sharp">원</small>
                         </h3>
-                        <small><?php _e( '오늘', 'pgall-for-woocommerce' ); ?></small>
+                        <small><?php esc_html_e( '오늘', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-green-sharp small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary[ 'today' ][ 'count' ] ); ?></span>
+                            <span class="count"><?php echo esc_html( number_format( $summary[ 'today' ][ 'count' ] ) ); ?></span>
                             <span>건</span>
                         </h3>
                     </div>
@@ -68,12 +70,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display week">
                     <div class="number">
                         <h3 class="font-red-haze">
-                            <span class="amount"><?php echo number_format( $summary[ 'week' ][ 'order_total' ] ); ?></span>
+                            <span class="amount"><?php echo esc_html( number_format( $summary[ 'week' ][ 'order_total' ] ) ); ?></span>
                             <small class="font-red-haze">원</small>
                         </h3>
-                        <small><?php _e( '이번주', 'pgall-for-woocommerce' ); ?></small>
+                        <small><?php esc_html_e( '이번주', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-red-haze small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary[ 'week' ][ 'count' ] ); ?></span>
+                            <span class="count"><?php echo esc_html( number_format( $summary[ 'week' ][ 'count' ] ) ); ?></span>
                             <span>건</span>
                         </h3></div>
                     <div class="icon">
@@ -87,12 +89,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display month">
                     <div class="number">
                         <h3 class="font-blue-sharp">
-                            <span class="amount"><?php echo number_format( $summary[ 'month' ][ 'order_total' ] ); ?></span>
+                            <span class="amount"><?php echo esc_html( number_format( $summary[ 'month' ][ 'order_total' ] ) ); ?></span>
                             <small class="font-blue-sharp">원</small>
                         </h3>
-                        <small><?php _e( '이번달', 'pgall-for-woocommerce' ); ?></small>
+                        <small><?php esc_html_e( '이번달', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-blue-sharp small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary[ 'month' ][ 'count' ] ); ?></span>
+                            <span class="count"><?php echo esc_html( number_format( $summary[ 'month' ][ 'count' ] ) ); ?></span>
                             <span>건</span>
                         </h3>
                     </div>
@@ -107,12 +109,12 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                 <div class="display year">
                     <div class="number">
                         <h3 class="font-purple-soft">
-                            <span class="amount"><?php echo number_format( $summary[ 'year' ][ 'order_total' ] ); ?></span>
+                            <span class="amount"><?php echo esc_html( number_format( $summary[ 'year' ][ 'order_total' ] ) ); ?></span>
                             <small class="font-purple-soft">원</small>
                         </h3>
-                        <small><?php _e( '올해', 'pgall-for-woocommerce' ); ?></small>
+                        <small><?php esc_html_e( '올해', 'pgall-for-woocommerce' ); ?></small>
                         <h3 class="font-purple-soft small" style="float: right">
-                            <span class="count"><?php echo number_format( $summary[ 'year' ][ 'count' ] ); ?></span>
+                            <span class="count"><?php echo esc_html( number_format( $summary[ 'year' ][ 'count' ] ) ); ?></span>
                             <span>건</span>
                         </h3>
                     </div>
@@ -128,7 +130,7 @@ $summary = PAFW_Admin_Sales::get_summary_data();
     <div class="pafw-dashboard-search">
         <div id="reportrange" class="clear" style="">
             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-            <span><?php echo date( 'Y-m-d', strtotime( "-30 days" ) ); ?> - <?php echo date( "Y-m-d" ); ?></span> <b
+            <span><?php echo esc_html( date( 'Y-m-d', strtotime( "-30 days" ) ) ); ?> - <?php echo esc_html( date( "Y-m-d" ) ); ?></span> <b
                     class="caret"></b>
         </div>
     </div>
@@ -140,7 +142,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-on-hold">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>입금대기</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-on-hold' ) ); ?></small>
+                                <small><?php
+									// translators: 1: url of order list page, 2: order status name
+									echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-on-hold' ) ), esc_attr__( "입금대기", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="font-grey small" style="float: right">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -160,7 +164,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-processing">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>입금완료</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-processing' ) ); ?></small>
+                                <small><?php
+	                                // translators: 1: url of order list page, 2: order status name
+	                                echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-processing' ) ), esc_attr__( "입금완료", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="font-grey small" style="float: right">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -180,7 +186,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-shipping">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>배송중</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-shipping' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-shipping' ) ), esc_attr__( "배송중", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="font-grey small" style="float: right">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -200,7 +208,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-shipped">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>배송완료</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-shipped' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-shipped' ) ), esc_attr__( "배송완료", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="font-grey small" style="float: right">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -222,7 +232,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
             <div class="pafw-dashboard-stat">
                 <div class="display wc-completed">
                     <div class="pafw-order-status">
-                        <h3><?php echo sprintf( __( "<a href='%s' target='_blank'>주문처리완료</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-completed' ) ); ?></h3>
+                        <small><?php
+		                    // translators: 1: url of order list page, 2: order status name
+		                    echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-completed' ) ), esc_attr__( "주문처리완료", "pgall-for-woocommerce" ) ); ?></small>
                         <div class="count-wrapper">
                             <span class="count">0</span>
                             <span>건</span>
@@ -241,7 +253,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-cancel-request">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>취소요청</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-cancel-request' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-cancel-request' ) ), esc_attr__( "취소요청", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="amount-wrapper">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -254,7 +268,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-exchange-request">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>교환요청</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-exchange-request' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-exchange-request' ) ), esc_attr__( "교환요청", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="amount-wrapper">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -267,7 +283,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-return-request">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>반품요청</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-return-request' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-return-request' ) ), esc_attr__( "반품요청", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="amount-wrapper">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -280,7 +298,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-cancelled">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>취소완료</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-cancelled' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-cancelled' ) ), esc_attr__( "취소완료", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="amount-wrapper">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -293,7 +313,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-accept-exchange">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>교환접수</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-accept-exchange' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-accept-exchange' ) ), esc_attr__( "교환접수", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="amount-wrapper">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -306,7 +328,9 @@ $summary = PAFW_Admin_Sales::get_summary_data();
                     <div class="pafw-dashboard-stat">
                         <div class="display wc-accept-return">
                             <div class="pafw-order-status">
-                                <small><?php echo sprintf( __( "<a href='%s' target='_blank'>반품접수</a>", "pgall-for-woocommerce" ), PAFW_HPOS::get_order_admin_url( 'wc-accept-return' ) ); ?></small>
+                                <small><?php
+		                            // translators: 1: url of order list page, 2: order status name
+		                            echo sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( PAFW_HPOS::get_order_admin_url( 'wc-accept-return' ) ), esc_attr__( "반품접수", "pgall-for-woocommerce" ) ); ?></small>
                                 <div class="amount-wrapper">
                                     <span class="count">0</span>
                                     <span>건</span>
@@ -363,7 +387,7 @@ $summary = PAFW_Admin_Sales::get_summary_data();
         <div class="pafw_w12 pafw_dashboard_panel_wrapper">
             <div class="pafw_dashboard_panel">
                 <p class="pafw_panel_title">
-                    <span><?php _e( "결제수단별 매출", "pgall-for-woocommerce" ); ?></span>
+                    <span><?php esc_html_e( "결제수단별 매출", "pgall-for-woocommerce" ); ?></span>
                 </p>
                 <div class="pafw_serialchart_panel">
                     <div id="order_stat_by_payment_gateway"></div>

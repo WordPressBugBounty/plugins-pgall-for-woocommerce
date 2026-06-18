@@ -1,6 +1,5 @@
 <?php
-
-
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -48,28 +47,28 @@ if ( ! class_exists( 'PAFW_Review' ) ) {
 			$rate_options = get_option( 'pafw-smart-review-rate', array() );
 
 			$matched = array_filter( $rate_options, function ( $rate_option ) use ( $rate ) {
-				return $rate == $rate_option['rate'];
+				return $rate == $rate_option[ 'rate' ];
 			} );
 
 			if ( ! empty( $matched ) ) {
 				$matched = current( $matched );
 
-				return $matched['label'];
+				return $matched[ 'label' ];
 			}
 		}
 		public static function save_review_info( $order_id, $posted_data, $order = null ) {
 			if ( $order && 'yes' == get_option( 'pafw-use-smart-review', 'no' ) ) {
 				$write_review = sanitize_text_field( pafw_get( $_REQUEST, 'pafw_write_smart_review' ) ) ? 'yes' : 'no';
-				$rate         = isset( $_REQUEST['pafw_smart_review_rate'] ) ? wc_clean( $_REQUEST['pafw_smart_review_rate'] ) : '';
-				$content      = isset( $_REQUEST['pafw_smart_review_content'] ) ? wc_clean( $_REQUEST['pafw_smart_review_content'] ) : '';
+				$rate         = isset( $_REQUEST[ 'pafw_smart_review_rate' ] ) ? pafw_get_unslash( $_REQUEST, 'pafw_smart_review_rate' ) : '';
+				$content      = isset( $_REQUEST[ 'pafw_smart_review_content' ] ) ? pafw_get_unslash( $_REQUEST, 'pafw_smart_review_content' ) : '';
 
 				if ( 'yes' == $write_review ) {
 					$rate_label = self::get_rate_label( $rate );
 
 					if ( ! empty( $rate_label ) ) {
-						$order->update_meta_data( '_pafw_write_smart_review', 'on' == $_REQUEST['pafw_write_smart_review'] ? 'yes' : 'no' );
-						$order->update_meta_data( '_pafw_smart_review_rate', wc_clean( $_REQUEST['pafw_smart_review_rate'] ) );
-						$order->update_meta_data( '_pafw_smart_review_content', $rate_label . "\n" . wc_clean( $_REQUEST['pafw_smart_review_content'] ) );
+						$order->update_meta_data( '_pafw_write_smart_review', 'on' == pafw_get_unslash( $_REQUEST, 'pafw_write_smart_review' ) ? 'yes' : 'no' );
+						$order->update_meta_data( '_pafw_smart_review_rate', pafw_get_unslash( $_REQUEST, 'pafw_smart_review_rate' ) );
+						$order->update_meta_data( '_pafw_smart_review_content', $rate_label . "\n" . pafw_get_unslash( $_REQUEST, 'pafw_smart_review_content' ) );
 						$order->save_meta_data();
 					}
 				}
@@ -108,7 +107,7 @@ if ( ! class_exists( 'PAFW_Review' ) ) {
 				return $comment_id;
 			}
 
-			return -1;
+			return - 1;
 		}
 
 		public static function register_review( $order_id, $old_status, $new_status ) {

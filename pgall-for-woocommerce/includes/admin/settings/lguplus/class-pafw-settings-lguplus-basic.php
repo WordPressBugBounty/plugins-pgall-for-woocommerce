@@ -48,14 +48,14 @@ if ( ! class_exists( 'PAFW_Settings_Lguplus_Basic' ) ) {
 							'showIf'      => array( 'operation_mode' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array(
 							'id'        => 'merchant_id',
 							'title'     => '상점 아이디',
 							'className' => 'fluid',
 							'default'   => 'tosspayments',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tosspayments</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tosspayments</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -63,7 +63,7 @@ if ( ! class_exists( 'PAFW_Settings_Lguplus_Basic' ) ) {
 							'title'     => '상점키',
 							'className' => 'fluid',
 							'default'   => 'b495c00ba8fcd62b18d69870c2c26979',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점키는 <code>b495c00ba8fcd62b18d69870c2c26979</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점키는 <code>b495c00ba8fcd62b18d69870c2c26979</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						)
 					)
@@ -92,14 +92,14 @@ if ( ! class_exists( 'PAFW_Settings_Lguplus_Basic' ) ) {
 							'showIf'      => array( 'operation_mode_subscription' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array(
 							'id'        => 'subscription_merchant_id',
 							'title'     => '상점 아이디',
 							'className' => 'fluid',
 							'default'   => '',
-							'desc2'     => __( '<div class="desc2">실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(

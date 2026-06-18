@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// phpcs:disable WordPress.Security.NonceVerification
 
 defined( 'ABSPATH' ) || exit;
 

@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 $uid = uniqid( 'pafw_settlepg_' );
 
@@ -23,13 +24,13 @@ $uid = uniqid( 'pafw_settlepg_' );
     <div class="pafw-card-info" style="<?php echo ! empty( $bill_key ) && ! is_account_page() ? 'display:none' : ''; ?>">
         <div class="fields-wrap card_type">
             <div class="item">
-                <input type="radio" id='settlepg_card_type_p<?php echo $uid; ?>' class='pafw_card_type' name="pafw_settlepg_card_type" value='0' data-label="<?php _e( '생년월일', 'pgall-for-woocommerce' ); ?>" data-placeholder="<?php _e( '주민번호 앞 6자리', 'pgall-for-woocommerce' ); ?>" data-size="6" checked>
-                <label for="settlepg_card_type_p<?php echo $uid; ?>"><?php _e( '개인카드', 'pgall-for-woocommerce' ); ?></label>
+                <input type="radio" id='settlepg_card_type_p<?php echo esc_attr( $uid ); ?>' class='pafw_card_type' name="pafw_settlepg_card_type" value='0' data-label="<?php esc_html_e( '생년월일', 'pgall-for-woocommerce' ); ?>" data-placeholder="<?php esc_html_e( '주민번호 앞 6자리', 'pgall-for-woocommerce' ); ?>" data-size="6" checked>
+                <label for="settlepg_card_type_p<?php echo esc_attr( $uid ); ?>"><?php esc_html_e( '개인카드', 'pgall-for-woocommerce' ); ?></label>
                 <div class="check"></div>
             </div>
             <div class="item">
-                <input type="radio" id="settlepg_card_type_c<?php echo $uid; ?>" class='pafw_card_type' name="pafw_settlepg_card_type" value='1' data-label="<?php _e( '사업자번호', 'pgall-for-woocommerce' ); ?>" data-placeholder="<?php _e( '사업자번호 10자리', 'pgall-for-woocommerce' ); ?>" data-size="10">
-                <label for="settlepg_card_type_c<?php echo $uid; ?>"><?php _e( '법인카드', 'pgall-for-woocommerce' ); ?></label>
+                <input type="radio" id="settlepg_card_type_c<?php echo esc_attr( $uid ); ?>" class='pafw_card_type' name="pafw_settlepg_card_type" value='1' data-label="<?php esc_html_e( '사업자번호', 'pgall-for-woocommerce' ); ?>" data-placeholder="<?php esc_html_e( '사업자번호 10자리', 'pgall-for-woocommerce' ); ?>" data-size="10">
+                <label for="settlepg_card_type_c<?php echo esc_attr( $uid ); ?>"><?php esc_html_e( '법인카드', 'pgall-for-woocommerce' ); ?></label>
                 <div class="check"></div>
             </div>
         </div>
@@ -46,12 +47,12 @@ $uid = uniqid( 'pafw_settlepg_' );
             <div class="fields-wrap flex">
                 <div class="cert_no">
                     <div>
-                        <input inputmode="numeric" class="name" pattern="[0-9]+*" type="text" maxlength="6" size="6" name="pafw_settlepg_cert_no" placeholder="<?php _e( '주민번호 앞 6자리', 'pgall-for-woocommerce' ); ?>" value="">
+                        <input inputmode="numeric" class="name" pattern="[0-9]+*" type="text" maxlength="6" size="6" name="pafw_settlepg_cert_no" placeholder="<?php esc_html_e( '주민번호 앞 6자리', 'pgall-for-woocommerce' ); ?>" value="">
                     </div>
                 </div>
                 <div class="cust-type">
                     <div>
-                        <input inputmode="numeric" class="cvc" pattern="[0-9]+*" type="password" maxlength="2" size="2" name="pafw_settlepg_card_pw" placeholder="<?php _e( '비밀번호 앞 2자리', 'pgall-for-woocommerce' ); ?>" value="">
+                        <input inputmode="numeric" class="cvc" pattern="[0-9]+*" type="password" maxlength="2" size="2" name="pafw_settlepg_card_pw" placeholder="<?php esc_html_e( '비밀번호 앞 2자리', 'pgall-for-woocommerce' ); ?>" value="">
                     </div>
                 </div>
             </div>

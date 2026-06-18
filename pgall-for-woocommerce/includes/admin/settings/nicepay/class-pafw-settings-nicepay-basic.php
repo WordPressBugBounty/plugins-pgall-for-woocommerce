@@ -50,14 +50,14 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'showIf'      => array ( 'operation_mode' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'merchant_id',
 							'title'     => '상점 아이디',
 							'className' => 'fluid',
 							'default'   => 'nicepay00m',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>nicepay00m</code> 입니다.<br>실 결제용 상점 아이디는 <code>cdm</code>으로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>nicepay00m</code> 입니다.<br>실 결제용 상점 아이디는 <code>cdm</code>으로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array (
@@ -65,7 +65,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'title'     => '상점키',
 							'className' => 'fluid',
 							'default'   => 'EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점키는 <code>EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점키는 <code>EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg==</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array (
@@ -73,7 +73,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'title'     => '거래취소 비밀번호',
 							'className' => 'fluid',
 							'default'   => '123456',
-							'desc2'     => __( '<div class="desc2">거래취소시 사용되는 비밀번호로 가맹점 관리자 페이지에서 발급 받아 설정해 주세요.<br>결제 테스트용 거래취소 비밀번호는 <b>123456</b> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">거래취소시 사용되는 비밀번호로 가맹점 관리자 페이지에서 발급 받아 설정해 주세요.<br>결제 테스트용 거래취소 비밀번호는 <b>123456</b> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						)
 					)
@@ -102,7 +102,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'showIf'      => array ( 'operation_mode_subscription' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'subscription_merchant_id',
@@ -110,7 +110,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'className' => 'fluid',
 							'default'   => 'nictest04m',
 							'type'      => 'Text',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>nictest04m</code> 입니다.<br>실 결제용 상점 아이디는 <code>cdm</code>으로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>nictest04m</code> 입니다.<br>실 결제용 상점 아이디는 <code>cdm</code>으로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'subscription_merchant_key',
@@ -118,7 +118,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'className' => 'fluid',
 							'default'   => 'b+zhZ4yOZ7FsH8pm5lhDfHZEb79tIwnjsdA0FBXh86yLc6BJeFVrZFXhAoJ3gEWgrWwN+lJMV0W4hvDdbe4Sjw==',
 							'type'      => 'Text',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점키는 <code>b+zhZ4yOZ7FsH8pm5lhDfHZEb79tIwnjsdA0FBXh86yLc6BJeFVrZFXhAoJ3gEWgrWwN+lJMV0W4hvDdbe4Sjw==</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점키는 <code>b+zhZ4yOZ7FsH8pm5lhDfHZEb79tIwnjsdA0FBXh86yLc6BJeFVrZFXhAoJ3gEWgrWwN+lJMV0W4hvDdbe4Sjw==</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'subscription_cancel_pw',
@@ -126,7 +126,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Basic' ) ) {
 							'className' => 'fluid',
 							'default'   => '123456',
 							'type'      => 'Text',
-							'desc2'     => __( '<div class="desc2">거래취소시 사용되는 비밀번호로 가맹점 관리자 페이지에서 발급 받아 설정해 주세요.<br>결제 테스트용 거래취소 비밀번호는 <b>123456</b> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">거래취소시 사용되는 비밀번호로 가맹점 관리자 페이지에서 발급 받아 설정해 주세요.<br>결제 테스트용 거래취소 비밀번호는 <b>123456</b> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						)
 					)
 				),

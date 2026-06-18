@@ -1,6 +1,6 @@
 <?php
 
-
+// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.DateTime.RestrictedFunctions.date_date
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -44,7 +44,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 			);
 
 			if ( is_wp_error( $response ) ) {
-				throw new Exception( $response->get_error_message(), '5001' );
+				throw new Exception( $response->get_error_message(), '5001' ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			} else {
 				$result = json_decode( $response[ 'body' ], true );
 
@@ -57,9 +57,9 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 						return $result[ 'data' ];
 					} else {
 						if ( is_array( $result ) ) {
-							throw new Exception( pafw_get( $result, 'message' ), pafw_get( $result, 'code' ) );
+							throw new Exception( pafw_get( $result, 'message' ), pafw_get( $result, 'code' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 						} else {
-							throw new Exception( $result );
+							throw new Exception( $result ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 						}
 					}
 				}
@@ -90,7 +90,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 						}
 					} else {
 						$gateway->add_log( "Redirect : Referer" );
-						$redirect_url = $_SERVER[ 'HTTP_REFERER' ];
+						$redirect_url = esc_url_raw( pafw_get_unslash( $_SERVER, 'HTTP_REFERER' ) );
 					}
 				}
 			} elseif ( is_a( $order, 'WP_User' ) ) {
@@ -111,18 +111,18 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
                 <head>
                     <script>
 						<?php if( 'iframe' == $gateway->payment_window_mode() ) : ?>
-                        window.top.jQuery.fn.payment_complete( '<?php echo $redirect_url; ?>' );
+                        window.top.jQuery.fn.payment_complete( '<?php echo esc_js( $redirect_url ); ?>' );
 						<?php elseif( 'page' == $gateway->payment_window_mode() ) : ?>
 						<?php
-						wp_safe_redirect( $redirect_url );
+						wp_safe_redirect( esc_url_raw( $redirect_url ) );
 						die();
 						?>
 						<?php else : ?>
 						<?php if( in_array( $gateway->get_master_id(), array( 'settlebank' ) ) ) : ?>
-                        opener.window.top.jQuery.fn.payment_complete( '<?php echo $redirect_url; ?>' );
+                        opener.window.top.jQuery.fn.payment_complete( '<?php echo esc_js( $redirect_url ); ?>' );
                         window.close();
 						<?php else: ?>
-                        opener.window.postMessage( { action: 'pafw_payment_complete', redirect_url: "<?php echo $redirect_url; ?>" }, '<?php echo $gateway->gateway_domain(); ?>' );
+                        opener.window.postMessage( { action: 'pafw_payment_complete', redirect_url: "<?php echo esc_js( $redirect_url ); ?>" }, '<?php echo esc_js( $gateway->gateway_domain() ); ?>' );
 						<?php endif; ?>
 						<?php endif; ?>
                     </script>
@@ -136,11 +136,11 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
                 <head>
                     <script>
 						<?php if( 'iframe' == $gateway->payment_window_mode() ) : ?>
-                        window.top.jQuery.fn.payment_fail( '<?php echo $message; ?>' );
+                        window.top.jQuery.fn.payment_fail( '<?php echo esc_js( $message ); ?>' );
 						<?php elseif( 'page' == $gateway->payment_window_mode() ) : ?>
 						<?php
 						wc_add_notice( $message, 'error' );
-						wp_safe_redirect( $redirect_url );
+						wp_safe_redirect( esc_url_raw( $redirect_url ) );
 						die();
 						?>
 						<?php else : ?>
@@ -148,7 +148,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
                         opener.window.top.jQuery.fn.payment_fail( "<?php echo esc_js( $message ); ?>" );
                         window.close();
 						<?php else: ?>
-                        opener.window.postMessage( { action: 'pafw_payment_fail', message: "<?php echo esc_js( $message ); ?>" }, '<?php echo $gateway->gateway_domain(); ?>' );
+                        opener.window.postMessage( { action: 'pafw_payment_fail', message: "<?php echo esc_js( $message ); ?>" }, '<?php echo esc_js( $gateway->gateway_domain() ); ?>' );
 						<?php endif; ?>
 						<?php endif; ?>
                     </script>
@@ -200,12 +200,12 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				return $response;
 			} catch ( Exception $e ) {
-				throw new Exception( sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				throw new Exception( sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 		}
 		static function get_register_form( $user, $gateway, $action = 'subscription/register_form' ) {
 			try {
-//				set_transient( 'pafw_redirect_url', $_SERVER['HTTP_REFERER'], 5 * MINUTE_IN_SECONDS );
 				$customer_id = $user->ID;
 
 				$txnid = 'PAFW-BILL-' . $customer_id;
@@ -223,7 +223,8 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				return self::call( $action, $params, $user, $gateway );
 			} catch ( Exception $e ) {
-				throw new Exception( sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				throw new Exception( sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 		}
 		static function process_approval( $gateway, $order, $action = 'approval' ) {
@@ -344,7 +345,8 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				return $response;
 			} catch ( Exception $e ) {
-				throw new Exception( sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				throw new Exception( sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 		}
 		static function vbank_refund( $order, $gateway ) {
@@ -365,11 +367,13 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 				$order->update_meta_data( '_pafw_cancel_date', current_time( 'mysql' ) );
 				$order->save_meta_data();
 
+				// translators: %s: order id
 				$gateway->add_log( sprintf( '가상계좌 환불처리 요청 성공. 주문번호 : %s', $order->get_id() ) );
 
 				wp_send_json_success( __( '관리자의 요청으로 주문건의 가상계좌 환불처리가 완료되었습니다.', 'pgall-for-woocommerce' ) );
 			} catch ( Exception $e ) {
-				throw new Exception( sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				throw new Exception( sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 		}
 		static function purchase_decided( $order, $gateway, $action = 'purchase_decided' ) {
@@ -401,19 +405,22 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 					$order->update_status( 'completed' ); //주문처리완료 상태
 					$order->update_meta_data( '_pafw_escrow_order_confirm', 'yes' );
 					$order->update_meta_data( '_pafw_escrow_order_confirm_time', current_time( 'mysql' ) );
-					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=blue><strong>확정</strong></font>하였습니다. 거래번호 : %s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s', 'pgall-for-woocommerce' ), $response[ 'transaction_id' ], $response[ 'res_cd' ], $response[ 'decided_date' ], $response[ 'decided_time' ] ) );
+					// translators: 1: order id, 2: result code, 3: decided date, 4: decided time
+					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=blue><strong>확정</strong></font>하였습니다. 거래번호 : %1$s, 결과코드 : %2$s, 처리날짜 : %3$s, 처리시각 : %4$s', 'pgall-for-woocommerce' ), $response[ 'transaction_id' ], $response[ 'res_cd' ], $response[ 'decided_date' ], $response[ 'decided_time' ] ) );
 				} else {
 					$order->update_status( 'cancel-request' );  //주문처리완료 상태로 변경
 					$order->update_meta_data( '_pafw_escrow_order_confirm_reject', 'yes' );
 					$order->update_meta_data( '_pafw_escrow_order_confirm_reject_time', current_time( 'mysql' ) );
-					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=red><strong>거절</strong></font>하였습니다. 거래번호 : %s, 결과코드 : %s, 처리날짜 : %s, 처리시각 : %s', 'pgall-for-woocommerce' ), $response[ 'transaction_id' ], $response[ 'res_cd' ], $response[ 'decided_date' ], $response[ 'decided_time' ] ) );
+					// translators: 1: order id, 2: result code, 3: decided date, 4: decided time
+					$order->add_order_note( sprintf( __( '고객님께서 에스크로 구매확인을 <font color=red><strong>거절</strong></font>하였습니다. 거래번호 : %1$s, 결과코드 : %2$s, 처리날짜 : %3$s, 처리시각 : %4$s', 'pgall-for-woocommerce' ), $response[ 'transaction_id' ], $response[ 'res_cd' ], $response[ 'decided_date' ], $response[ 'decided_time' ] ) );
 				}
 
 				$order->save_meta_data();
 
 				return $response;
 			} catch ( Exception $e ) {
-				throw new Exception( sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				throw new Exception( sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 		}
 		public static function issue_bill_key( $order, $gateway ) {
@@ -526,7 +533,7 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 			}
 
 			if ( empty( $bill_key ) ) {
-				throw new Exception( __( '[PAFW-ERR-5001] 빌키 정보가 없습니다.', 'pgall-for-woocommerce' ) );
+				throw new Exception( __( '[PAFW-ERR-5001] 빌키 정보가 없습니다.', 'pgall-for-woocommerce' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 
 			$order_items = $gateway->get_order_items( $order );
@@ -588,37 +595,40 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 			);
 		}
 		public static function cancel_additional_charge( $order, $gateway ) {
+			$cancel_amount = pafw_get_unslash( $_REQUEST, 'amount' );
+			$tid           = pafw_get_unslash( $_REQUEST, 'tid' );
+
 			$params = array(
 				'order'       => array(
 					'id'       => $order->get_id(),
 					'txnid'    => $gateway->get_txnid( $order ),
-					'amount'   => wc_clean( $_REQUEST[ 'amount' ] ),
+					'amount'   => $cancel_amount,
 					'currency' => $order->get_currency(),
 				),
 				'cancel_info' => array(
 					'order_id'        => $order->get_id(),
-					'amount'          => wc_clean( $_REQUEST[ 'amount' ] ),
-					'tax_amount'      => PAFW_Tax::get_tax_amount( $order, wc_clean( $_REQUEST[ 'amount' ] ) ),
-					'tax_free_amount' => PAFW_Tax::get_tax_free_amount( $order, wc_clean( $_REQUEST[ 'amount' ] ) ),
-					'vat'             => PAFW_Tax::get_total_tax( $order, wc_clean( $_REQUEST[ 'amount' ] ) ),
+					'amount'          => $cancel_amount,
+					'tax_amount'      => PAFW_Tax::get_tax_amount( $order, $cancel_amount ),
+					'tax_free_amount' => PAFW_Tax::get_tax_free_amount( $order, $cancel_amount ),
+					'vat'             => PAFW_Tax::get_total_tax( $order, $cancel_amount ),
 					'partial_refund'  => '0',
-					'transaction_id'  => wc_clean( $_REQUEST[ 'tid' ] ),
+					'transaction_id'  => $tid,
 					'message'         => __( '추가과금취소', 'pgall-for-woocommerce' ),
 				)
 			);
 
 			self::call( 'cancel', $params, $order, $gateway );
 
-			do_action( 'pafw_payment_action', 'cancelled', wc_clean( $_REQUEST[ 'amount' ] ), $order, $gateway );
+			do_action( 'pafw_payment_action', 'cancelled', $cancel_amount, $order, $gateway );
 
 			$gateway->add_payment_log( $order, '[ 추가 과금 취소 성공 ]', array(
-				'거래요청번호' => wc_clean( $_REQUEST[ 'tid' ] ),
-				'취소금액'   => wc_price( wc_clean( $_REQUEST[ 'amount' ] ), array( 'currency' => $order->get_currency() ) )
+				'거래요청번호' => $tid,
+				'취소금액'   => wc_price( $cancel_amount, array( 'currency' => $order->get_currency() ) )
 			) );
 
 			$history = $order->get_meta( '_pafw_additional_charge_history' );
 
-			$history[ wc_clean( $_REQUEST[ 'tid' ] ) ][ 'status' ] = 'CANCELED';
+			$history[ $tid ][ 'status' ] = 'CANCELED';
 
 			$order->update_meta_data( '_pafw_additional_charge_history', $history );
 			$order->save_meta_data();
@@ -741,7 +751,9 @@ if ( ! class_exists( 'PAFW_Gateway' ) ) {
 
 				return self::call( $action, $params, $order, $gateway );
 			} catch ( Exception $e ) {
-				throw new Exception( sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				throw new Exception( sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+
 			}
 		}
 		static function cancel_cash_receipt( $order, $msg, $gateway ) {

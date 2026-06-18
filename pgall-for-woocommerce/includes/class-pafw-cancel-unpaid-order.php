@@ -1,6 +1,5 @@
 <?php
-
-
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -34,9 +33,9 @@ if ( ! class_exists( 'PAFW_Cancel_Unpaid_Order' ) ) :
 		}
 		public static function pafw_cancel_unpaid_order_interval( $schedules ) {
 
-			$schedules['pafw_cancel_unpaid_order_interval'] = array(
+			$schedules[ 'pafw_cancel_unpaid_order_interval' ] = array(
 				'interval' => 1800,
-				'display'  => __( '매 30 분 간격', 'mshop-bacs-restore-stock' )
+				'display'  => __( '매 30 분 간격', 'pgall-for-woocommerce' ),
 			);
 
 			return $schedules;
@@ -58,7 +57,7 @@ if ( ! class_exists( 'PAFW_Cancel_Unpaid_Order' ) ) :
 
 			return wc_get_orders( array(
 				'date_before'    => $date,
-				'limit'          => -1,
+				'limit'          => - 1,
 				'status'         => 'wc-on-hold',
 				'payment_method' => $payment_gateway_ids
 			) );

@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_TossPayments_Vbank' ) ) {
 
-		class WC_Gateway_TossPayments_Vbank extends WC_Gateway_TossPayments {
+		class WC_Gateway_TossPayments_Vbank extends WC_Gateway_TossPayments { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 			public function __construct() {
 				$this->id = 'tosspayments_vbank';
 
@@ -51,14 +51,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order->save();
 			}
 			function wc_api_vbank_noti() {
-				$REMOTE_IP  = pafw_get( $_SERVER, 'HTTP_X_FORWARDED_FOR', $_SERVER['REMOTE_ADDR'] );
+				$REMOTE_IP  = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER,'REMOTE_ADDR' ) );
 				$request_ip = ip2long( $REMOTE_IP );
 				$this->add_log( '가상계좌 입금통보 시작 : ' . $REMOTE_IP );
 
 				$json    = file_get_contents( 'php://input' );
 				$payload = json_decode( $json, true );
 
-				$this->add_log( print_r( $payload, true ) );
+				$this->add_log( print_r( $payload, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 				try {
 					if ( 'DONE' != pafw_get( $payload, 'status' ) ) {
@@ -70,31 +70,38 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					$order = wc_get_order( $order_id );
 
 					if ( ! is_a( $order, 'WC_Order' ) ) {
+						// translators: %s: order id
 						throw new Exception( sprintf( __( '[PAFW-ERR-8001] 주문정보 없음 - %s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'orderId' ) ) );
 					}
 
 					if ( $order->get_payment_method() != $this->id ) {
+						// translators: %s: payment method
 						throw new Exception( sprintf( __( '[PAFW-ERR-8002] 결제수단 불일치 - %s', 'pgall-for-woocommerce' ), $order->get_payment_method() ) );
 					}
 
 					if ( 'on-hold' != $order->get_status() ) {
+						// translators: %s: order status
 						throw new Exception( sprintf( __( '[PAFW-ERR-8003] 주문상태 오류 - %s', 'pgall-for-woocommerce' ), $order->get_status() ) );
 					}
 
 					if ( pafw_get( $payload, 'secret' ) != $this->get_transaction_id( $order ) ) {
-						throw new Exception( sprintf( __( '[PAFW-ERR-8004] SECRET 불일치 [%s] [%s]', 'pgall-for-woocommerce' ), wc_clean( pafw_get( $payload, 'secret' ) ), $this->get_transaction_id( $order ) ) );
+						// translators: 1: secret. 2: transaction id
+						throw new Exception( sprintf( __( '[PAFW-ERR-8004] SECRET 불일치 [%1$s] [%2$s]', 'pgall-for-woocommerce' ), wc_clean( pafw_get( $payload, 'secret' ) ), $this->get_transaction_id( $order ) ) );
 					}
 
 					if ( pafw_get( $payload, 'orderId' ) != $order->get_meta( '_pafw_txnid' ) ) {
-						throw new Exception( sprintf( __( '[PAFW-ERR-8005] 거래번호 불일치 [%s] [%s]', 'pgall-for-woocommerce' ), wc_clean( pafw_get( $payload, 'orderId' ) ), $order->get_meta( '_pafw_txnid' ) ) );
+						// translators: 1: transaction id of request. 2: transaction id of order
+						throw new Exception( sprintf( __( '[PAFW-ERR-8005] 거래번호 불일치 [%1$s] [%2$s]', 'pgall-for-woocommerce' ), wc_clean( pafw_get( $payload, 'orderId' ) ), $order->get_meta( '_pafw_txnid' ) ) );
 					}
 
 					$order->update_meta_data( '_pafw_vbank_noti_received', 'yes' );
 					$order->update_meta_data( '_pafw_vbank_noti_transaction_date', wc_clean( pafw_get( $payload, 'createdAt' ) ) );
 					$order->save_meta_data();
 
-					$order->add_order_note( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %s, 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'secret' ), pafw_get( $payload, 'orderId' ) ) );
-					$this->add_log( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %s, 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'secret' ), pafw_get( $payload, 'orderId' ) ) );
+					// translators: 1: transaction id. 2: order id
+					$order->add_order_note( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'secret' ), pafw_get( $payload, 'orderId' ) ) );
+					// translators: 1: transaction id. 2: order id
+					$this->add_log( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'secret' ), pafw_get( $payload, 'orderId' ) ) );
 
 					$order->payment_complete( wc_clean( pafw_get( $payload, 'secret' ) ) );
 
@@ -115,7 +122,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						$order->add_order_note( $e->getMessage() );
 					}
 					$this->add_log( $e->getMessage() );
-					$this->add_log( print_r( wc_clean( $_REQUEST ), true ) );
+					$this->add_log( print_r( wc_clean( $_REQUEST ), true ) );  // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 					echo 'OK';    //가맹점 관리자 사이트에서 재전송 가능하나 주문건 확인 필요
 					exit();
 				}

@@ -13,7 +13,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 		static $order_statuses = null;
 
 		static function update_settings() {
-			$_REQUEST = array_merge( $_REQUEST, json_decode( stripslashes( wc_clean( $_REQUEST['values'] ) ), true ) );
+			$_REQUEST = array_merge( $_REQUEST, json_decode( pafw_get_unslash( $_REQUEST, 'values' ), true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			PAFW_Setting_Helper::update_settings( self::get_basic_setting() );
 
@@ -21,26 +21,26 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 		}
 
 		static function get_basic_setting() {
-			return array (
+			return array(
 				'type'     => 'Page',
 				'class'    => 'active',
 				'title'    => __( '기본 설정', 'pgall-for-woocommerce' ),
-				'elements' => array (
-					array (
+				'elements' => array(
+					array(
 						'type'     => 'Section',
 						'title'    => __( '리뷰 자동 등록 기능', 'pgall-for-woocommerce' ),
-						'elements' => array (
-							array (
+						'elements' => array(
+							array(
 								"id"        => "pafw-use-smart-review",
 								"title"     => __( "활성화", 'pgall-for-woocommerce' ),
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">리뷰 자동 등록 기능을 사용합니다.</div>', 'pgall-for-woocommerce' )
+								"desc"      => __( '<div class="desc2">리뷰 자동 등록 기능을 사용합니다.</div>', 'pgall-for-woocommerce' ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
-							array (
+							array(
 								"id"          => "pafw-smart-review-template",
-								"showIf"      => array ( 'pafw-use-smart-review' => 'yes' ),
+								"showIf"      => array( 'pafw-use-smart-review' => 'yes' ),
 								"className"   => "",
 								"title"       => __( "리뷰 아이콘", 'pgall-for-woocommerce' ),
 								"type"        => "Select",
@@ -48,9 +48,9 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 								"placeholder" => __( '리뷰 템플릿을 선택하세요.', 'pgall-for-woocommerce' ),
 								"options"     => pafw_get_review_templates()
 							),
-							array (
+							array(
 								"id"        => "pafw-smart-review-rate",
-								"showIf"    => array ( 'pafw-use-smart-review' => 'yes' ),
+								"showIf"    => array( 'pafw-use-smart-review' => 'yes' ),
 								"title"     => "리뷰 평점",
 								"className" => "",
 								"editable"  => "true",
@@ -58,20 +58,20 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 								"repeater"  => "true",
 								"type"      => "SortableTable",
 								"default"   => PAFW_Review::get_default_review_contents(),
-								"elements"  => array (
-									array (
+								"elements"  => array(
+									array(
 										"id"        => "default",
 										"title"     => __( "기본", "pgall-for-woocommerce" ),
 										"className" => " one wide column fluid",
 										"type"      => "Toggle",
-										'tooltip'   => array (
-											'title' => array (
+										'tooltip'   => array(
+											'title' => array(
 												'title'   => __( '주의', 'pgall-for-woocommerce' ),
 												'content' => __( '기본 선택 시, 리뷰 평점이 기본으로 지정됩니다. 기본 선택은 한개만 활성화를 진행 해 주세요.', 'pgall-for-woocommerce' ),
 											)
 										)
 									),
-									array (
+									array(
 										"id"          => "rate",
 										"title"       => __( "평점", "pgall-for-woocommerce" ),
 										"className"   => " one wide column fluid",
@@ -79,7 +79,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 										"default"     => "",
 										"placeholder" => __( "평점을 입력하세요.", "pgall-for-woocommerce" )
 									),
-									array (
+									array(
 										"id"          => "label",
 										"className"   => " five wide column fluid",
 										"title"       => __( "레이블", "pgall-for-woocommerce" ),
@@ -87,7 +87,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 										"default"     => "",
 										"placeholder" => __( "평점 레이블을 입력하세요.", "pgall-for-woocommerce" )
 									),
-									array (
+									array(
 										"id"          => "content",
 										"className"   => " sixteen wide column fluid",
 										"title"       => __( "리뷰 내용", 'pgall-for-woocommerce' ),
@@ -97,22 +97,22 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 									)
 								)
 							),
-							array (
+							array(
 								"id"        => "pafw-smart-review-placeholder",
-								"showIf"    => array ( 'pafw-use-smart-review' => 'yes' ),
+								"showIf"    => array( 'pafw-use-smart-review' => 'yes' ),
 								"title"     => "리뷰작성 기본 안내문구",
 								"className" => "fluid",
 								"type"      => "Text",
 								"default"   => __( '리뷰를 작성 해 주세요.', 'pgall-for-woocommerce' )
 							),
-							array (
+							array(
 								"id"        => "pafw-user-can-edit-comment",
-								"showIf"    => array ( 'pafw-use-smart-review' => 'yes' ),
+								"showIf"    => array( 'pafw-use-smart-review' => 'yes' ),
 								"title"     => "리뷰 작성",
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">구매자가 리뷰 내용을 직접 작성 할 수 있습니다.</div>', 'pgall-for-woocommerce' )
+								"desc"      => __( '<div class="desc2">구매자가 리뷰 내용을 직접 작성 할 수 있습니다.</div>', 'pgall-for-woocommerce' ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 						)
 					)
@@ -128,20 +128,21 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 				$setting_url = admin_url( '/admin.php?page=wc-settings&tab=products' );
 			}
 
-			return array (
+			return array(
 				'type'     => 'Page',
 				'class'    => 'active',
 				'title'    => __( '기본 설정', 'pgall-for-woocommerce' ),
-				'elements' => array (
-					array (
+				'elements' => array(
+					array(
 						'type'     => 'Section',
 						'title'    => __( '리뷰 자동 등록 기능', 'pgall-for-woocommerce' ),
-						'elements' => array (
-							array (
+						'elements' => array(
+							array(
 								'id'       => 'guide',
 								'type'     => 'Label',
 								'readonly' => 'yes',
-								'default'  => sprintf( __( '<p style="margin: 10px 5px;">리뷰 자동 등록 기능은 <a href="%s" target="_blank">우커머스 상품평 기능</a>을 활성화하신 후 이용하실 수 있습니다.</p>', 'pgall-for-woocommerce' ), $setting_url )
+								// translators: %s: url of setting page
+								'default'  => sprintf( __( '<p style="margin: 10px 5px;">리뷰 자동 등록 기능은 <a href="%s" target="_blank">우커머스 상품평 기능</a>을 활성화하신 후 이용하실 수 있습니다.</p>', 'pgall-for-woocommerce' ), $setting_url ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							)
 						)
 					)
@@ -152,7 +153,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 		static function enqueue_scripts() {
 
 			wp_enqueue_style( 'mshop-setting-manager', PAFW()->plugin_url() . '/includes/admin/setting-manager/css/setting-manager.min.css' );
-			wp_enqueue_script( 'mshop-setting-manager', PAFW()->plugin_url() . '/includes/admin/setting-manager/js/setting-manager.min.js', array (
+			wp_enqueue_script( 'mshop-setting-manager', PAFW()->plugin_url() . '/includes/admin/setting-manager/js/setting-manager.min.js', array(
 				'underscore',
 				'jquery',
 				'jquery-ui-core'
@@ -168,7 +169,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 
 			self::enqueue_scripts();
 
-			wp_localize_script( 'mshop-setting-manager', 'mshop_setting_manager', array (
+			wp_localize_script( 'mshop-setting-manager', 'mshop_setting_manager', array(
 				'element'  => 'mshop-setting-wrapper',
 				'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 				'action'   => PAFW()->slug() . '-update_pafw_review_settings',
@@ -182,7 +183,7 @@ if ( ! class_exists( 'PAFW_Admin_Review_Settings' ) ) :
 			?>
             <script>
                 jQuery( document ).ready( function () {
-                    jQuery( this ).trigger( 'mshop-setting-manager', ['mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>, null, null] );
+                    jQuery( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>, null, null ] );
                 } );
             </script>
 

@@ -1,7 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.Security.NonceVerification
 
-
-//소스에 URL로 직접 접근 방지
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -157,7 +156,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 					if ( $product && $product->exists() ) {
 						if ( $product->managing_stock() && ! $product->has_enough_stock( $item[ 'qty' ] ) ) {
-							throw new Exception( sprintf( __( '결제오류 : [%d] %s 상품의 재고가 부족합니다.', 'pgall-for-woocommerce' ), $product->get_id(), $product->get_title() ), '1101' );
+							// translators: 1: product id, 2: product name
+							throw new Exception( sprintf( __( '결제오류 : [%1$d] %2$s 상품의 재고가 부족합니다.', 'pgall-for-woocommerce' ), $product->get_id(), $product->get_title() ), '1101' ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 						}
 					}
 				}
@@ -178,6 +178,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function check_shop_order_capability() {
 			if ( ! is_user_logged_in() || ! current_user_can( 'publish_shop_orders' ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '주문 관리 권한이 없습니다.', 'pgall-for-woocommerce' ) );
 			}
 		}
@@ -206,7 +207,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				try {
 					$response = PAFW_Gateway::request_cancel( $order, __( '사용자 주문취소', 'pgall-for-woocommerce' ), __( 'CM_CANCEL_001', 'pgall-for-woocommerce' ), $this );
 					if ( $response == "success" ) {
-						if ( $_POST[ 'refund_request' ] ) {
+						if ( isset( $_POST[ 'refund_request' ] ) ) {
 							unset( $_POST[ 'refund_request' ] );
 						}
 
@@ -231,10 +232,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					}
 
 					wc_add_notice( $e->getMessage(), 'error' );
+					// translators: %s: error message
 					$order->add_order_note( sprintf( __( '사용자 주문취소 시도 실패 (에러메세지 : %s)', 'pgall-for-woocommerce' ), $e->getMessage() ) );
 				}
 			} else {
 				wc_add_notice( __( '주문 취소 시도중 오류 (에러메시지 : 거래번호 없음)가 발생했습니다. 관리자에게 문의해주세요.', 'pgall-for-woocommerce' ), 'error' );
+				// translators: %s: error message
 				$order->add_order_note( sprintf( __( '사용자 주문취소 시도 실패 (에러메세지 : %s)', 'pgall-for-woocommerce' ), '결제수단 및 거래번호 없음' ) );
 			}
 		}
@@ -252,24 +255,27 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			if ( is_null( $order ) ) {
 				if ( is_null( $order_id ) && isset( $_REQUEST[ 'order_id' ] ) ) {
-					$order_id = wc_clean( $_REQUEST[ 'order_id' ] );
+					$order_id = pafw_get_unslash( $_REQUEST, 'order_id' );
 				}
 
 				if ( is_null( $order_key ) && isset( $_REQUEST[ 'order_key' ] ) ) {
-					$order_key = wc_clean( $_REQUEST[ 'order_key' ] );
+					$order_key = pafw_get_unslash( $_REQUEST, 'order_key' );
 				}
 
 				if ( is_null( $order_id ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '필수 파라미터가 누락되었습니다. [주문아이디]', 'pgall-for-woocommerce' ), '1001' );
 				}
 
 				$order = wc_get_order( $order_id );
 
 				if ( ! $order ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '주문을 찾을 수 없습니다.', 'pgall-for-woocommerce' ), '1002' );
 				}
 
 				if ( ! is_null( $order_key ) && $order_key != $order->get_order_key() ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '주문 정보가 올바르지 않습니다.', 'pgall-for-woocommerce' ), '1003' );
 				}
 			}
@@ -280,12 +286,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$params = array();
 
 			if ( ! empty( $_POST[ 'data' ] ) ) {
-				parse_str( wc_clean( $_POST[ 'data' ] ), $params ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				parse_str( pafw_get_unslash( $_POST, 'data' ), $params ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				$_POST = array_merge( $_POST, $params );
 			}
 
-			wp_send_json_success( $this->process_payment( wc_clean( $_POST[ 'order_id' ] ) ) );
+			wp_send_json_success( $this->process_payment( pafw_get_unslash( $_POST, 'order_id' ) ) );
 		}
 		function process_payment( $order_id ) {
 			$order = wc_get_order( $order_id );
@@ -320,12 +326,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order = null;
 
 				if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'order_id' ] ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 				}
 
-				$order = $this->get_order( wc_clean( $_GET[ 'order_id' ] ) );
+				$order = $this->get_order( absint( pafw_get_unslash( $_GET, 'order_id' ) ) );
 
 				if ( ! pafw_is_subscription( $order ) && $_GET[ 'transaction_id' ] != $order->get_meta( 'pafw_transaction_id' ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9100' );
 				}
 
@@ -342,12 +350,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$object = null;
 
 			if ( isset( $_GET[ 'order_id' ] ) ) {
-				$object = wc_get_order( wc_clean( $this->get_order_id_from_txnid( $_GET[ 'order_id' ] ) ) );
+				$object = wc_get_order( wc_clean( $this->get_order_id_from_txnid( pafw_get_unslash( $_GET, 'order_id' ) ) ) );
 			} elseif ( isset( $_GET[ 'user_id' ] ) ) {
-				$object = get_userdata( wc_clean( $_GET[ 'user_id' ] ) );
+				$object = get_userdata( absint( pafw_get_unslash( $_GET, 'user_id' ) ) );
 			}
 
-			$e = new Exception( sprintf( "[PAFW-ERR-%s] %s", wc_clean( $_GET[ 'res_code' ] ), wc_clean( $_GET[ 'res_msg' ] ) ) );
+			$e = new Exception( sprintf( "[PAFW-ERR-%s] %s", pafw_get_unslash( $_GET, 'res_code' ), pafw_get_unslash( $_GET, 'res_msg' ) ) );
 
 			$this->handle_exception( $e, $object );
 		}
@@ -355,30 +363,32 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$object = null;
 
 			if ( isset( $_GET[ 'order_id' ] ) ) {
-				$order_id = $this->get_order_id_from_txnid( wc_clean( $_GET[ 'order_id' ] ) );
+				$order_id = $this->get_order_id_from_txnid( pafw_get_unslash( $_GET, 'order_id' ) );
 				$object   = wc_get_order( $order_id );
 			} elseif ( isset( $_GET[ 'user_id' ] ) ) {
-				$object = get_userdata( wc_clean( $_GET[ 'user_id' ] ) );
+				$object = get_userdata( pafw_get_unslash( $_GET, 'user_id' ) );
 			}
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			$e = new Exception( __( '결제를 취소하셨습니다.', 'pgall-for-woocommerce' ) );
 
 			$this->handle_exception( $e, $object );
 		}
 
 		function process_payment_response() {
-			$this->add_log( "Process Payment Response : " . wc_clean( $_REQUEST[ 'type' ] ) );
+			$this->add_log( "Process Payment Response : " . pafw_get_unslash( $_REQUEST, 'type' ) );
 
 			try {
 				if ( empty( $_REQUEST[ 'type' ] ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '잘못된 요청입니다. - REQUEST TYPE 없음.', 'pgall-for-woocommerce' ) );
 				}
 
-				do_action( 'pafw_' . $this->id . '_' . wc_clean( $_REQUEST[ 'type' ] ) );
+				do_action( 'pafw_' . $this->id . '_' . pafw_get_unslash( $_REQUEST, 'type' ) );
 
 				die();
 			} catch ( Exception $e ) {
-				wp_die( $e->getMessage() );
+				wp_die( esc_html( $e->getMessage() ) );
 			}
 		}
 
@@ -430,9 +440,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					if ( $auto_cancel && ! empty( $transaction_id ) ) {
 						PAFW_Gateway::request_cancel( $order, '시스템 자동 취소 처리', '0', $this );
 					}
-					throw new Exception( sprintf( __( '유효하지 않은 주문입니다. 주문상태(%s)가 잘못 되었거나 결제 대기시간 초과로 취소된 주문입니다.', 'pgall-for-woocommerce' ), $order->get_status() ), '2001' );
+					// translators: %s : order status
+					throw new Exception( sprintf( __( '유효하지 않은 주문입니다. 주문상태(%s)가 잘못 되었거나 결제 대기시간 초과로 취소된 주문입니다.', 'pgall-for-woocommerce' ), $order->get_status() ), '2001' ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 
 				} else {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '이미 결제가 완료된 주문입니다.', 'pgall-for-woocommerce' ), '2002' );
 				}
 			}
@@ -468,7 +480,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						'order_id'          => $order->get_id(),
 						'redirect'          => $myaccount_endpoint
 					), $cancel_endpoint ), 'pafw-cancel-order-' . $order->get_id() . '-' . $order->get_order_key() ),
-					'name' => __( 'Cancel', 'woocommerce' )
+					'name' => __( 'Cancel', 'pgall-for-woocommerce' )
 				);
 			} else {
 				unset( $actions[ 'cancel' ] );
@@ -483,12 +495,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order = $this->get_order();
 
 			if ( ! $this->is_refundable( $order ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '주문을 취소할 수 없는 상태입니다.', 'pgall-for-woocommerce' ) );
 			}
 
 			$transaction_id = $this->get_transaction_id( $order );
 
 			if ( empty( $transaction_id ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '주문 정보에 오류가 있습니다. [ 거래번호 없음 ]', 'pgall-for-woocommerce' ) );
 			}
 
@@ -551,12 +565,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function handle_exception( $e, $order, $redirect = true ) {
 			try {
 				if ( $e->getCode() ) {
+					// phpcs:ignore WordPress.WP.I18n.UnorderedPlaceholdersText, WordPress.WP.I18n.MissingTranslatorsComment
 					$message = sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() );
 				} else {
 					$message = $e->getMessage();
 				}
 
-				$this->add_log( "[오류] " . $message . "\n" . print_r( wc_clean( $_REQUEST ), true ) );
+				$this->add_log( "[오류] " . $message . "\n" . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 				if ( $order && is_a( $order, 'WC_Abstract_Order' ) && ! pafw_is_subscription( $order ) ) {
 					$order->add_order_note( $message );
@@ -689,13 +704,15 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				check_ajax_referer( 'pgall-for-woocommerce' );
 
 				if ( ! current_user_can( 'publish_shop_orders' ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '주문 관리 권한이 없습니다.', 'pgall-for-woocommerce' ) );
 				}
 
-				$this->process_additional_charge( wc_clean( $_REQUEST[ 'order_id' ] ), wc_clean( $_REQUEST[ 'amount' ] ), pafw_get( $_REQUEST, 'card_quota', '00' ) );
+				$this->process_additional_charge( pafw_get_unslash( $_REQUEST, 'order_id' ), pafw_get_unslash( $_REQUEST, 'amount' ), pafw_get_unslash( $_REQUEST, 'card_quota', '00' ) );
 
 				wp_send_json_success( '추가 과금 요청이 정상적으로 처리되었습니다.' );
 			} catch ( Exception $e ) {
+				// phpcs:ignore WordPress.WP.I18n.UnorderedPlaceholdersText, WordPress.WP.I18n.MissingTranslatorsComment
 				wp_send_json_error( sprintf( __( '[ 추가과금실패 ][PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
 			}
 		}
@@ -733,6 +750,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					'할부개월수'  => '00' == $card_quota ? __( '일시불', 'pgall-for-woocommerce' ) : sprintf( '%d개월', intval( $card_quota ) )
 				) );
 			} else {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '주문 정보를 찾을 수 없습니다.', 'pgall-for-woocommerce' ), '5002' );
 			}
 		}
@@ -750,6 +768,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 						$order = wc_get_order( $order );
 					} else {
+						// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 						throw new Exception( __( "사용가능한 결제 방법이 없습니다. 내계정 - 결제방법 페이지에서 결제수단을 등록해주세요.", "pgall-for-woocommerce" ), 7102 );
 					}
 				}
@@ -759,7 +778,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					'amount_to_charge' => $amount_to_charge
 				);
 
-				if( 'yes' == pafw_get( $gateway->settings, 'enable_quota', 'no' )  ) {
+				if ( 'yes' == pafw_get( $gateway->settings, 'enable_quota', 'no' ) ) {
 					$subscriptions = wcs_get_subscriptions_for_order( $order, array( 'order_type' => array( 'renewal' ) ) );
 					$subscription  = reset( $subscriptions );
 
@@ -771,6 +790,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				PAFW_Gateway::request_subscription_payment( $order, $gateway, $args, $token );
 			} catch ( Exception $e ) {
+				// phpcs:ignore WordPress.WP.I18n.UnorderedPlaceholdersText, WordPress.WP.I18n.MissingTranslatorsComment
 				$message = sprintf( __( '[PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() );
 				$order->update_status( 'failed', $message );
 			}
@@ -797,10 +817,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			check_ajax_referer( 'pgall-for-woocommerce' );
 
 			if ( ! current_user_can( 'publish_shop_orders' ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '주문 관리 권한이 없습니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$order = wc_get_order( absint( wp_unslash( $_REQUEST[ 'order_id' ] ) ) );
+			$order = wc_get_order( absint( pafw_get_unslash( $_REQUEST, 'order_id' ) ) );
 
 			PAFW_Gateway::cancel_additional_charge( $order, $this );
 
@@ -832,6 +853,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$this->check_shop_order_capability();
 
 			if ( empty( $_REQUEST[ 'escrow_type' ] ) || empty( $_REQUEST[ 'tracking_number' ] ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '필수 파라미터가 누락되었습니다.', 'pgall-for-woocommerce' ) );
 			}
 
@@ -848,6 +870,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order = $this->get_order( $order_id );
 
 				if ( empty( $order->get_meta( '_pafw_bacs_receipt_reg_number' ) ) || empty( $order->get_meta( '_pafw_bacs_receipt_usage' ) ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '현금영수증 발행에 필요한 정보가 없습니다.', 'pgall-for-woocommerce' ) );
 				}
 
@@ -931,9 +954,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			do_action( 'pafw_process_payment', $order );
 
 			try {
-				if ( isset( $_POST[ 'issavedtoken' ] ) && $_POST[ 'issavedtoken' ] && isset( $_POST[ 'token' ] ) && intval( $_POST[ 'token' ] ) > 0 ) {
-					$token = new WC_Payment_Token_PAFW( $_POST[ 'token' ] );
-					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . $_POST[ 'token' ], '00' );
+				if ( isset( $_POST[ 'issavedtoken' ] ) && pafw_get_unslash( $_POST, 'issavedtoken' ) && isset( $_POST[ 'token' ] ) && intval( $_POST[ 'token' ] ) > 0 ) {
+					$token = new WC_Payment_Token_PAFW( pafw_get_unslash( $_POST, 'token' ) );
+					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . pafw_get_unslash( $_POST, 'token' ), '00' );
 				} else {
 					$quota = pafw_get( $_REQUEST, 'pafw_' . $this->get_master_id() . '_card_quota', '00' );
 				}
@@ -985,9 +1008,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			do_action( 'pafw_process_payment', $order );
 
 			try {
-				if ( isset( $_POST[ 'issavedtoken' ] ) && $_POST[ 'issavedtoken' ] && isset( $_POST[ 'token' ] ) && intval( $_POST[ 'token' ] ) > 0 ) {
-					$token = new WC_Payment_Token_PAFW( $_POST[ 'token' ] );
-					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . $_POST[ 'token' ], '00' );
+				if ( isset( $_POST[ 'issavedtoken' ] ) && pafw_get_unslash( $_POST, 'issavedtoken' ) && isset( $_POST[ 'token' ] ) && intval( pafw_get_unslash( $_POST, 'token' ) ) > 0 ) {
+					$token = new WC_Payment_Token_PAFW( pafw_get_unslash( $_POST, 'token' ) );
+					$quota = pafw_get( $_POST, 'pafw_token_card_quota_' . pafw_get_unslash( $_POST, 'token' ), '00' );
 				} else {
 					$quota = pafw_get( $_REQUEST, 'pafw_' . $this->get_master_id() . '_card_quota', '00' );
 				}

@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -77,11 +78,11 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 		public static function get_order( $order, $order_id = null ) {
 			if ( is_null( $order_id ) ) {
 				if ( 'yes' == pafw_get( $_REQUEST, 'simple_pay' ) ) {
-					$title  = wc_clean( $_REQUEST['order_title'] );
-					$amount = wc_clean( $_REQUEST['order_amount'] );
+					$title  = pafw_get_unslash( $_REQUEST, 'order_title' );
+					$amount = pafw_get_unslash( $_REQUEST, 'order_amount' );
 					$order  = new PAFW_Order( $title, $amount );
 				}
-			} else if ( false !== strpos( $order_id, 'SP' ) ) {
+			} elseif ( false !== strpos( $order_id, 'SP' ) ) {
 				$order = maybe_unserialize( get_transient( $order_id ) );
 			}
 
@@ -97,29 +98,30 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 		}
 
 		protected static function process_customer( $data ) {
-			if ( 'no' == $_REQUEST['need_shipping'] ) {
+			if ( 'no' == pafw_get_unslash( $_REQUEST, 'need_shipping' ) ) {
 				add_filter( 'msaddr_process_billing', '__return_false' );
 				add_filter( 'msaddr_process_shipping', '__return_false' );
 			}
 
 			$customer_id = apply_filters( 'woocommerce_checkout_customer_id', get_current_user_id() );
 
-			if ( ! is_user_logged_in() && ! empty( $data['createaccount'] ) ) {
+			if ( ! is_user_logged_in() && ! empty( $data[ 'createaccount' ] ) ) {
 				$data = apply_filters( 'pafw_process_customer_data', $data );
 
-				$username    = ! empty( $data['account_username'] ) ? $data['account_username'] : '';
-				$password    = ! empty( $data['account_password'] ) ? $data['account_password'] : '';
+				$username    = ! empty( $data[ 'account_username' ] ) ? $data[ 'account_username' ] : '';
+				$password    = ! empty( $data[ 'account_password' ] ) ? $data[ 'account_password' ] : '';
 				$customer_id = wc_create_new_customer(
-					$data['billing_email'],
+					$data[ 'billing_email' ],
 					$username,
 					$password,
 					array(
-						'first_name' => ! empty( $data['billing_first_name'] ) ? $data['billing_first_name'] : '',
-						'last_name'  => ! empty( $data['billing_last_name'] ) ? $data['billing_last_name'] : '',
+						'first_name' => ! empty( $data[ 'billing_first_name' ] ) ? $data[ 'billing_first_name' ] : '',
+						'last_name'  => ! empty( $data[ 'billing_last_name' ] ) ? $data[ 'billing_last_name' ] : '',
 					)
 				);
 
 				if ( is_wp_error( $customer_id ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( $customer_id->get_error_message() );
 				}
 
@@ -142,17 +144,17 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 			if ( $customer_id && apply_filters( 'woocommerce_checkout_update_customer_data', true, WC()->checkout() ) ) {
 				$customer = new WC_Customer( $customer_id );
 
-				if ( ! empty( $data['billing_first_name'] ) ) {
-					$customer->set_first_name( $data['billing_first_name'] );
+				if ( ! empty( $data[ 'billing_first_name' ] ) ) {
+					$customer->set_first_name( $data[ 'billing_first_name' ] );
 				}
 
-				if ( ! empty( $data['billing_last_name'] ) ) {
-					$customer->set_last_name( $data['billing_last_name'] );
+				if ( ! empty( $data[ 'billing_last_name' ] ) ) {
+					$customer->set_last_name( $data[ 'billing_last_name' ] );
 				}
 
 				// If the display name is an email, update to the user's full name.
 				if ( is_email( $customer->get_display_name() ) ) {
-					$customer->set_display_name( $data['billing_first_name'] . ' ' . $data['billing_last_name'] );
+					$customer->set_display_name( $data[ 'billing_first_name' ] . ' ' . $data[ 'billing_last_name' ] );
 				}
 
 				foreach ( $data as $key => $value ) {
@@ -172,17 +174,19 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 
 			do_action( 'woocommerce_checkout_update_user_meta', $customer_id, $data );
 
-			if ( 'no' == $_REQUEST['need_shipping'] ) {
+			if ( 'no' == pafw_get_unslash( $_REQUEST, 'need_shipping' ) ) {
 				remove_filter( 'msaddr_process_billing', '__return_false' );
 				remove_filter( 'msaddr_process_shipping', '__return_false' );
 			}
 		}
 		public static function validate_params( $data ) {
-			if ( empty( $_REQUEST['product_id'] ) ) {
-				if ( empty( $_REQUEST['order_title'] ) ) {
+			if ( empty( $_REQUEST[ 'product_id' ] ) ) {
+				if ( empty( $_REQUEST[ 'order_title' ] ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '결제 정보를 입력해주세요.', 'pgall-for-woocommerce' ) );
 				}
-				if ( empty( $_REQUEST['order_amount'] ) || ! is_numeric( $_REQUEST['order_amount'] ) || floatval( $_REQUEST['order_amount'] ) <= 0 ) {
+				if ( empty( $_REQUEST[ 'order_amount' ] ) || ! is_numeric( $_REQUEST[ 'order_amount' ] ) || floatval( $_REQUEST[ 'order_amount' ] ) <= 0 ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '결제 금액을 입력해주세요.', 'pgall-for-woocommerce' ) );
 				}
 			}
@@ -205,30 +209,30 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 				$variation      = array();
 				$cart_item_data = array();
 
-				if ( ! empty( $_POST['variation'] ) ) {
-					parse_str( $_POST['variation'], $variation ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( ! empty( $_POST[ 'variation' ] ) ) {
+					parse_str( pafw_get_unslash( $_POST, 'variation' ), $variation ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 
-				if ( ! empty( $_POST['cart_item_data'] ) ) {
-					parse_str( $_POST['cart_item_data'], $cart_item_data ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( ! empty( $_POST[ 'cart_item_data' ] ) ) {
+					parse_str( pafw_get_unslash( $_POST, 'cart_item_data' ), $cart_item_data ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				}
 
-				if ( empty( $_REQUEST['product_id'] ) ) {
+				if ( empty( $_REQUEST[ 'product_id' ] ) ) {
 					if ( ( 'yes' == get_option( 'woocommerce_calc_taxes', 'no' ) && 'yes' == get_option( 'woocommerce_prices_include_tax' ) ) || 'yes' == pafw_get( $_REQUEST, 'include_tax', 'no' ) ) {
-						$order_total = floatval( wp_unslash( $_REQUEST['order_amount'] ) );
+						$order_total = floatval( pafw_get_unslash( $_REQUEST, 'order_amount' ) );
 
 						$tax_total = array_sum( WC_Tax::calc_inclusive_tax( $order_total, array( PAFW_Tax::get_vat_rate() ) ) );
 
 						$order_total = $order_total - $tax_total;
 					} else {
-						$order_total = floatval( wp_unslash( $_REQUEST['order_amount'] ) );
+						$order_total = floatval( pafw_get_unslash( $_REQUEST, 'order_amount' ) );
 						$tax_total   = 0;
 					}
 
 					$item = new WC_Order_Item_Product();
 					$item->set_props( array(
-						'name'      => sanitize_text_field( $_REQUEST['order_title'] ),
-						'quantity'  => absint( wp_unslash( $_REQUEST['quantity'] ) ),
+						'name'      => pafw_get_unslash( $_REQUEST, 'order_title' ),
+						'quantity'  => absint( pafw_get_unslash( $_REQUEST, 'quantity' ) ),
 						'variation' => array(),
 						'subtotal'  => $order_total,
 						'total'     => $order_total,
@@ -247,12 +251,15 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 				} else {
 					WC()->cart->empty_cart();
 
-					if ( is_array( $_REQUEST['product_id'] ) ) {
-						for ( $i = 0; $i < count( $_REQUEST['product_id'] ); $i++ ) {
-							WC()->cart->add_to_cart( wc_clean( $_REQUEST['product_id'][ $i ] ), absint( wp_unslash( $_REQUEST['quantity'][ $i ] ) ), wc_clean( $_REQUEST['variation_id'][ $i ] ), wc_clean( $_REQUEST['variation'][ $i ] ), wc_clean( $_REQUEST['cart_item_data'][ $i ] ) );
+
+					if ( is_array( $_REQUEST[ 'product_id' ] ) ) {
+						$_REQUEST[ 'product_id' ] = pafw_get_unslash( $_REQUEST, 'product_id' );
+
+						for ( $i = 0; $i < count( $_REQUEST[ 'product_id' ] ); $i ++ ) {
+							WC()->cart->add_to_cart( ( $_REQUEST[ 'product_id' ][ $i ] ), absint( wp_unslash( $_REQUEST[ 'quantity' ][ $i ] ) ), wc_clean( $_REQUEST[ 'variation_id' ][ $i ] ), wc_clean( $_REQUEST[ 'variation' ][ $i ] ), wc_clean( $_REQUEST[ 'cart_item_data' ][ $i ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 						}
 					} else {
-						WC()->cart->add_to_cart( wc_clean( $_REQUEST['product_id'] ), absint( wp_unslash( $_REQUEST['quantity'] ) ), wc_clean( $_REQUEST['variation_id'] ), wc_clean( $_REQUEST['variation'] ), wc_clean( $_REQUEST['cart_item_data'] ) );
+						WC()->cart->add_to_cart( pafw_get_unslash( $_REQUEST, 'product_id' ), absint( pafw_get_unslash( $_REQUEST, 'quantity' ) ), pafw_get_unslash( $_REQUEST, 'variation_id' ), pafw_get_unslash( $_REQUEST, 'variation' ), pafw_get_unslash( $_REQUEST, 'cart_item_data' ) );
 					}
 
 					$order->set_shipping_total( WC()->cart->get_shipping_total() );
@@ -301,12 +308,14 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 
 				foreach ( $fields as $id => $field ) {
 					if ( isset( $params[ $id ] ) && pafw_get( $field, 'required' ) && empty( $params[ $id ] ) ) {
-						$errors[] = sprintf( __( '%s을(를) 입력해주세요.', 'pgall-for-woocommerce' ), $field['label'] );
+						// translators: %s: label of input field
+						$errors[] = sprintf( __( '%s을(를) 입력해주세요.', 'pgall-for-woocommerce' ), $field[ 'label' ] );
 					}
 				}
 			}
 
 			if ( ! empty( $errors ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( implode( "<br>", array_unique( $errors ) ) );
 			}
 		}
@@ -325,23 +334,28 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 			do_action( 'woocommerce_checkout_order_processed', $order->get_id(), $params, $order );
 
 			if ( empty( $order->get_billing_first_name() ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '고객정보를 입력해주세요. 구매자 이름은 필수입니다.', 'pgall-for-woocommerce' ) );
 			}
 
 			if ( empty( $order->get_billing_email() ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '고객정보를 입력해주세요. 구매자 이메일은 필수입니다.', 'pgall-for-woocommerce' ) );
 			}
 
 			if ( empty( $order->get_billing_phone() ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '고객정보를 입력해주세요. 구매자 전화번호는 필수입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			if ( isset( $_REQUEST['mshop_billing_address-postnum'] ) && isset( $_REQUEST['mshop_billing_address-addr1'] ) ) {
-				if ( empty( $_REQUEST['mshop_billing_address-postnum'] ) || empty( $_REQUEST['mshop_billing_address-addr1'] ) ) {
+			if ( isset( $_REQUEST[ 'mshop_billing_address-postnum' ] ) && isset( $_REQUEST[ 'mshop_billing_address-addr1' ] ) ) {
+				if ( empty( $_REQUEST[ 'mshop_billing_address-postnum' ] ) || empty( $_REQUEST[ 'mshop_billing_address-addr1' ] ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '주소를 입력해주세요.', 'pgall-for-woocommerce' ) );
 				}
-			} else if ( isset( $_REQUEST['billing_postcode'] ) && isset( $_REQUEST['billing_address_1'] ) ) {
-				if ( empty( $_REQUEST['billing_postcode'] ) || empty( $_REQUEST['billing_address_1'] ) ) {
+			} elseif ( isset( $_REQUEST[ 'billing_postcode' ] ) && isset( $_REQUEST[ 'billing_address_1' ] ) ) {
+				if ( empty( $_REQUEST[ 'billing_postcode' ] ) || empty( $_REQUEST[ 'billing_address_1' ] ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '주소를 입력해주세요.', 'pgall-for-woocommerce' ) );
 				}
 			}
@@ -380,7 +394,7 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 				$order->set_prices_include_tax( 'yes' == get_option( 'woocommerce_prices_include_tax' ) );
 				$order->set_customer_ip_address( WC_Geolocation::get_ip_address() );
 				$order->set_customer_user_agent( wc_get_user_agent() );
-				$order->set_customer_note( isset( $data['order_comments'] ) ? $data['order_comments'] : '' );
+				$order->set_customer_note( isset( $data[ 'order_comments' ] ) ? $data[ 'order_comments' ] : '' );
 				do_action( 'woocommerce_checkout_create_order', $order, $data );
 
 				// Save the order.
@@ -391,13 +405,13 @@ if ( ! class_exists( 'PAFW_Simple_Pay' ) ) :
 				do_action( 'woocommerce_checkout_update_order_meta', $order_id, $data );
 
 				$order->update_meta_data( '_simple_pay', 'yes' );
-				$order->update_meta_data( '_simple_pay_redirect_url', $_SERVER['HTTP_REFERER'] );
+				$order->update_meta_data( '_simple_pay_redirect_url', pafw_get_unslash( $_SERVER, 'HTTP_REFERER' ) );
 
-				if ( isset( $_REQUEST['order_received_url'] ) ) {
-					$order->update_meta_data( '_simple_pay_order_received_url', wp_sanitize_redirect( $_REQUEST['order_received_url'] ) );
+				if ( isset( $_REQUEST[ 'order_received_url' ] ) ) {
+					$order->update_meta_data( '_simple_pay_order_received_url', esc_url_raw( wp_unslash( $_REQUEST[ 'order_received_url' ] ) ) );
 				}
 
-				$order->set_order_key( wc_clean( $_REQUEST['_pafw_uid'] ) );
+				$order->set_order_key( pafw_get_unslash( $_REQUEST, '_pafw_uid' ) );
 				$order_id = $order->save();
 
 				return $order_id;

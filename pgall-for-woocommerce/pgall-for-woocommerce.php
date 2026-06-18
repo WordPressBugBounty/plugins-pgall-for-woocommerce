@@ -1,13 +1,18 @@
 <?php
+
+
 /*
 Plugin Name: 워드프레스 결제 심플페이 - 우커머스 결제 플러그인
 Plugin URI: 
 Description: 코드엠샵에서 개발, 운영되는 우커머스 전용 결제 통합 시스템 입니다.
-Version: 5.5.1
+Version: 5.5.6
 Author: CodeMShop
 Author URI: www.codemshop.com
 License: GPLv2 or later
 */
+
+
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -24,7 +29,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 
 		private static $_instance = null;
 		protected $slug;
-		protected $version = '5.5.1';
+		protected $version = '5.5.6';
 		protected $plugin_url;
 		protected $plugin_path;
 		public function __construct() {
@@ -136,11 +141,11 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 			$is_setting_page = false;
 
 			if ( ! is_ajax() && is_admin() && function_exists( 'get_current_screen' ) ) {
-				$wc_screen_id      = sanitize_title( __( 'WooCommerce', 'woocommerce' ) );
+				$wc_screen_id      = sanitize_title( __( 'WooCommerce', 'pgall-for-woocommerce' ) );
 				$setting_screen_id = $wc_screen_id . '_page_wc-settings';
 				$current_screen    = get_current_screen();
 
-				$is_setting_page = ( $current_screen && $setting_screen_id == $current_screen->id || ( isset( $_GET['page'] ) && 'mshop_payment' == $_GET['page'] ) );
+				$is_setting_page = ( $current_screen && $setting_screen_id == $current_screen->id || ( isset( $_GET[ 'page' ] ) && 'mshop_payment' == $_GET[ 'page' ] ) );
 			}
 
 			return $is_setting_page;
@@ -310,8 +315,8 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 						'gateway'                   => apply_filters( 'pafw_supported_payment_methods', $gateway_payment_methods ),
 						'is_mobile'                 => wp_is_mobile(),
 						'is_checkout_pay_page'      => is_checkout_pay_page(),
-						'order_id'                  => isset( $_REQUEST['key'] ) ? wc_get_order_id_by_order_key( wc_clean( $_REQUEST['key'] ) ) : '',
-						'order_key'                 => isset( $_REQUEST['key'] ) ? wc_clean( $_REQUEST['key'] ) : '',
+						'order_id'                  => isset( $_REQUEST[ 'key' ] ) ? wc_get_order_id_by_order_key( pafw_get_unslash( $_REQUEST, 'key' ) ) : '',
+						'order_key'                 => isset( $_REQUEST[ 'key' ] ) ? pafw_get_unslash( $_REQUEST, 'key' ) : '',
 						'_wpnonce'                  => wp_create_nonce( 'pgall-for-woocommerce' ),
 						'simple_pay'                => $force ? 'yes' : 'no',
 						'customer_default_token'    => $customer_default_token ? $customer_default_token->get_id() : 0,
@@ -326,8 +331,8 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 			if ( is_order_received_page() && get_the_ID() === $id ) {
 				global $wp;
 
-				$order_id  = apply_filters( 'woocommerce_thankyou_order_id', absint( $wp->query_vars['order-received'] ) );
-				$order_key = apply_filters( 'woocommerce_thankyou_order_key', empty( $_GET['key'] ) ? '' : wc_clean( $_GET['key'] ) );
+				$order_id  = apply_filters( 'woocommerce_thankyou_order_id', absint( $wp->query_vars[ 'order-received' ] ) );
+				$order_key = apply_filters( 'woocommerce_thankyou_order_key', empty( $_GET[ 'key' ] ) ? '' : pafw_get_unslash( $_GET, 'key' ) );
 
 				if ( ! empty( $order_id ) ) {
 					$order = new WC_Order( $order_id );
@@ -381,14 +386,14 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 				}
 				?>
 
-                var pafw_ajaxurl = '<?php echo $ajax_url; ?>';
+                var pafw_ajaxurl = '<?php echo esc_js( $ajax_url ); ?>';
             </script>
 			<?php
 		}
 
 
 		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'pgall-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . "/languages/" );
+			load_plugin_textdomain( 'pgall-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . "/languages/" ); // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 		}
 
 		public function slug() {
@@ -399,15 +404,20 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 			if ( 0 == count( $this->get_enabled_payment_gateways() ) ) {
 				?>
                 <div class="notice notice-success is-dismissible">
-                    <p><?php _e( '심플페이 플러그인을 이용해주셔서 감사합니다. <a href="' . admin_url( 'admin.php?page=pafw_setting' ) . '">설정 페이지</a>에서 결제대행사를 활성화 한 후 이용해주세요..', 'pgall-for-woocommerce' ); ?></p>
+                    <p>
+						<?php
+						// translators: %s: url of setting page
+						echo sprintf( __( '심플페이 플러그인을 이용해주셔서 감사합니다. <a href="%s">설정 페이지</a>에서 결제대행사를 활성화 한 후 이용해주세요.', 'pgall-for-woocommerce' ), esc_url( admin_url( 'admin.php?page=pafw_setting' ) ) );
+						?>
+                    </p>
                 </div>
 				<?php
 			}
 		}
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 			if ( $this->slug == pafw_get( $plugin_data, 'slug' ) ) {
-				$actions['settings'] = '<a href="' . admin_url( '/admin.php?page=pafw_setting' ) . '">설정</a>';
-				$actions['manual']   = '<a target="_blank" href="https://www.codemshop.com/guide/docs/simplepay/">매뉴얼</a>';
+				$actions[ 'settings' ] = '<a href="' . admin_url( '/admin.php?page=pafw_setting' ) . '">설정</a>';
+				$actions[ 'manual' ]   = '<a target="_blank" href="https://www.codemshop.com/guide/docs/simplepay/">매뉴얼</a>';
 			}
 
 			return $actions;
@@ -416,7 +426,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 			if ( $this->slug == pafw_get( $plugin_data, 'slug' ) ) {
 
 				$plugin_meta[] = '<a target="_blank" href="https://wordpress.org/plugins/pgall-for-woocommerce/#reviews">별점응원하기</a>';
-				$plugin_meta[] = '<a target="_blank" href="https://wordpress.org/plugins/search/codemshop/">함께 사용하면 좋은 플러그인</a>';
+				$plugin_meta[] = '<a target="_blank" href="https://wordpress.org/plugins/search/codemstory/">함께 사용하면 좋은 플러그인</a>';
 				$plugin_meta[] = '<a target="_blank" href="https://www.codemshop.com/product-category/outside/">쇼핑몰 플러그인</a>';
 			}
 

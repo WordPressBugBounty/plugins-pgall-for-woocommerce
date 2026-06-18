@@ -47,7 +47,7 @@ if ( ! class_exists( 'PAFW_Order_Exchange_Return' ) ) {
 		}
 		public function get_post_title() {
 			// @codingStandardsIgnoreStart
-			return sprintf( __( 'Exchange or Return &ndash; %s', 'woocommerce' ), ( new DateTime( 'now' ) )->format( _x( 'M d, Y @ h:i A', 'Order date parsed by DateTime::format', 'woocommerce' ) ) );
+			return sprintf( __( 'Exchange or Return &ndash; %s', 'pgall-for-woocommerce' ), ( new DateTime( 'now' ) )->format( _x( 'M d, Y @ h:i A', 'Order date parsed by DateTime::format', 'pgall-for-woocommerce' ) ) );
 			// @codingStandardsIgnoreEnd
 		}
 	}

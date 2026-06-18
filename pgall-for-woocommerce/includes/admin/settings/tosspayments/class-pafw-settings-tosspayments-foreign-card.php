@@ -45,7 +45,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Foreign_Card' ) ) {
 							'type'      => 'Select',
 							'default'   => '0',
 							'options'   => $this->get_installment_plan(),
-							'desc2'     => __( '<div class="desc2">카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액이 5만원 이상일 때만 사용할 수 있습니다. <br>만약 값을 6개월로 선택하시면 결제창에서 일시불~6개월 사이로 할부 개월을 선택할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액이 5만원 이상일 때만 사용할 수 있습니다. <br>만약 값을 6개월로 선택하시면 결제창에서 일시불~6개월 사이로 할부 개월을 선택할 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'tooltip'   => array(
 								'title' => array(
 									'content' => __( '카드 결제에서 선택할 수 있는 최대 할부 개월 수를 제한합니다. 결제 금액(amount)이 5만원 이상일 때만 사용할 수 있습니다. 2부터 12사이의 값을 사용할 수 있고, 0이 들어가면 할부가 아닌 일시불로 결제됩니다. 만약 값을 6으로 설정한다면 결제창에서 일시불~6개월 사이로 할부 개월을 선택할 수 있습니다.', 'pgall-for-woocommerce' ),
@@ -58,7 +58,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Foreign_Card' ) ) {
 							'className' => 'fluid',
 							'type'      => 'Text',
 							'default'   => '',
-							'desc2'     => __( '<div class="desc2">페이북/ISP 앱에서 상점 앱으로 돌아올 때 사용됩니다. 상점의 앱 스킴을 지정하면 됩니다</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">페이북/ISP 앱에서 상점 앱으로 돌아올 때 사용됩니다. 상점의 앱 스킴을 지정하면 됩니다</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 					)
 				),

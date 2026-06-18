@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Payco_Easypay' ) ) {
 
-		class WC_Gateway_Payco_Easypay extends WC_Gateway_Payco{
+		class WC_Gateway_Payco_Easypay extends WC_Gateway_Payco{ // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 

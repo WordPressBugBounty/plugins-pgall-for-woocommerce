@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 require_once( ABSPATH . 'wp-admin/includes/user.php' );
 if ( ! class_exists( 'PAFW_Setting_Helper' ) ) {
@@ -36,8 +37,8 @@ if ( ! class_exists( 'PAFW_Setting_Helper' ) ) {
 				} else if ( has_action( 'update_' . $setting['id'] ) ) {
 					do_action( 'update_' . $setting['id'] );
 				} else {
-					if ( ! empty( $_REQUEST[ $setting['id'] ] ) ) {
-						$postid ? update_post_meta( $postid, $setting['id'],  $_REQUEST[ $setting['id'] ] ) : update_option( $setting['id'], $_REQUEST[ $setting['id'] ] );
+					if ( ! empty( $_REQUEST[ $setting['id'] ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						$postid ? update_post_meta( $postid, $setting['id'], $_REQUEST[ $setting['id'] ] ) : update_option( $setting['id'], $_REQUEST[ $setting['id'] ] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 					} else {
 						$postid ? delete_post_meta( $postid, $setting['id'] ) : delete_option( $setting['id'] );
 					}
@@ -56,8 +57,8 @@ if ( ! class_exists( 'PAFW_Setting_Helper' ) ) {
 			if ( ! empty( $setting['id'] ) ) {
 				if ( ! empty( $setting['readonly'] ) && 'yes' == $setting['readonly'] ) {
 					// this element is readonly... skip...
-				} else if ( ! empty( $_REQUEST[ $setting['id'] ] ) ) {
-					$values[ $setting['id'] ] = $_REQUEST[ $setting['id'] ];
+				} else if ( ! empty( $_REQUEST[ $setting['id'] ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$values[ $setting['id'] ] = $_REQUEST[ $setting['id'] ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 				} else if ( isset( $setting['default'] ) ) {
 					$values[ $setting['id'] ] = $setting['default'];
 				}

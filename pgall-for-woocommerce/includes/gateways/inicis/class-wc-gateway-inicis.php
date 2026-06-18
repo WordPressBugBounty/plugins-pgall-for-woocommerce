@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Gateway_Inicis' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis extends PAFW_Payment_Gateway {
+class WC_Gateway_Inicis extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 	protected $key_for_test = array(
 		'INIpayTest',

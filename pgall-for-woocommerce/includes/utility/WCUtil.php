@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+
 
 
 namespace CODEM\PGALL\Utility;
@@ -66,7 +68,7 @@ if ( ! class_exists( 'WCUtil' ) ) {
 				foreach ( $ids as $id ) {
 					$related_order = wc_get_order( $id );
 					if ( $related_order && apply_filters( 'cdm_is_renewal_order', $related_order->has_status( $valid_order_statuses ), $related_order ) ) {
-						$round++;
+						$round ++;
 					}
 				}
 			}
@@ -161,13 +163,15 @@ if ( ! class_exists( 'WCUtil' ) ) {
 		static function target_search_posts_title_like( $where, &$wp_query ) {
 			global $wpdb;
 			if ( $posts_title = $wp_query->get( 'posts_title' ) ) {
-				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_title LIKE '%%%s%%'", $posts_title );
+				$like = '%' . $wpdb->esc_like( $posts_title ) . '%';
+
+				$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_title LIKE %s", $like );
 			}
 
 			return $where;
 		}
 		static function target_search_product( $product_type = '' ) {
-			$keyword = ! empty( $_REQUEST['args'] ) ? sanitize_text_field( $_REQUEST['args'] ) : '';
+			$keyword = ! empty( $_REQUEST[ 'args' ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ 'args' ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			add_filter( 'posts_where', array( __CLASS__, 'target_search_posts_title_like' ), 10, 2 );
 
@@ -188,7 +192,7 @@ if ( ! class_exists( 'WCUtil' ) ) {
 					);
 				}
 
-				$args['tax_query'] = array(
+				$args[ 'tax_query' ] = array(
 					array(
 						'taxonomy' => 'product_type',
 						'field'    => 'slug',

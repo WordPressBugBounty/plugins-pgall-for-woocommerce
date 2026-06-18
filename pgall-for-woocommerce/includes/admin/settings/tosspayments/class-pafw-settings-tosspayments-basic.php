@@ -48,14 +48,14 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'showIf'      => array( 'operation_mode' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array(
 							'id'        => 'merchant_id',
 							'title'     => '상점 아이디',
 							'className' => 'fluid',
 							'default'   => 'tvivarepublica',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tvivarepublica</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tvivarepublica</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -63,7 +63,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -71,7 +71,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '시크릿 키',
 							'className' => 'fluid',
 							'default'   => 'test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R',
-							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -80,7 +80,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'showIf'    => array( 'pc_pay_method' => 'tosspayments_escrow_bank' ),
 							'className' => 'fluid',
 							'default'   => 'b495c00ba8fcd62b18d69870c2c26979',
-							'desc2'     => __( '<div class="desc2"><span style="color: #fd4343;">머트키는 에스크로 배송정보 등록 시 필요합니다.</span><br>결제 테스트용 머트키는 <code>b495c00ba8fcd62b18d69870c2c26979</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2"><span style="color: #fd4343;">머트키는 에스크로 배송정보 등록 시 필요합니다.</span><br>결제 테스트용 머트키는 <code>b495c00ba8fcd62b18d69870c2c26979</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 					)
@@ -109,14 +109,14 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'showIf'      => array( 'operation_mode_subscription' => 'sandbox' ),
 							'type'        => 'Text',
 							'default'     => 'pgall_test_user',
-							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'       => __( '<div class="desc2">개발 환경 (Sandbox) 모드에서는 관리자 및 테스트 사용자에게만 결제수단이 노출됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array(
 							'id'        => 'subscription_merchant_id',
 							'title'     => '상점 아이디',
 							'className' => 'fluid',
 							'default'   => 'tvivarepublica',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tvivarepublica</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tvivarepublica</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -124,7 +124,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -132,7 +132,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '시크릿 키',
 							'className' => 'fluid',
 							'default'   => 'test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R',
-							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						)
 					)
@@ -147,7 +147,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '상점 아이디',
 							'className' => 'fluid',
 							'default'   => 'tvivarepublica',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tvivarepublica</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 상점 아이디는 <code>tvivarepublica</code> 입니다.<br>실 결제용 상점 아이디는 <code>CDM_</code>로 시작해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -155,7 +155,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -163,7 +163,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '시크릿 키',
 							'className' => 'fluid',
 							'default'   => 'test_sk_N5OWRapdA8d7wP41EbYro1zEqZKL',
-							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_N5OWRapdA8d7wP41EbYro1zEqZKL</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_N5OWRapdA8d7wP41EbYro1zEqZKL</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						)
 					)
@@ -180,7 +180,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'type'      => 'Label',
 							'readonly'  => 'yes',
 							'default'   => '',
-							'desc2'     => __( '<div class="desc2">복수통화 이용 시 통화별 결제정보를 설정합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">복수통화 이용 시 통화별 결제정보를 설정합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array(
 							'id'        => 'foreign_card_settings',

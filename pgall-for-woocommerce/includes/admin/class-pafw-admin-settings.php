@@ -31,7 +31,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 		}
 
 		static function update_settings() {
-			$_REQUEST = array_merge( $_REQUEST, json_decode( stripslashes( wc_clean( $_REQUEST[ 'values' ] ) ), true ) );
+			$_REQUEST = array_merge( $_REQUEST, json_decode( pafw_get_unslash( $_REQUEST, 'values' ), true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			PAFW_Setting_Helper::update_settings( self::get_setting_fields() );
 
@@ -95,7 +95,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">이니시스 결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">이니시스 결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -109,7 +109,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">토스페이먼츠 결제 시스템을 이용합니다. (정기결제, 예약결제, 해외결제 지원)</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">토스페이먼츠 결제 시스템을 이용합니다. (정기결제, 예약결제, 해외결제 지원)</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -123,7 +123,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">나이스페이 결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">나이스페이 결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -137,7 +137,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">카카오페이 결제 시스템을 이용합니다. (간편결제, 정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">카카오페이 결제 시스템을 이용합니다. (간편결제, 정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -151,7 +151,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">KCP 결제 시스템을 이용합니다.</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">KCP 결제 시스템을 이용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -165,7 +165,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">헥토파이낸셜 결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">헥토파이낸셜 결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -179,7 +179,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">헥토파이낸셜 내통장결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">헥토파이낸셜 내통장결제 시스템을 이용합니다. (정기결제, 예약결제 지원)</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -193,7 +193,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">헥토파이낸셜 010가상계좌 결제 시스템을 이용합니다.</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">헥토파이낸셜 010가상계좌 결제 시스템을 이용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -207,7 +207,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 									"className" => "",
 									"type"      => "Toggle",
 									"default"   => "no",
-									"desc"      => __( '<div class="desc2">페이코 결제 시스템을 이용합니다.</div>', 'pgall-for-woocommerce' ),
+									"desc"      => __( '<div class="desc2">페이코 결제 시스템을 이용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 									"action"    => array(
 										"icon"   => "cogs",
 										"show"   => "yes",
@@ -229,7 +229,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">토스페이먼츠 (구. LG유플러스) 결제 시스템을 이용 합니다. (정기결제, 예약결제 지원) - 2023년 8월 1일 이전 가입자</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">토스페이먼츠 (구. LG유플러스) 결제 시스템을 이용 합니다. (정기결제, 예약결제 지원) - 2023년 8월 1일 이전 가입자</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								"action"    => array(
 									"icon"   => "cogs",
 									"show"   => "yes",
@@ -257,7 +257,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'id'        => 'pafw-checkout-form-selector',
 								'className' => 'fluid',
 								'title'     => __( '체크아웃 폼 셀렉터', 'pgall-for-woocommerce' ),
-								"desc2"     => __( '<div class="desc2">체크아웃 페이지의 폼 셀렉터를 지정합니다. 기본값은 <code>form.checkout</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+								"desc2"     => __( '<div class="desc2">체크아웃 페이지의 폼 셀렉터를 지정합니다. 기본값은 <code>form.checkout</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								'default'   => 'form.checkout',
 								'type'      => 'Text'
 							),
@@ -265,7 +265,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'id'        => 'pafw-order-pay-form-selector',
 								'className' => 'fluid',
 								'title'     => __( '내계정 - 주문하기 폼 셀렉터', 'pgall-for-woocommerce' ),
-								"desc2"     => __( '<div class="desc2">내계정 - 주문하기 페이지의 폼 셀렉터를 지정합니다. 기본값은 <code>form#order_review</code> 입니다.</div>', 'pgall-for-woocommerce' ),
+								"desc2"     => __( '<div class="desc2">내계정 - 주문하기 페이지의 폼 셀렉터를 지정합니다. 기본값은 <code>form#order_review</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								'default'   => 'form#order_review',
 								'type'      => 'Text'
 							),
@@ -318,7 +318,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">비회원이 주문상세 페이지에서 주문을 취소할 수 있도록 "결제취소" 버튼을 표시합니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">비회원이 주문상세 페이지에서 주문을 취소할 수 있도록 "결제취소" 버튼을 표시합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 						)
 					),
@@ -332,7 +332,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">무통장입금 ( BACS, 가상계좌 ) 결제건에 대한 재고관리 기능을 사용합니다.<br>지정된 시간내에 입금되지 않은 결제건은 자동 취소처리되며, 재고관리가 활성화 된 경우, 상품의 재고가 다시 복원됩니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">무통장입금 ( BACS, 가상계좌 ) 결제건에 대한 재고관리 기능을 사용합니다.<br>지정된 시간내에 입금되지 않은 결제건은 자동 취소처리되며, 재고관리가 활성화 된 경우, 상품의 재고가 다시 복원됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"        => "pafw-gw-cancel-unpaid-order-days",
@@ -354,7 +354,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 							array(
 								'id'      => 'pafw-script-footer',
 								'title'   => __( '스크립트 Footer 사용', 'pgall-for-woocommerce' ),
-								"desc"    => __( '<div class="desc2">스크립트를 Footer에 출력합니다. 결제시 문제가 있는 경우에만 사용하세요.</div>', 'pgall-for-woocommerce' ),
+								"desc"    => __( '<div class="desc2">스크립트를 Footer에 출력합니다. 결제시 문제가 있는 경우에만 사용하세요.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								'default' => 'no',
 								'type'    => 'Toggle'
 							),
@@ -367,7 +367,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 							array(
 								'id'      => 'pafw-use-woocommerce-blocks',
 								'title'   => __( '우커머스 블록 사용', 'pgall-for-woocommerce' ),
-								"desc"    => __( '<div class="desc2">우커머스 체크아웃 블록 위젯을 사용합니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"    => __( '<div class="desc2">우커머스 체크아웃 블록 위젯을 사용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								'default' => 'no',
 								'type'    => 'Toggle'
 							),
@@ -391,7 +391,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'id'        => 'pafw-subscription-allow-change-date',
 								'className' => 'fluid',
 								'title'     => __( '다음 결제일자 변경 허용', 'pgall-for-woocommerce' ),
-								"desc2"     => __( '<div class="desc2">고객은 내계정 - 정기결제권 상세화면에서 다음 결제 예정일을 변경할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+								"desc2"     => __( '<div class="desc2">고객은 내계정 - 정기결제권 상세화면에서 다음 결제 예정일을 변경할 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								'default'   => 'no',
 								'type'      => 'Toggle'
 							),
@@ -399,7 +399,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'id'        => 'pafw-subscription-force-renewal-time',
 								'className' => 'fluid',
 								'title'     => __( '갱신결제 시간 조정', 'pgall-for-woocommerce' ),
-								"desc2"     => __( '<div class="desc2">다음 갱신 결제 시간을 지정된 시간으로 변경합니다.<br>예시> 구매자가 오후 10시에 결제를 했더라도, 다음 갱신결제는 업무시간 (09:00~18:00) 에 진행되도록 설정 할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+								"desc2"     => __( '<div class="desc2">다음 갱신 결제 시간을 지정된 시간으로 변경합니다.<br>예시> 구매자가 오후 10시에 결제를 했더라도, 다음 갱신결제는 업무시간 (09:00~18:00) 에 진행되도록 설정 할 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 								'default'   => 'no',
 								'type'      => 'Toggle'
 							),
@@ -439,7 +439,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "",
-								"desc"      => __( "<div class='desc2'>갱신 결제가 실패하게 되면 해당 사용자에게 카드를 재등록 할 수 있도록 알림을 발송합니다.</div>", "pgall-for-woocommerce" )
+								"desc"      => __( "<div class='desc2'>갱신 결제가 실패하게 되면 해당 사용자에게 카드를 재등록 할 수 있도록 알림을 발송합니다.</div>", "pgall-for-woocommerce" ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"        => "pafw-renewal-failed-notification-method",
@@ -462,7 +462,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"leftLabel" => __( '갱신 실패 후', 'pgall-for-woocommerce' ),
 								"label"     => __( '일 까지', 'pgall-for-woocommerce' ),
 								"default"   => "3",
-								"desc2"     => __( "<div class='desc2'>갱신 실패 후 지정된 기간이 지나면 결제수단 링크를 이용할 수 없게 됩니다. </div>", "pgall-for-woocommerce" )
+								"desc2"     => __( "<div class='desc2'>갱신 실패 후 지정된 기간이 지나면 결제수단 링크를 이용할 수 없게 됩니다. </div>", "pgall-for-woocommerce" ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"        => "pafw-renewal-failed-notification-sms-template",
@@ -472,7 +472,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"type"      => "TextArea",
 								"default"   => __( "[{쇼핑몰명}]\r\n\r\n{고객명}님\r\n이용중이신 {상품명}의 갱신처리가 실패되었습니다.\r\n정기결제권 번호 : {정기결제권번호}\r\n결제수단 : {결제수단}\r\n\r\n정기결제권을 계속 유지하시려면 아래 링크를 통해 카드를 재등록 해주세요.\r\n{카드등록링크}\r\n\r\n※ 기타 문의사항은 고객센터로 문의해주시길 바랍니다. 감사합니다.", "pgall-for-woocommerce" ),
 								"rows"      => 12,
-								"desc2"     => __( "<div class='desc2'>고객이 {카드등록링크}를 통해 접속한 후, 동일한 결제수단을 재등록하면 자동으로 결제가 진행됩니다.</div>", "pgall-for-woocommerce" )
+								"desc2"     => __( "<div class='desc2'>고객이 {카드등록링크}를 통해 접속한 후, 동일한 결제수단을 재등록하면 자동으로 결제가 진행됩니다.</div>", "pgall-for-woocommerce" ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"          => "pafw-renewal-failed-notification-alimtalk-template",
@@ -524,7 +524,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'type'      => 'Label',
 								'readonly'  => 'yes',
 								'default'   => '',
-								'desc2'     => __( '현금영수증 자동 발급 기능은 <span style="color: #2185d0">KG 이니시스</span>, <span style="color: #2185d0">KCP</span>, <span style="color: #2185d0">나이스페이</span>, <span style="color: #2185d0">토스페이먼츠</span> 결제대행사를 사용하는 경우에만 이용할 수 있습니다.', 'pgall-for-woocommerce' ),
+								'desc2'     => __( '현금영수증 자동 발급 기능은 <span style="color: #2185d0">KG 이니시스</span>, <span style="color: #2185d0">KCP</span>, <span style="color: #2185d0">나이스페이</span>, <span style="color: #2185d0">토스페이먼츠</span> 결제대행사를 사용하는 경우에만 이용할 수 있습니다.', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"        => "pafw_use_bacs_receipt",
@@ -533,7 +533,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'showIf'    => array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes', 'pafw-gw-tosspayments' => 'yes' ),
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">무통장입금 결제 시, 현금영수증 자동발급 기능을 사용합니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">무통장입금 결제 시, 현금영수증 자동발급 기능을 사용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"        => "pafw_bacs_always_issue_receipt",
@@ -542,7 +542,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'showIf'    => array( array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes', 'pafw-gw-tosspayments' => 'yes' ), array( 'pafw_use_bacs_receipt' => 'yes' ) ),
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">무통장입금 결제 시, 현금영수증 발급을 위한 정보를 필수로 입력해야 합니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">무통장입금 결제 시, 현금영수증 발급을 위한 정보를 필수로 입력해야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								"id"        => "pafw_bacs_issue_receipt_min_amount",
@@ -551,7 +551,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								'showIf'    => array( array( 'pafw-gw-inicis' => 'yes', 'pafw-gw-kcp' => 'yes', 'pafw-gw-nicepay' => 'yes', 'pafw-gw-lguplus' => 'yes', 'pafw-gw-tosspayments' => 'yes' ), array( 'pafw_bacs_always_issue_receipt' => 'yes' ), array( 'pafw_use_bacs_receipt' => 'yes' ) ),
 								"type"      => "LabeledInput",
 								"leftLabel" => get_woocommerce_currency_symbol(),
-								"desc2"     => __( '<div class="desc2">결제 금액이 최소 결제금액 미만인 경우에는 고객이 현금영수증 발급 여부를 선택할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+								"desc2"     => __( '<div class="desc2">결제 금액이 최소 결제금액 미만인 경우에는 고객이 현금영수증 발급 여부를 선택할 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 						)
 					),
@@ -650,7 +650,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "yes",
-								"desc"      => __( '<div class="desc2">고객이 구매한 상품에 대해 교환을 요청할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">고객이 구매한 상품에 대해 교환을 요청할 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								'id'        => 'pafw-gw-support-return',
@@ -658,7 +658,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "yes",
-								"desc"      => __( '<div class="desc2">고객이 구매한 상품에 대해 반품을 요청할 수 있습니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">고객이 구매한 상품에 대해 반품을 요청할 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							),
 							array(
 								'id'        => 'pafw-gw-ex-skip-virtual',
@@ -666,7 +666,22 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								"className" => "",
 								"type"      => "Toggle",
 								"default"   => "no",
-								"desc"      => __( '<div class="desc2">가상상품은 교환 및 반품을 신청할 수 없습니다.</div>', 'pgall-for-woocommerce' ),
+								"desc"      => __( '<div class="desc2">가상상품은 교환 및 반품을 신청할 수 없습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+							),
+							array(
+								'id'        => 'pafw-gw-ex-order-statuses',
+								'title'     => __( '교환/반품 가능 주문상태', 'pgall-for-woocommerce' ),
+								'className' => 'fluid',
+								'type'      => 'Select',
+								'default'   => 'shipped,completed',
+								'multiple'  => true,
+								'options'   => self::filter_order_statuses( array(
+									'pending',
+									'failed',
+									'on-hold',
+									'cancelled',
+									'refunded',
+								) )
 							),
 							array(
 								"id"        => "pafw-gw-ex-terms",
@@ -802,7 +817,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
                     line-height: 1.5 !important;
                 }
             </style>
-            <h3><?php _e( '워드프레스 결제 심플페이 플러그인은 약관 동의 후 이용이 가능합니다.', 'pgall-for-woocommerce' ); ?></h3>
+            <h3><?php esc_html_e( '워드프레스 결제 심플페이 플러그인은 약관 동의 후 이용이 가능합니다.', 'pgall-for-woocommerce' ); ?></h3>
             <div id="mshop-setting-wrapper"></div>
 			<?php
 		}

@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Lguplus_Subscription' ) ) {
 
-		class WC_Gateway_Lguplus_Subscription extends WC_Gateway_Lguplus {
+		class WC_Gateway_Lguplus_Subscription extends WC_Gateway_Lguplus { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 			public function __construct() {
 				$this->id = 'lguplus_subscription';
 
@@ -149,7 +149,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			function add_payment_method() {
 				try {
-					$user = get_currentuserinfo();
+					$user = wp_get_current_user();
 
 					PAFW_Gateway::register_complete( $user, $this );
 					wc_add_notice( __( "결제 수단이 정상적으로 등록되었습니다.", "pgall-for-woocommerce" ) );

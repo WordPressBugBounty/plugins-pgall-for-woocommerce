@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -7,17 +9,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php do_action( 'pafw-before-exchange-return-items' ); ?>
 
 <div class="field">
-    <label><?php echo sprintf( __( '%s할 상품을 선택하세요.', 'pgall-for-woocommerce' ), PAFW_Exchange_Return_Manager::get_label() ); ?></label>
-    <label><?php _e( '상품, 수량 단위로 반품/교환 요청하실 수 있습니다.', 'pgall-for-woocommerce' ); ?></label>
+    <label><?php /* translators: %s: request type */
+		echo sprintf( esc_html__( '%s할 상품을 선택하세요.', 'pgall-for-woocommerce' ), esc_html( PAFW_Exchange_Return_Manager::get_label() ) ); ?></label>
+    <label><?php esc_html_e( '상품, 수량 단위로 반품/교환 요청하실 수 있습니다.', 'pgall-for-woocommerce' ); ?></label>
 </div>
 
 <div class="field">
     <div id="mser_item_container">
         <div class="cart-item-wrap">
             <div class="cart-item-header">
-                <div class="product-name"><?php _e( '상품명', 'pgall-for-woocommerce' ); ?></div>
-                <div class="product-price"><?php _e( '총가격', 'pgall-for-woocommerce' ); ?></div>
-                <div class="product-quantity"><?php _e( '신청수량', 'pgall-for-woocommerce' ); ?></div>
+                <div class="product-name"><?php esc_html_e( '상품명', 'pgall-for-woocommerce' ); ?></div>
+                <div class="product-price"><?php esc_html_e( '총가격', 'pgall-for-woocommerce' ); ?></div>
+                <div class="product-quantity"><?php esc_html_e( '신청수량', 'pgall-for-woocommerce' ); ?></div>
             </div>
             <div class="cart-item-contents">
 				<?php
@@ -36,34 +39,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 							$image_id = $product->get_image_id();
 							?>
-                            <div class="cart-item-list" data-key="<?php echo $key; ?>">
+                            <div class="cart-item-list" data-key="<?php echo esc_attr( $key ); ?>">
                                 <div class="product-checkbox">
-                                    <input type="checkbox" name="order_items[<?php echo $key; ?>]"/>
-                                    <label for="order_items[<?php echo $key; ?>]"></label>
+                                    <input type="checkbox" name="order_items[<?php echo esc_attr( $key ); ?>]"/>
+                                    <label for="order_items[<?php echo esc_attr( $key ); ?>]"></label>
                                 </div>
                                 <div class="product-thumbnail">
-                                    <div style="background-image: url('<?php echo wp_get_attachment_image_url( $image_id ); ?>');"></div>
+                                    <div style="background-image: url('<?php echo esc_attr( wp_get_attachment_image_url( $image_id ) ); ?>');"></div>
                                 </div>
                                 <div class="product-info-wrap">
                                     <div class="product-name">
-                                        <span class="item_name"><?php echo $item[ 'name' ]; ?></span><br>
+                                        <span class="item_name"><?php echo esc_html( $item[ 'name' ] ); ?></span><br>
                                         <span class="price_qty">
                                         <?php
                                         if ( $item->get_total() > 0 ) {
-	                                        echo wc_price( ( $item->get_total() + $item->get_total_tax() ) / $item->get_quantity(), array( 'currency' => $order->get_currency() ) ) . ' X ' . $qty;
+	                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	                                        echo wc_price( ( $item->get_total() + $item->get_total_tax() ) / $item->get_quantity(), array( 'currency' => $order->get_currency() ) ) . ' X ' . absint( $qty );
                                         } else {
-	                                        echo ' X ' . $qty;
+	                                        echo ' X ' . absint( $qty );
                                         }
                                         ?>
 									    </span>
                                         <span class="item_meta">
 										<?php if ( ! empty( $order_item_meta ) ) {
+											// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 											echo $order_item_meta;
 										} ?>
 									</span>
                                     </div>
                                     <div class="product-price">
-										<?php echo wc_price( $item->get_total() + $item->get_total_tax() ); ?>
+										<?php echo wc_price( $item->get_total() + $item->get_total_tax() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
                                     </div>
                                     <div class="product-quantity refund-count">
 										<?php
@@ -78,12 +83,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 											), $product, false );
 										}
 
-										echo $product_quantity;
+										echo absint( $product_quantity );
 										?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="cart-item-list exchange-item exchange-item-<?php echo $key; ?>" style="display:none;">
+                            <div class="cart-item-list exchange-item exchange-item-<?php echo esc_attr( $key ); ?>" style="display:none;">
 								<?php
 								add_filter( 'msms_skip_price_calculation', '__return_true' );
 								$ex_products = wc_get_products( array(
@@ -112,10 +117,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 								?>
 								<?php if ( ! empty( $ex_items ) ) : ?>
                                     <div class="item" style="flex: 1; margin: 10px 0 10px 130px;">
-                                        <select name="exchange_item[<?php echo $key; ?>]" style="width: 100%; height: auto;">
-                                            <option value=""><?php _e( "교환할 상품을 선택하세요.", "pgall-for-woocommerce" ) ?></option>
+                                        <select name="exchange_item[<?php echo esc_attr( $key ); ?>]" style="width: 100%; height: auto;">
+                                            <option value=""><?php esc_html_e( "교환할 상품을 선택하세요.", "pgall-for-woocommerce" ) ?></option>
 											<?php foreach ( $ex_items as $ex_item ) : ?>
-                                                <option value="<?php echo $ex_item[ 'id' ]; ?>" data-params="<?php echo esc_attr( json_encode( $ex_item ) ); ?>"><?php echo $ex_item[ 'title' ]; ?></option>
+                                                <option value="<?php echo esc_attr( $ex_item[ 'id' ] ); ?>" data-params="<?php echo esc_attr( json_encode( $ex_item ) ); ?>"><?php echo esc_html( $ex_item[ 'title' ] ); ?></option>
 											<?php endforeach; ?>
                                         </select>
                                     </div>

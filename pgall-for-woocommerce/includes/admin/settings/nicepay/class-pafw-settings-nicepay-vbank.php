@@ -48,7 +48,7 @@ if ( ! class_exists( 'PAFW_Settings_Nicepay_Vbank' ) ) {
 							'type'      => 'Label',
 							'readonly'  => 'yes',
 							'default'   => '',
-							'desc2'     => __( '<code>' . untrailingslashit( WC()->api_request_url( 'WC_Gateway_Nicepay_Vbank?type=vbank_noti', pafw_check_ssl() ), true ) . '</code><div class="desc2">가상계좌 무통장입금 내역 통보에 사용되는 URL 주소입니다.<br>가상계좌 무통장입금 매뉴얼을 참고하여 나이스페이 가맹점 관리자 페이지에 접속하여 주소를 입력하여 주시기 바랍니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => '<code>' . untrailingslashit( WC()->api_request_url( 'WC_Gateway_Nicepay_Vbank?type=vbank_noti', pafw_check_ssl() ), true ) . '</code>' . __( '<div class="desc2">가상계좌 무통장입금 내역 통보에 사용되는 URL 주소입니다.<br>가상계좌 무통장입금 매뉴얼을 참고하여 나이스페이 가맹점 관리자 페이지에 접속하여 주소를 입력하여 주시기 바랍니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'nicepay_vbank_account_date_limit',

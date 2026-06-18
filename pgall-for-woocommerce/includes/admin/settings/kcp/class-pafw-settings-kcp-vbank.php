@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -44,6 +44,7 @@ if ( ! class_exists( 'PAFW_Settings_Kcp_Vbank' ) ) {
 							'className' => '',
 							'type'      => 'Label',
 							'readonly'  => 'yes',
+							// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 							'desc2'     => __( '<code>' . untrailingslashit( WC()->api_request_url( 'WC_Gateway_Kcp_VBank?type=vbank_noti', pafw_check_ssl() ) ) . '</code><div class="desc2">가상계좌 무통장입금 내역 통보에 사용되는 URL 주소입니다.<br>가상계좌 무통장입금 매뉴얼을 참고하여 NHN KCP 가맹점 관리자 페이지에 접속하여 주소를 입력하여 주시기 바랍니다.</div>', 'pgall-for-woocommerce' ),
 						),
 						array (

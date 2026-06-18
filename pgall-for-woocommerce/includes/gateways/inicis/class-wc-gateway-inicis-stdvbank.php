@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification, WordPress.DateTime.RestrictedFunctions.date_date
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,18 +9,18 @@ if ( class_exists( 'WC_Gateway_Inicis_StdVbank' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
+class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	public function __construct() {
 		$this->id = 'inicis_stdvbank';
 
 		parent::__construct();
 
-		if ( empty( $this->settings['title'] ) ) {
+		if ( empty( $this->settings[ 'title' ] ) ) {
 			$this->title       = __( '가상계좌 무통장입금', 'pgall-for-woocommerce' );
 			$this->description = __( '가상계좌 안내를 통해 무통장입금을 할 수 있습니다.', 'pgall-for-woocommerce' );
 		} else {
-			$this->title       = $this->settings['title'];
-			$this->description = $this->settings['description'];
+			$this->title       = $this->settings[ 'title' ];
+			$this->description = $this->settings[ 'description' ];
 		}
 		$this->supports[] = 'pafw-cash-receipt';
 		$this->supports[] = 'pafw-vbank';
@@ -31,7 +32,7 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 		add_action( 'pafw_' . $this->id . '_mobile_noti', array( $this, 'wc_api_vbank_mobile_noti' ) );
 	}
 	public function add_vbank_refund_params( $params, $order ) {
-		$params['inicis'] = array(
+		$params[ 'inicis' ] = array(
 			'refund_acc_num'   => pafw_get( $_REQUEST, 'refund_acc_num' ),
 			'refund_bank_code' => pafw_get( $_REQUEST, 'refund_bank_code' ),
 			'refund_acc_name'  => pafw_get( $_REQUEST, 'refund_acc_name' ),
@@ -101,24 +102,24 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 		);
 	}
 	public function process_approval_response( $order, $response ) {
-		$order->update_meta_data( '_pafw_vacc_tid', $response['vacc_tid'] );
-		$order->update_meta_data( '_pafw_vacc_num', $response['vacc_num'] );
-		$order->update_meta_data( '_pafw_vacc_bank_code', $response['vacc_bank_code'] );
-		$order->update_meta_data( '_pafw_vacc_bank_name', $response['vacc_bank_name'] );
-		$order->update_meta_data( '_pafw_vacc_holder', $response['vacc_holder'] );
-		$order->update_meta_data( '_pafw_vacc_depositor', $response['vacc_depositor'] );
-		$order->update_meta_data( '_pafw_vacc_date', $response['vacc_date'] );
-		$order->update_meta_data( '_pafw_cash_receipts', $response['vacc_tid'] );
+		$order->update_meta_data( '_pafw_vacc_tid', $response[ 'vacc_tid' ] );
+		$order->update_meta_data( '_pafw_vacc_num', $response[ 'vacc_num' ] );
+		$order->update_meta_data( '_pafw_vacc_bank_code', $response[ 'vacc_bank_code' ] );
+		$order->update_meta_data( '_pafw_vacc_bank_name', $response[ 'vacc_bank_name' ] );
+		$order->update_meta_data( '_pafw_vacc_holder', $response[ 'vacc_holder' ] );
+		$order->update_meta_data( '_pafw_vacc_depositor', $response[ 'vacc_depositor' ] );
+		$order->update_meta_data( '_pafw_vacc_date', $response[ 'vacc_date' ] );
+		$order->update_meta_data( '_pafw_cash_receipts', $response[ 'vacc_tid' ] );
 		$order->save_meta_data();
 
 		$this->add_payment_log( $order, '[ 가상계좌 입금 대기중 ]', array(
-			'거래번호' => $response['vacc_tid']
+			'거래번호' => $response[ 'vacc_tid' ]
 		) );
 
 		//가상계좌 주문 접수시 재고 차감여부 확인
 		pafw_reduce_order_stock( $order );
 
-		$order->update_status( $this->settings['order_status_after_vbank_payment'] );
+		$order->update_status( $this->settings[ 'order_status_after_vbank_payment' ] );
 
 		$order->set_date_paid( null );
 		$order->save();
@@ -132,26 +133,27 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 	function wc_api_vbank_mobile_noti() {
 		try {
 			$order = null;
-			$remote_ip = pafw_get( $_SERVER, 'HTTP_X_FORWARDED_FOR', $_SERVER['REMOTE_ADDR'] );
+			$remote_ip = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
 
 			$remote_ips = array_map( 'trim', explode( ',', $remote_ip ) );
 
 			if ( empty( array_intersect( $remote_ips, array( "118.129.210.25", "183.109.71.153", "203.238.37.15" ) ) ) ) {
+				// translators: %s: ip address
 				throw new Exception( sprintf( __( '[PAFW-ERR-9500] 잘못된 아이피로 접근하였습니다. IP : %s', 'pgall-for-woocommerce' ), $remote_ip ) );
 			}
 
-			$P_TID     = pafw_get( $_REQUEST, 'P_TID' );
-			$P_AUTH_DT = pafw_get( $_REQUEST, 'P_AUTH_DT' );
-			$P_STATUS  = pafw_get( $_REQUEST, 'P_STATUS' );
-			$P_OID     = pafw_get( $_REQUEST, 'P_OID' );
-			$P_FN_CD1  = pafw_get( $_REQUEST, 'P_FN_CD1' );
-			$P_AMT     = pafw_get( $_REQUEST, 'P_AMT' );
+			$P_TID     = pafw_get_unslash( $_REQUEST, 'P_TID' );
+			$P_AUTH_DT = pafw_get_unslash( $_REQUEST, 'P_AUTH_DT' );
+			$P_STATUS  = pafw_get_unslash( $_REQUEST, 'P_STATUS' );
+			$P_OID     = pafw_get_unslash( $_REQUEST, 'P_OID' );
+			$P_FN_CD1  = pafw_get_unslash( $_REQUEST, 'P_FN_CD1' );
+			$P_AMT     = pafw_get_unslash( $_REQUEST, 'P_AMT' );
 
 			$this->add_log( '[모바일] 모바일 가상계좌 입금통보 시작 : ' . $P_TID );
 
 			if ( '02' == $P_STATUS ) {
 				$oids  = explode( '_', $P_OID );
-				$order = wc_get_order( $oids[0] );
+				$order = wc_get_order( $oids[ 0 ] );
 
 				if ( ! $order ) {
 					throw new Exception( __( '[PAFW-ERR-9501] 올바르지 않은 주문번호입니다.', 'pgall-for-woocommerce' ) );
@@ -161,8 +163,8 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 				$vacc_info = array();
 				$params    = explode( '|', pafw_get( $_REQUEST, 'P_RMESG1' ) );
 				foreach ( $params as $param ) {
-					$args                  = explode( '=', $param );
-					$vacc_info[ $args[0] ] = $args[1];
+					$args                    = explode( '=', $param );
+					$vacc_info[ $args[ 0 ] ] = $args[ 1 ];
 				}
 
 				$txnid          = $order->get_meta( '_pafw_txnid' );
@@ -176,7 +178,7 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 					if ( $vacc_bank_code != $P_FN_CD1 ) {    //입금은행 코드 체크
 						throw new Exception( __( '[PAFW-ERR-9502] 입금은행 코드 미일치.', 'pgall-for-woocommerce' ) );
 					}
-					if ( $vacc_num != $vacc_info['P_VACCT_NO'] ) {    //입금계좌번호 체크
+					if ( $vacc_num != $vacc_info[ 'P_VACCT_NO' ] ) {    //입금계좌번호 체크
 						throw new Exception( __( '[PAFW-ERR-9502] 입금계좌번호 미일치.', 'pgall-for-woocommerce' ) );
 					}
 					if ( (int) $P_AMT != (int) $order->get_total() ) {    //입금액 체크
@@ -197,7 +199,7 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 					do_action( 'pafw_payment_action', 'completed', $order->get_total(), $order, $this );
 
 					if ( pafw_order_need_shipping( $order ) ) {
-						$order->update_status( $this->settings['order_status_after_payment'] );
+						$order->update_status( $this->settings[ 'order_status_after_payment' ] );
 					}
 
 					$order->set_date_paid( current_time( 'timestamp', true ) );
@@ -206,14 +208,16 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 					echo 'OK';
 					exit();
 				} else {
-					$order->add_order_note( sprintf( __( '[모바일] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %s, 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), $P_TID, $P_OID ) );
-					$this->add_log( sprintf( __( '[모바일] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %s, 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), $P_TID, $P_OID ) );
-					$this->add_log( print_r( wc_clean( $_REQUEST ), true ) );
+					// translators: 1: transaction id, 2: order id
+					$order->add_order_note( sprintf( __( '[모바일] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), $P_TID, $P_OID ) );
+					// translators: 1: transaction id, 2: order id
+					$this->add_log( sprintf( __( '[모바일] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), $P_TID, $P_OID ) );
+					$this->add_log( print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 					echo 'OK';
 					exit();
 				}
 			} else {
-				$this->add_log( '[모바일] 모바일 가상계좌 입금통보 실패 : 결제 결과 이상 -  ' . $P_STATUS . "\n" . print_r( wc_clean( $_REQUEST ), true ) );
+				$this->add_log( '[모바일] 모바일 가상계좌 입금통보 실패 : 결제 결과 이상 -  ' . $P_STATUS . "\n" . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 				echo "OK";
 				exit();
 			}
@@ -222,7 +226,7 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 				$order->add_order_note( $e->getMessage() );
 			}
 
-			$this->add_log( $e->getMessage() . print_r( wc_clean( $_REQUEST ), true ) );
+			$this->add_log( $e->getMessage() . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 			die( 'FAIL' );
 		}
@@ -231,30 +235,31 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 		try {
 			$order = null;
 
-			$this->add_log( '가상계좌 입금통보 시작 : ' . print_r( wc_clean( $_REQUEST ), true ) );
-			$remote_ip = pafw_get( $_SERVER, 'HTTP_X_FORWARDED_FOR', $_SERVER['REMOTE_ADDR'] );
+			$this->add_log( '가상계좌 입금통보 시작 : ' . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
+			$remote_ip = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
 
 			$remote_ips = array_map( 'trim', explode( ',', $remote_ip ) );
 
 			if ( empty( array_intersect( $remote_ips, array( "203.238.37.15", "39.115.212.9", "183.109.71.153" ) ) ) ) {
+				// translators: %s: ip address
 				throw new Exception( sprintf( __( '[PAFW-ERR-9500] 잘못된 아이피로 접근하였습니다. IP : %s', 'pgall-for-woocommerce' ), $remote_ip ) );
 			}
 
 			$this->add_log( '가상계좌 입금통보 시작 : ' . $remote_ip );
 
-			$no_tid       = sanitize_text_field( $_POST['no_tid'] );
-			$no_oid       = sanitize_text_field( $_POST['no_oid'] );
-			$cd_bank      = sanitize_text_field( $_POST['cd_bank'] );
-			$dt_trans     = sanitize_text_field( $_POST['dt_trans'] );
-			$tm_trans     = sanitize_text_field( $_POST['tm_trans'] );
-			$no_vacct     = sanitize_text_field( $_POST['no_vacct'] );
-			$amt_input    = sanitize_text_field( $_POST['amt_input'] );
-			$nm_inputbank = pafw_convert_to_utf8( sanitize_text_field( $_POST['nm_inputbank'] ) );
-			$nm_input     = pafw_convert_to_utf8( sanitize_text_field( $_POST['nm_input'] ) );
+			$no_tid       = pafw_get_unslash( $_POST, 'no_tid' );
+			$no_oid       = pafw_get_unslash( $_POST, 'no_oid' );
+			$cd_bank      = pafw_get_unslash( $_POST, 'cd_bank' );
+			$dt_trans     = pafw_get_unslash( $_POST, 'dt_trans' );
+			$tm_trans     = pafw_get_unslash( $_POST, 'tm_trans' );
+			$no_vacct     = pafw_get_unslash( $_POST, 'no_vacct' );
+			$amt_input    = pafw_get_unslash( $_POST, 'amt_input' );
+			$nm_inputbank = pafw_convert_to_utf8( pafw_get_unslash( $_POST, 'nm_inputbank' ) );
+			$nm_input     = pafw_convert_to_utf8( pafw_get_unslash( $_POST, 'nm_input' ) );
 
 			//OID 에서 주문번호 확인
 			$oids     = explode( '_', $no_oid );
-			$order_id = $oids[0];
+			$order_id = $oids[ 0 ];
 
 			$order = wc_get_order( $order_id );
 			if ( ! $order ) {
@@ -295,7 +300,7 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 				do_action( 'pafw_payment_action', 'completed', $order->get_total(), $order, $this );
 
 				if ( pafw_order_need_shipping( $order ) ) {
-					$order->update_status( $this->settings['order_status_after_payment'] );
+					$order->update_status( $this->settings[ 'order_status_after_payment' ] );
 				}
 
 				$order->set_date_paid( current_time( 'timestamp', true ) );
@@ -303,10 +308,12 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 
 				echo 'OK';
 				exit();
-			} else { //주문상태가 이상한 경우
-				$order->add_order_note( sprintf( __( '입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %s, 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), $no_tid, $no_oid ) );
-				$this->add_log( sprintf( __( '입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %s, 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), $no_tid, $no_oid ) );
-				$this->add_log( print_r( wc_clean( $_REQUEST ), true ) );
+			} else {
+				// translators: 1: transaction id, 2: order id
+				$order->add_order_note( sprintf( __( '입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), $no_tid, $no_oid ) );
+				// translators: 1: transaction id, 2: order id
+				$this->add_log( sprintf( __( '입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), $no_tid, $no_oid ) );
+				$this->add_log( print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 				echo 'OK';
 				exit();
 			}
@@ -315,7 +322,7 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis {
 				$order->add_order_note( $e->getMessage() );
 			}
 
-			$this->add_log( $e->getMessage() . print_r( wc_clean( $_REQUEST ), true ) );
+			$this->add_log( $e->getMessage() . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 			die( 'FAIL' );
 		}

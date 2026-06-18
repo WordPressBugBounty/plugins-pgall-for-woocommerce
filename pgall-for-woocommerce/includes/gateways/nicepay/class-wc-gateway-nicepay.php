@@ -1,11 +1,12 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
-	class WC_Gateway_Nicepay extends PAFW_Payment_Gateway {
+	class WC_Gateway_Nicepay extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 		public static $log;
 
@@ -31,7 +32,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			add_filter( 'pafw_cash_receipt_params_' . $this->id, array( $this, 'add_cash_receipt_request_params' ), 10, 2 );
 		}
-		public function get_merchant_id( $order = null ){
+		public function get_merchant_id( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
 		public function get_merchant_key( $order = null ) {
@@ -66,8 +67,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_register_shipping_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'mall_ip'          => $_SERVER['SERVER_ADDR'],
-				'sheet_no'         => wc_clean( $_POST['tracking_number'] ),
+				'mall_ip'          => pafw_get_unslash( $_SERVER, 'SERVER_ADDR' ),
+				'sheet_no'         => pafw_get_unslash( $_POST, 'tracking_number' ),
 				'dlv_company_name' => pafw_get( $this->settings, 'delivery_company_name' ),
 				'sender_name'      => pafw_get( $this->settings, 'delivery_register_name' )
 			);
@@ -88,7 +89,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order->save_meta_data();
 
 			$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array(
-				'거래번호' => $response['transaction_id']
+				'거래번호' => $response[ 'transaction_id' ]
 			) );
 		}
 	}

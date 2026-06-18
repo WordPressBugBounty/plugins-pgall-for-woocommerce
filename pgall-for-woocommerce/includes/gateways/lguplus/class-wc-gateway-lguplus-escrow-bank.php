@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Lguplus_Escrow_Bank' ) ) {
 
-		class WC_Gateway_Lguplus_Escrow_Bank extends WC_Gateway_Lguplus {
+		class WC_Gateway_Lguplus_Escrow_Bank extends WC_Gateway_Lguplus { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 			public function __construct() {
 				$this->id = 'lguplus_escrow_bank';
 

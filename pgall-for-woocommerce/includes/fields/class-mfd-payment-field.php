@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class MFD_Payment_Field extends MFD_Field {
+class MFD_Payment_Field extends MFD_Field { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	protected static $is_enqueued = false;
 
 	function save_meta( $element = null ) {
@@ -19,7 +19,7 @@ class MFD_Payment_Field extends MFD_Field {
 	}
 
 	public function output( $element, $post, $form ) {
-		$classes = mfd_make_class( array (
+		$classes = mfd_make_class( array(
 			'yes' == mfd_get( $element, 'required' ) ? 'required' : '',
 			mfd_get( $element, 'class' ),
 			mfd_get( $element, 'width' ),
@@ -43,26 +43,26 @@ class MFD_Payment_Field extends MFD_Field {
 
 			?>
             <script>
-                jQuery(document).ready(function ($) {
-                    var $wrapper = $('div[data-id=<?php echo $uid; ?>]');
-                    var $form = $wrapper.closest('form');
+                jQuery( document ).ready( function ( $ ) {
+                    var $wrapper = $( 'div[data-id=<?php echo esc_js( $uid ); ?>]' );
+                    var $form = $wrapper.closest( 'form' );
 
-                    $('input.pafw-simple-payment', $wrapper).on('click', function () {
-                        if ($form.form('is valid')) {
-                            $('input[name=payment_method]', $wrapper).attr('checked', 'checked');
-                            var payment_method = $('input[name=payment_method]:checked', $form).val();
-                            $form.triggerHandler('checkout_place_order_' + payment_method);
+                    $( 'input.pafw-simple-payment', $wrapper ).on( 'click', function () {
+                        if ( $form.form( 'is valid' ) ) {
+                            $( 'input[name=payment_method]', $wrapper ).attr( 'checked', 'checked' );
+                            var payment_method = $( 'input[name=payment_method]:checked', $form ).val();
+                            $form.triggerHandler( 'checkout_place_order_' + payment_method );
                         } else {
-                            $('input', $form).blur();
+                            $( 'input', $form ).blur();
                         }
-                    });
-                });
+                    } );
+                } );
             </script>
-            <div class="<?php echo $classes; ?>" data-id="<?php echo $uid; ?>">
+            <div class="<?php echo esc_attr( $classes ); ?>" data-id="<?php echo esc_attr( $uid ); ?>">
                 <div style="display: none;">
-                    <input type="radio" name="payment_method" value="<?php echo $payment_method; ?>" checked>
+                    <input type="radio" name="payment_method" value="<?php echo esc_attr( $payment_method ); ?>" checked>
                 </div>
-                <input type="button" class="<?php echo mfd_get( $element, 'class' ); ?> ui button pafw-simple-payment" value="<?php echo mfd_get( $element, 'title' ); ?>">
+                <input type="button" class="<?php echo esc_attr( mfd_get( $element, 'class' ) ); ?> ui button pafw-simple-payment" value="<?php echo esc_attr( mfd_get( $element, 'title' ) ); ?>">
             </div>
 			<?php
 		}

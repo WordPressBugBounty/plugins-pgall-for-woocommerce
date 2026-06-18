@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -12,7 +14,7 @@ if ( 'yes' == pafw_get( $params, 'need_shipping' ) ) {
 <div class="pafw-instant-payment-wrapper">
     <script>
         jQuery( document ).ready( function( $ ) {
-            var $form = $( 'form.checkout.<?php esc_attr_e( $params['uid'] ); ?>' );
+            var $form = $( 'form.checkout.<?php echo esc_attr( $params['uid'] ); ?>' );
 
             $( 'input.pafw-simple-payment', $form ).on( 'click', function() {
                 var $terms = $( 'input[name=terms]', $form );
@@ -44,7 +46,7 @@ if ( 'yes' == pafw_get( $params, 'need_shipping' ) ) {
             } );
         } );
     </script>
-    <form class="checkout <?php esc_attr_e( $params['uid'] ); ?>">
+    <form class="checkout <?php echo esc_attr( $params['uid'] ); ?>">
 		<?php wc_get_template( 'checkout/pafw/form-' . sanitize_file_name( $params['template'] ) . '.php', array( 'params' => $params ), '', PAFW()->template_path() ); ?>
     </form>
 </div>

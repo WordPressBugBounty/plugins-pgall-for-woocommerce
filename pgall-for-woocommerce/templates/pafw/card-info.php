@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -17,9 +19,9 @@ if ( ! empty( $bill_key ) ) {
 
 ?>
 
-<div class="pafw-card pafw-<?php esc_attr_e( $master_id ); ?>">
+<div class="pafw-card pafw-<?php echo esc_attr( $master_id ); ?>">
 	<?php if ( empty( $bill_key ) ) : ?>
-        <div class="pafw-not-registered" data-payment_method="<?php esc_attr_e( $payment_gateway->id ); ?>"></div>
+        <div class="pafw-not-registered" data-payment_method="<?php echo esc_attr( $payment_gateway->id ); ?>"></div>
 	<?php else: ?>
         <div class="pafw-registered">
         </div>

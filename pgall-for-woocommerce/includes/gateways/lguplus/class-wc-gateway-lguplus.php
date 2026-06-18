@@ -1,11 +1,12 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
-	class WC_Gateway_Lguplus extends PAFW_Payment_Gateway {
+	class WC_Gateway_Lguplus extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 		protected $key_for_test = array(
 			'lgdacomxpay',
 			'tlgdacomxpay',
@@ -50,8 +51,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_register_shipping_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'mall_ip'          => $_SERVER['SERVER_ADDR'],
-				'sheet_no'         => wc_clean( $_POST['tracking_number'] ),
+				'mall_ip'          => pafw_get_unslash( $_SERVER, 'SERVER_ADDR' ),
+				'sheet_no'         => pafw_get_unslash( $_POST, 'tracking_number' ),
 				'dlv_company_name' => pafw_get( $this->settings, 'delivery_company_name' ),
 				'sender_name'      => pafw_get( $this->settings, 'delivery_register_name' )
 			);
@@ -72,7 +73,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public static function add_script_params( $params ) {
 			$options = get_option( 'pafw_mshop_lguplus' );
 
-			$params['lguplus_mode'] = 'production' == pafw_get( $options, 'operation_mode', 'sandbox' ) ? 'service' : 'test';
+			$params[ 'lguplus_mode' ] = 'production' == pafw_get( $options, 'operation_mode', 'sandbox' ) ? 'service' : 'test';
 
 			return $params;
 		}
@@ -91,10 +92,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			?>
-            <a class="button pafw_action_button tips" style="text-align: center;" href="javascript:showReceiptByTID('<?php echo $mid; ?>', '<?php echo $tid; ?>', '<?php echo $authdata; ?>')"><?php _e( '영수증 출력', 'pgall-for-woocommerce' ); ?></a>
+            <a class="button pafw_action_button tips" style="text-align: center;" href="javascript:showReceiptByTID('<?php echo esc_js( $mid ); ?>', '<?php echo esc_js( $tid ); ?>', '<?php echo esc_js( $authdata ); ?>')"><?php esc_html_e( '영수증 출력', 'pgall-for-woocommerce' ); ?></a>
 			<?php
 		}
-		public function get_merchant_id( $order = null ){
+		public function get_merchant_id( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
 		public function get_merchant_key( $order = null ) {

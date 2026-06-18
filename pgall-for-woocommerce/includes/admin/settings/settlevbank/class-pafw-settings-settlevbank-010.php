@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -46,7 +46,7 @@ if ( ! class_exists( 'PAFW_Settings_Settlevbank_010' ) ) {
 							"leftLabel" => "계좌 발급일로부터",
 							"label"     => "시간",
 							"default"   => "72",
-							"desc2"     => __( '<div class="desc2">입금기한이 24시간 이상인 경우, 일단위로 입금기한이 설정됩니다. 예를 들어, 입금 기한이 72시간인 경우, 3일 후 23:59분으로 설정됩니다.</div>', 'pgall-for-woocommerce' )
+							"desc2"     => __( '<div class="desc2">입금기한이 24시간 이상인 경우, 일단위로 입금기한이 설정됩니다. 예를 들어, 입금 기한이 72시간인 경우, 3일 후 23:59분으로 설정됩니다.</div>', 'pgall-for-woocommerce' ) // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 					)
 				),

@@ -27,12 +27,12 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 		protected static function get_matched_rules_by_product_ids( $product_info ) {
 			$rules = self::get_rules();
 
-			if ( ! empty( $rules['product'] ) ) {
-				foreach ( $rules['product'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['products'] ) ) {
-						$product_ids = array_keys( $rule['products'] );
+			if ( ! empty( $rules[ 'product' ] ) ) {
+				foreach ( $rules[ 'product' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'products' ] ) ) {
+						$product_ids = array_keys( $rule[ 'products' ] );
 
-						foreach ( $product_info['parent_id'] as $cart_product_id ) {
+						foreach ( $product_info[ 'parent_id' ] as $cart_product_id ) {
 							if ( in_array( $cart_product_id, $product_ids ) ) {
 								return $rule;
 							}
@@ -41,20 +41,20 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 				}
 			}
 
-			if ( ! empty( $rules['attributes'] ) ) {
+			if ( ! empty( $rules[ 'attributes' ] ) ) {
 				$terms = array();
-				foreach ( $product_info['variations'] as $variation ) {
-					$variation_terms = get_terms( $variation['attribute'], array( 'slug' => $variation['slug'] ) );
+				foreach ( $product_info[ 'variations' ] as $variation ) {
+					$variation_terms = get_terms( array( 'taxonomy' => $variation[ 'attribute' ], 'slug' => $variation[ 'slug' ] ) );
 
-					if( is_array( $variation_terms ) && ! is_wp_error( $variation_terms ) ) {
-						$terms = array_merge( $terms, get_terms( $variation['attribute'], array( 'slug' => $variation['slug'] ) ) );
+					if ( is_array( $variation_terms ) && ! is_wp_error( $variation_terms ) ) {
+						$terms = array_merge( $terms, get_terms( array( 'taxonomy' => $variation[ 'attribute' ], 'slug' => $variation[ 'slug' ] ) ) );
 					}
 				}
 
 				$term_ids = array_flip( wp_list_pluck( $terms, 'term_id' ) );
 
-				foreach ( $rules['attributes'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['attributes'] ) ) {
+				foreach ( $rules[ 'attributes' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'attributes' ] ) ) {
 						if ( ! empty( array_intersect_key( $term_ids, pafw_get( $rule, 'attributes', array() ) ) ) ) {
 							return $rule;
 						}
@@ -62,21 +62,21 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 				}
 			}
 
-			if ( ! empty( $rules['category'] ) ) {
-				foreach ( $rules['category'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['categories'] ) ) {
-						foreach ( $product_info['parent_id'] as $cart_product_id ) {
+			if ( ! empty( $rules[ 'category' ] ) ) {
+				foreach ( $rules[ 'category' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'categories' ] ) ) {
+						foreach ( $product_info[ 'parent_id' ] as $cart_product_id ) {
 
 							$terms = get_the_terms( $cart_product_id, 'product_cat' );
 
 							if ( ! empty( $terms ) ) {
 								$term_ids = array_flip( array_map( function ( $term ) {
-									$term_id = apply_filters( 'wpml_object_id', $term->term_id, 'product_cat', true, pafw_get_default_language() );
+									$term_id = apply_filters( 'wpml_object_id', $term->term_id, 'product_cat', true, pafw_get_default_language() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 									return $term_id;
 								}, $terms ) );
 
-								if ( ! empty( array_intersect_key( $term_ids, $rule['categories'] ) ) ) {
+								if ( ! empty( array_intersect_key( $term_ids, $rule[ 'categories' ] ) ) ) {
 									return $rule;
 								}
 							}
@@ -98,15 +98,15 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 				if ( $product ) {
 					if ( is_callable( array( $product, 'get_attributes' ) ) ) {
 						foreach ( $product->get_attributes() as $attribute => $slug ) {
-							if( is_a( $slug, 'WC_Product_Attribute')) {
-								foreach( $slug->get_slugs() as $attribute_slug ) {
-									$product_ids['variations'][] = array(
+							if ( is_a( $slug, 'WC_Product_Attribute' ) ) {
+								foreach ( $slug->get_slugs() as $attribute_slug ) {
+									$product_ids[ 'variations' ][] = array(
 										'attribute' => $attribute,
 										'slug'      => $attribute_slug
 									);
 								}
-							}else {
-								$product_ids['variations'][] = array(
+							} else {
+								$product_ids[ 'variations' ][] = array(
 									'attribute' => $attribute,
 									'slug'      => $slug
 								);
@@ -114,7 +114,7 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 						}
 					}
 
-					$product_ids['parent_id'][] = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
+					$product_ids[ 'parent_id' ][] = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
 				}
 			}
 
@@ -140,8 +140,8 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 				$product_info = self::get_product_info( $order );
 				$rule         = self::get_matched_rules_by_product_ids( $product_info );
 
-				if ( $rule && ! empty( $rule['order_status'] ) ) {
-					$order_status = $rule['order_status'];
+				if ( $rule && ! empty( $rule[ 'order_status' ] ) ) {
+					$order_status = $rule[ 'order_status' ];
 				}
 			}
 
@@ -155,16 +155,16 @@ if ( ! class_exists( 'PAFW_Order_Status_Controller' ) ) :
 
 				as_unschedule_all_actions( '', array(), $action_group );
 
-				if ( ! empty( $rules['auto_transition'] ) ) {
-					foreach ( $rules['auto_transition'] as $rule ) {
-						if ( 'yes' == $rule['enabled'] && $new_status == $rule['from_status'] ) {
+				if ( ! empty( $rules[ 'auto_transition' ] ) ) {
+					foreach ( $rules[ 'auto_transition' ] as $rule ) {
+						if ( 'yes' == $rule[ 'enabled' ] && $new_status == $rule[ 'from_status' ] ) {
 							as_schedule_single_action(
-								gmdate( 'U' ) + DAY_IN_SECONDS * $rule['term'],
+								gmdate( 'U' ) + DAY_IN_SECONDS * $rule[ 'term' ],
 								'pafw_order_status_transition',
 								array(
 									'order_id'    => $order_id,
-									'from_status' => $rule['from_status'],
-									'to_status'   => $rule['to_status'],
+									'from_status' => $rule[ 'from_status' ],
+									'to_status'   => $rule[ 'to_status' ],
 								),
 								$action_group
 							);

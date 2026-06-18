@@ -30,10 +30,10 @@ if ( ! class_exists( 'PAFW_Admin' ) ) :
 				if ( PAFW_Cash_Receipt::is_enabled() ) {
 					add_submenu_page( 'pafw_setting', __( '현금영수증', 'pgall-for-woocommerce' ), __( '현금영수증', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_cash_receipt', 'PAFW_Admin_Cash_Receipts::output' );
 				}
-
-				add_submenu_page( 'pafw_setting', __( '매출통계', 'pgall-for-woocommerce' ), __( '매출통계', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_sales_statistics', 'PAFW_Admin::sales_statistics' );
-				add_submenu_page( 'pafw_setting', __( '결제통계', 'pgall-for-woocommerce' ), __( '결제통계', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_health_status', 'PAFW_Admin::payment_statistics' );
 			}
+			
+			add_submenu_page( 'pafw_setting', __( '매출통계', 'pgall-for-woocommerce' ), __( '매출통계', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_sales_statistics', 'PAFW_Admin::sales_statistics' );
+			add_submenu_page( 'pafw_setting', __( '결제통계', 'pgall-for-woocommerce' ), __( '결제통계', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_health_status', 'PAFW_Admin::payment_statistics' );
 
 			add_submenu_page( 'pafw_setting', __( '온라인 가입신청', 'pgall-for-woocommerce' ), __( '온라인 가입신청', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_apply_service', '' );
 			add_submenu_page( 'pafw_setting', __( '매뉴얼', 'pgall-for-woocommerce' ), __( '매뉴얼', 'pgall-for-woocommerce' ), 'manage_woocommerce', 'pafw_manual', '' );

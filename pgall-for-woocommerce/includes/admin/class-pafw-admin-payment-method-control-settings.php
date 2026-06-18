@@ -13,7 +13,7 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Method_Control_Settings' ) ) :
 		static $order_statuses = null;
 
 		static function update_settings() {
-			$_REQUEST = array_merge( $_REQUEST, json_decode( stripslashes( wc_clean( $_REQUEST['values'] ) ), true ) );
+			$_REQUEST = array_merge( $_REQUEST, json_decode( pafw_get_unslash( $_REQUEST, 'values' ), true ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			PAFW_Setting_Helper::update_settings( self::get_basic_setting() );
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Method_Control_Settings' ) ) :
 
 			if ( function_exists( 'icl_object_id' ) && function_exists( 'wpml_get_active_languages' ) ) {
 				foreach ( wpml_get_active_languages() as $code => $language ) {
-					$languages[ $code ] = $language['native_name'];
+					$languages[ $code ] = $language[ 'native_name' ];
 				}
 			}
 
@@ -117,7 +117,7 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Method_Control_Settings' ) ) :
 						'type'     => 'Label',
 						'readonly' => 'yes',
 						'default'  => '',
-						'desc2'    => __( '<div class="desc2">언어별 결제수단 제어 기능은 WPML 플러그인이 설치되어 있어야 합니다.</div>', 'pgall-for-woocommerce' ),
+						'desc2'    => __( '<div class="desc2">언어별 결제수단 제어 기능은 WPML 플러그인이 설치되어 있어야 합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 					)
 				);
 			}
@@ -141,7 +141,7 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Method_Control_Settings' ) ) :
 								'type'      => 'Label',
 								'readonly'  => 'yes',
 								'default'   => '',
-								'desc2'     => __( '<div class="desc2">결제수단 노출 제어 정책에 설정된 상품이 장바구니에 포함된 경우, 결제 수단이 설정된 수단으로 제한됩니다.<br>함께 결제할 수 없는 상품을 장바구니에 담으려고 하는 경우에는, 함께 구매할 수 없다는 안내 메시지가 표시됩니다.</div>', 'pgall-for-woocommerce' ),
+								'desc2'     => __( '<div class="desc2">결제수단 노출 제어 정책에 설정된 상품이 장바구니에 포함된 경우, 결제 수단이 설정된 수단으로 제한됩니다.<br>함께 결제할 수 없는 상품을 장바구니에 담으려고 하는 경우에는, 함께 구매할 수 없다는 안내 메시지가 표시됩니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							)
 						)
 					),
@@ -449,7 +449,7 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Method_Control_Settings' ) ) :
 			?>
             <script>
                 jQuery( document ).ready( function () {
-                    jQuery( this ).trigger( 'mshop-setting-manager', ['mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>, null, null] );
+                    jQuery( this ).trigger( 'mshop-setting-manager', [ 'mshop-setting-wrapper', '100', <?php echo json_encode( PAFW_Setting_Helper::get_settings( $settings ) ); ?>, null, null ] );
                 } );
             </script>
 

@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 global $wp;
 
 ?>
@@ -11,7 +13,7 @@ global $wp;
     } );
 </script>
 <div style="text-align: center;">
-    <button class="button button-primary pafw-request-ex"><?php _e( "교환/반품 신청하기", "pgall-for-woocommerce" ); ?></button>
+    <button class="button button-primary pafw-request-ex"><?php esc_html_e( "교환/반품 신청하기", "pgall-for-woocommerce" ); ?></button>
 </div>
 
 <div class="pafw-ex-wrapper" style="display: none;">

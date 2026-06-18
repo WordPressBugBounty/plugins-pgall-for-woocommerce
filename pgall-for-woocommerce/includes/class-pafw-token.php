@@ -1,6 +1,5 @@
 <?php
-
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -49,6 +48,8 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 		}
 		public static function get_token_for_order( $order, $use_default_token = true ) {
 			$token = null;
+			$logger = new WC_Logger();
+			$logger->add( "cdm-debug", "111" ) ;
 
 			self::maybe_migrate_payment_token_for_user( $order->get_customer_id() );
 			if ( function_exists( 'wcs_is_subscription' ) && ! wcs_is_subscription( $order ) ) {
@@ -77,10 +78,19 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 				}
 			}
 
+			$logger = new WC_Logger();
+
+			if( $token ) {
+				$logger->add( "cdm-debug", sprintf( "exists : %d, %s", $token->get_id(), $token->get_display_name() ) );
+			}else{
+				$logger->add( "cdm-debug", sprintf( "not exists : %d", $order->get_id() ) ) ;
+			}
+
 			if ( $use_default_token && empty( $token ) ) {
 				$token = WC_Payment_Tokens::get_customer_default_token( $order->get_customer_id() );
 
 				if ( empty( $token ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( "결제 가능한 토큰이 없습니다.", "pgall-for-woocommerce" ), 7103 );
 				}
 			}
@@ -123,6 +133,8 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 
 			self::update_token( $order, $token );
 
+			do_action( 'pafw_token_saved', $token, $order, $gateway, $user_id );
+
 			return $token;
 		}
 		public static function maybe_change_payment_method_data( $payment_method, $payment_token ) {
@@ -138,7 +150,7 @@ if ( ! class_exists( 'PAFW_Token' ) ) {
 			return $payment_method;
 		}
 		public static function output_payment_tokens( $fragments ) {
-			parse_str( $_POST[ 'post_data' ], $params );
+			parse_str( pafw_get_unslash( $_POST, 'post_data' ), $params );
 			$_POST = array_merge( $_POST, $params );
 
 			ob_start();

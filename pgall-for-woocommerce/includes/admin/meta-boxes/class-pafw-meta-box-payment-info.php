@@ -1,4 +1,7 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
+// phpcs:disable WordPress.Security.NonceVerification.Missing
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -13,7 +16,7 @@ class PAFW_Meta_Box_Payment_Info {
 			if ( $payment_gateway && $payment_gateway instanceof PAFW_Payment_Gateway ) {
 				self::enqueue_script( $order );
 
-				if ( ! in_array( $order->get_status(), array( 'pending', 'failed' ) ) ) {
+				if ( ! in_array( $order->get_status(), array( 'pending', 'failed' ) ) && ! empty( $order->get_transaction_id() ) ) {
 					if ( $payment_gateway->supports( 'subscriptions' ) ) {
 						add_meta_box(
 							'pafw-order-refund',
@@ -59,6 +62,7 @@ class PAFW_Meta_Box_Payment_Info {
 				if ( in_array( $order->get_type(), apply_filters( 'pafw_order_types_for_additional_charge', array( 'shop_subscription' ) ) ) && $payment_gateway->supports( 'pafw_additional_charge' ) ) {
 					add_meta_box(
 						'pafw-order-additional-charge',
+						// translators: %s: title of payment gateway
 						sprintf( __( '%s 추가과금', 'pgall-for-woocommerce' ), $payment_gateway->get_pg_title() ),
 						array( __CLASS__, 'add_meta_box_additional_charge' ),
 						array( PAFW_HPOS::get_shop_order_screen(), PAFW_HPOS::get_shop_order_screen( 'shop_subscription' ) ),
@@ -170,12 +174,11 @@ class PAFW_Meta_Box_Payment_Info {
 
 			if ( pafw_is_subscription( $subscription ) ) {
 				if ( isset( $_POST[ 'pafw_card_quota' ] ) ) {
-					$subscription->update_meta_data( 'pafw_card_quota_for_renewal', $_POST[ 'pafw_card_quota' ] );
+					$subscription->update_meta_data( 'pafw_card_quota_for_renewal', pafw_get_unslash( $_POST, 'pafw_card_quota' ) );
 					$subscription->save_meta_data();
 				}
 
 				$selected_token_id = pafw_get( $_POST, 'pafw_token' );
-
 
 				if ( 'manual' === $selected_token_id ) {
 					$subscription->set_requires_manual_renewal( true );
@@ -185,21 +188,20 @@ class PAFW_Meta_Box_Payment_Info {
 					try {
 						$current_token = PAFW_Token::get_token_for_order( $subscription, false );
 					} catch ( Exception $e ) {
-						$subscription->add_order_note($e->getMessage());
 					}
 
-					if ( is_null( $current_token ) || $current_token->get_id() != $selected_token_id ) {
+					if ( $subscription->is_manual() || is_null( $current_token ) || $current_token->get_id() != $selected_token_id ) {
 						$token = new WC_Payment_Token_PAFW( $selected_token_id );
 						pafw_maybe_set_payment_token( $subscription, $token );
 
 						if ( $current_token ) {
-							$subscription->add_order_note( sprintf( __( "결제수단이 %s 에서 %s로 변경되었습니다.", "pgall-for-woocommerce" ), $current_token->get_display_name(), $token->get_display_name() ) );
+							// translators: 1: previous token name, 2: new token name
+							$subscription->add_order_note( sprintf( __( '결제수단이 %1$s 에서 %2$s로 변경되었습니다.', "pgall-for-woocommerce" ), $current_token->get_display_name(), $token->get_display_name() ) );
 						} else {
+							// translators: %s: token name
 							$subscription->add_order_note( sprintf( __( "결제수단이 %s로 설정되었습니다.", "pgall-for-woocommerce" ), $token->get_display_name() ) );
 						}
-					}else{
 					}
-
 				}
 			}
 		}
@@ -233,6 +235,7 @@ class PAFW_Meta_Box_Payment_Info {
 
 		return array(
 			array(
+				// translators: %s: payment method title
 				'title' => sprintf( __( '결제정보 [%s]', 'pgall-for-woocommerce' ), $order->get_payment_method_title() ),
 				'data'  => array_filter( array(
 					'승인일시'   => $paid_date,
@@ -279,6 +282,7 @@ class PAFW_Meta_Box_Payment_Info {
 
 		return array(
 			array(
+				// translators: %s: payment method title
 				'title' => sprintf( __( '결제정보 [%s]', 'pgall-for-woocommerce' ), $order->get_payment_method_title() ),
 				'data'  => array_filter( array(
 					'정기결제'  => $subscription_relation,
@@ -322,6 +326,7 @@ class PAFW_Meta_Box_Payment_Info {
 		$bank_name = $order->get_meta( '_pafw_bank_name' );
 
 		$payment_data[] = array(
+			// translators: %s: payment method title
 			'title' => sprintf( __( '결제정보 [%s]', 'pgall-for-woocommerce' ), $order->get_payment_method_title() ),
 			'data'  => array(
 				'승인일시'  => $paid_date,
@@ -358,13 +363,13 @@ class PAFW_Meta_Box_Payment_Info {
 			$reject_time  = $order->get_meta( '_pafw_escrow_order_confirm_reject_time' );
 
 			if ( $is_confirmed ) {
-				$confirm_info[ '상태' ]   = __( '<span style="color:blue;">구매확인</span>', 'pgall-for-woocommerce' );
+				$confirm_info[ '상태' ]   = sprintf( '<span style="color:blue;">%s</span>', __( '구매확인', 'pgall-for-woocommerce' ) );
 				$confirm_info[ '확인일시' ] = $confirm_time;
 			} elseif ( $is_rejected ) {
-				$confirm_info[ '상태' ]   = __( '<span style="color:red;">구매거절</span>', 'pgall-for-woocommerce' );
+				$confirm_info[ '상태' ]   = sprintf( '<span style="color:red;">%s</span>', __( '구매거절', 'pgall-for-woocommerce' ) );
 				$confirm_info[ '거절일시' ] = $reject_time;
 			} else {
-				$confirm_info[ '상태' ] = __( '<span style="color:red;">구매결정 대기</span>', 'pgall-for-woocommerce' );
+				$confirm_info[ '상태' ] = sprintf( '<span style="color:red;">%s</span>', __( '구매결정 대기', 'pgall-for-woocommerce' ) );
 			}
 
 			$payment_data[] = array(
@@ -402,6 +407,7 @@ class PAFW_Meta_Box_Payment_Info {
 
 		return array(
 			array(
+				// translators: %s: payment method title
 				'title' => sprintf( __( '결제정보 [%s]', 'pgall-for-woocommerce' ), $order->get_payment_method_title() ),
 				'data'  => array_filter( array(
 					'입금은행'  => $vact_bank_code_name,

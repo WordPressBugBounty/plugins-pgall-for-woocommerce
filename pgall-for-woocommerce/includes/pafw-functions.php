@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.DateTime.RestrictedFunctions.date_date
 add_action( 'pafw_process_payment', array( 'PAFW_Session', 'process_payment' ) );
 add_action( 'pafw_thankyou_page', array( 'PAFW_Session', 'thankyou_page' ) );
 add_action( 'pafw_payment_cancel', array( 'PAFW_Session', 'payment_cancel' ) );
@@ -41,7 +42,7 @@ function pafw_my_account_my_orders_actions( $actions, $order ) {
 					'order_id'          => $order->get_id(),
 					'redirect'          => $myaccount_endpoint
 				), $cancel_endpoint ), 'pafw-cancel-order-' . $order->get_id() . '-' . $order->get_order_key() ),
-				'name' => __( 'Cancel', 'woocommerce' )
+				'name' => __( 'Cancel', 'pgall-for-woocommerce' )
 			);
 		}
 	}
@@ -91,7 +92,7 @@ function pafw_woocommerce_get_checkout_order_received_url( $url, $order ) {
 			$checkout_pid = wc_get_page_id( 'checkout' );
 			if ( ! empty( $_REQUEST[ 'lang' ] ) ) {
 				if ( function_exists( 'icl_object_id' ) ) {
-					$checkout_pid = icl_object_id( $checkout_pid, 'page', true, wc_clean( $_REQUEST[ 'lang' ] ) );
+					$checkout_pid = icl_object_id( $checkout_pid, 'page', true, pafw_get_unslash( $_REQUEST, 'lang' ) );
 				}
 			}
 
@@ -135,17 +136,21 @@ function pafw_cancel_order() {
 	if ( isset( $_GET[ 'pafw-cancel-order' ] ) && isset( $_GET[ 'order_key' ] ) && isset( $_GET[ 'order_id' ] ) ) {
 
 		try {
+			$_wpnonce  = pafw_get_unslash( $_GET, '_wpnonce' );
+			$order_id  = absint( pafw_get_unslash( $_GET, 'order_id' ) );
+			$order_key = pafw_get_unslash( $_GET, 'order_key' );
+
 			if ( ! is_user_logged_in() && 'no' == get_option( 'pafw-gw-support-cancel-guest-order', 'no' ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '7001' );
 			}
 
-			if ( ! wp_verify_nonce( $_GET[ '_wpnonce' ], 'pafw-cancel-order-' . $_GET[ 'order_id' ] . '-' . $_GET[ 'order_key' ] ) ) {
+			if ( ! wp_verify_nonce( $_wpnonce, 'pafw-cancel-order-' . $order_id . '-' . $order_key ) ) {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '7002' );
 			}
 
-			$order = wc_get_order( absint( wp_unslash( $_GET[ 'order_id' ] ) ) );
+			$order = wc_get_order( $order_id );
 
-			if ( $order && $_GET[ 'order_key' ] == $order->get_order_key() ) {
+			if ( $order && $order_key == $order->get_order_key() ) {
 				$customer_id = $order->get_customer_id();
 
 				if ( ( is_user_logged_in() && $customer_id == get_current_user_id() ) || ( ! is_user_logged_in() && 'yes' == get_option( 'pafw-gw-support-cancel-guest-order', 'no' ) ) ) {
@@ -178,15 +183,16 @@ function pafw_cancel_order() {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '7004' );
 			}
 		} catch ( Exception $e ) {
-			wc_add_notice( sprintf( "[PAFW-ERR-%d] %s", $e->getCode(), $e->getMessage() ), 'error' );
+			// translators: 1: error code, 2: error message
+			wc_add_notice( sprintf( '[PAFW-ERR-%1$d] %2$s', $e->getCode(), $e->getMessage() ), 'error' );
 		}
 
 		if ( empty( $_GET[ 'redirect' ] ) ) {
-			echo '<meta http-equiv="refresh" content="0; url=' . wc_get_account_endpoint_url( 'orders' ) . '" />';
-			wp_safe_redirect( wc_get_account_endpoint_url( 'orders' ), 302 );
+			echo '<meta http-equiv="refresh" content="0; url=' . esc_url( wc_get_account_endpoint_url( 'orders' ) ) . '" />';
+			wp_safe_redirect( esc_url_raw( wc_get_account_endpoint_url( 'orders' ) ) );
 		} else {
-			echo '<meta http-equiv="refresh" content="0; url=' . wc_clean( $_GET[ 'redirect' ] ) . '" />';
-			wp_safe_redirect( wc_clean( $_GET[ 'redirect' ] ), 302 );
+			echo '<meta http-equiv="refresh" content="0; url=' . esc_url( pafw_get_unslash( $_GET, 'redirect' ) ) . '" />';
+			wp_safe_redirect( esc_url_raw( pafw_get_unslash( $_GET, 'redirect' ) ) );
 		}
 		die();
 	}
@@ -196,11 +202,14 @@ add_action( 'init', 'pafw_cancel_order', 20 );
 function pafw_get( $array, $key, $default = '' ) {
 	return ! empty( $array[ $key ] ) ? wc_clean( $array[ $key ] ) : $default;
 }
+function pafw_get_unslash( $array, $key, $default = '' ) {
+	return ! empty( $array[ $key ] ) ? wc_clean( wp_unslash( $array[ $key ] ) ) : $default;
+}
 function pafw_get_ip_address() {
 	if ( class_exists( 'WC_Geolocation' ) && is_callable( array( 'WC_Geolocation', 'get_ip_address' ) ) ) {
 		$ip_address = WC_Geolocation::get_ip_address();
 	} else {
-		$ip_address = $_SERVER[ 'REMOTE_ADDR' ];
+		$ip_address = pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' );
 	}
 
 	if ( ! filter_var( $ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
@@ -461,7 +470,7 @@ function pafw_get_renewal_time( $renewal_time = '' ) {
 			$time_begin = strtotime( $time_begin );
 			$time_end   = strtotime( $time_end );
 
-			$next_payment_time = rand( $time_begin, $time_end );
+			$next_payment_time = wp_rand( $time_begin, $time_end );
 		} else {
 			$next_payment_time = strtotime( $time_begin );
 		}
@@ -515,7 +524,8 @@ add_filter( 'wcs_renewal_order_created', function ( $renewal_order, $subscriptio
 add_action( 'woocommerce_subscription_date_updated', function ( $subscription, $date_type, $datetime ) {
 	if ( is_user_logged_in() && 'yes' == get_option( 'pafw-subscription-allow-change-date', 'no' ) && 'next_payment' == $date_type ) {
 		$user = get_userdata( get_current_user_id() );
-		$subscription->add_order_note( sprintf( __( '다음 결제일 변경됨 : %s by (#%d, %s)', 'pgall-for-woocommerce' ), date( 'Y-m-d', strtotime( $datetime ) ), get_current_user_id(), $user->display_name ), false, ! current_user_can( 'manage_woocommerce' ) );
+		// translators: 1: date, 2: user id, 3: user name
+		$subscription->add_order_note( sprintf( __( '다음 결제일 변경됨 : %1$s by (#%2$d, %3$s)', 'pgall-for-woocommerce' ), date( 'Y-m-d', strtotime( $datetime ) ), get_current_user_id(), $user->display_name ), false, ! current_user_can( 'manage_woocommerce' ) );
 	}
 }, 10, 3 );
 

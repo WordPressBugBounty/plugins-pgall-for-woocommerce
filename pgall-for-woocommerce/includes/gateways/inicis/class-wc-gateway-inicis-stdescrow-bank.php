@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,7 +9,7 @@ if ( class_exists( 'WC_Gateway_Inicis_StdEscrow_Bank' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis_StdEscrow_Bank extends WC_Gateway_Inicis {
+class WC_Gateway_Inicis_StdEscrow_Bank extends WC_Gateway_Inicis { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 	public function __construct() {
 

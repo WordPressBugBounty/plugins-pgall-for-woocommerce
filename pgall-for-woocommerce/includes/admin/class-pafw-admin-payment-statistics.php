@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.DB.PreparedSQL.NotPrepared, WordPress.Security.NonceVerification, WordPress.DB.DirectDatabaseQuery
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -30,11 +31,11 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$start_date = date( 'Y-m-d', strtotime( $date_from ) );
 			$end_date   = date( 'Y-m-d', strtotime( $date_to ) );
 
-			if ( count( $results ) == 0 || $results[0]['pafw_date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'pafw_date' ] != $start_date ) {
 				array_unshift( $results, array( 'pafw_date' => $start_date, 'success' => '0', 'request' => '0', 'positive' => '0', 'negative' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['pafw_date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'pafw_date' ] != $end_date ) {
 				$results[] = array( 'pafw_date' => $end_date, 'success' => '0', 'request' => '0', 'positive' => '0', 'negative' => '0' );
 			}
 
@@ -64,11 +65,11 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$start_date = date( 'Y-m-d', strtotime( date( 'Y\WW', strtotime( $date_from ) ) . ' -1 days' ) );
 			$end_date   = date( 'Y-m-d', strtotime( date( 'Y\WW', strtotime( $date_to ) ) . ' -1 days' ) );
 
-			if ( count( $results ) == 0 || $results[0]['pafw_date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'pafw_date' ] != $start_date ) {
 				array_unshift( $results, array( 'pafw_date' => $start_date, 'success' => '0', 'request' => '0', 'positive' => '0', 'negative' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['pafw_date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'pafw_date' ] != $end_date ) {
 				$results[] = array( 'pafw_date' => $end_date, 'success' => '0', 'request' => '0', 'positive' => '0', 'negative' => '0' );
 			}
 
@@ -98,11 +99,11 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$start_date = date( 'Y-m-01', strtotime( $date_from ) );
 			$end_date   = date( 'Y-m-01', strtotime( $date_to ) );
 
-			if ( count( $results ) == 0 || $results[0]['pafw_date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'pafw_date' ] != $start_date ) {
 				array_unshift( $results, array( 'pafw_date' => $start_date, 'success' => '0', 'request' => '0', 'positive' => '0', 'negative' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['pafw_date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'pafw_date' ] != $end_date ) {
 				$results[] = array( 'pafw_date' => $end_date, 'success' => '0', 'request' => '0', 'positive' => '0', 'negative' => '0' );
 			}
 
@@ -131,11 +132,11 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$start_date = date( 'Y-m-d', strtotime( $date_from ) );
 			$end_date   = date( 'Y-m-d', strtotime( $date_to ) );
 
-			if ( count( $results ) == 0 || $results[0]['pafw_date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'pafw_date' ] != $start_date ) {
 				array_unshift( $results, array( 'pafw_date' => $start_date, 'pc_count' => '0', 'pc_amount' => '0', 'mobile_count' => '0', 'mobile_amount' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['pafw_date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'pafw_date' ] != $end_date ) {
 				$results[] = array( 'pafw_date' => $end_date, 'pc_count' => '0', 'pc_amount' => '0', 'mobile_count' => '0', 'mobile_amount' => '0' );
 			}
 
@@ -166,11 +167,11 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$start_date = date( 'Y-m-d', strtotime( date( 'Y\WW', strtotime( $date_from ) ) . ' -1 days' ) );
 			$end_date   = date( 'Y-m-d', strtotime( date( 'Y\WW', strtotime( $date_to ) ) . ' -1 days' ) );
 
-			if ( count( $results ) == 0 || $results[0]['pafw_date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'pafw_date' ] != $start_date ) {
 				array_unshift( $results, array( 'pafw_date' => $start_date, 'pc_count' => '0', 'pc_amount' => '0', 'mobile_count' => '0', 'mobile_amount' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['pafw_date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'pafw_date' ] != $end_date ) {
 				$results[] = array( 'pafw_date' => $end_date, 'pc_count' => '0', 'pc_amount' => '0', 'mobile_count' => '0', 'mobile_amount' => '0' );
 			}
 
@@ -202,11 +203,11 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$start_date = date( 'Y-m-01', strtotime( $date_from ) );
 			$end_date   = date( 'Y-m-01', strtotime( $date_to ) );
 
-			if ( count( $results ) == 0 || $results[0]['pafw_date'] != $start_date ) {
+			if ( count( $results ) == 0 || $results[ 0 ][ 'pafw_date' ] != $start_date ) {
 				array_unshift( $results, array( 'pafw_date' => $start_date, 'pc_count' => '0', 'pc_amount' => '0', 'mobile_count' => '0', 'mobile_amount' => '0' ) );
 			}
 
-			if ( $results[ count( $results ) - 1 ]['pafw_date'] != $end_date ) {
+			if ( $results[ count( $results ) - 1 ][ 'pafw_date' ] != $end_date ) {
 				$results[] = array( 'pafw_date' => $end_date, 'pc_count' => '0', 'pc_amount' => '0', 'mobile_count' => '0', 'mobile_amount' => '0' );
 			}
 
@@ -230,9 +231,9 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 
 			$result = $wpdb->get_row( $sql, ARRAY_A );
 
-			$completed = $result['success'];
-			$cancelled = $result['positive'];
-			$failed    = $result['negative'];
+			$completed = $result[ 'success' ];
+			$cancelled = $result[ 'positive' ];
+			$failed    = $result[ 'negative' ];
 			$total     = $completed + $cancelled + $failed;
 
 			$response = array(
@@ -264,12 +265,12 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 			$fail    = 0;
 
 			foreach ( $result as $item ) {
-				if ( '0000' == $item['result_code'] ) {
-					$success += $item['count'];
-				} else if ( in_array( $item['result_code'], array( '1001', '1002' ) ) ) {
-					$cancel += $item['count'];
+				if ( '0000' == $item[ 'result_code' ] ) {
+					$success += $item[ 'count' ];
+				} elseif ( in_array( $item[ 'result_code' ], array( '1001', '1002' ) ) ) {
+					$cancel += $item[ 'count' ];
 				} else {
-					$fail += $item['count'];
+					$fail += $item[ 'count' ];
 				}
 			}
 
@@ -381,17 +382,17 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Statistics' ) ) :
 		}
 
 		static function get_data() {
-			$date_from = wc_clean( $_REQUEST['date_from'] ) . ' 00:00:00';
-			$date_to   = wc_clean( $_REQUEST['date_to'] ) . ' 23:59:59';
-			$interval  = wc_clean( $_REQUEST['interval'] );
+			$date_from = pafw_get( $_REQUEST, 'date_from' ) . ' 00:00:00';
+			$date_to   = pafw_get( $_REQUEST, 'date_to' ) . ' 23:59:59';
+			$interval  = pafw_get( $_REQUEST, 'interval' );
 
 			if ( '1d' == $interval ) {
 				$data              = self::get_daily_statistics( $date_from, $date_to );
 				$device_sales_data = self::get_daily_sales_count_for_device( $date_from, $date_to );
-			} else if ( '1w' == $interval ) {
+			} elseif ( '1w' == $interval ) {
 				$data              = self::get_weekly_statistics( $date_from, $date_to );
 				$device_sales_data = self::get_weekly_sales_count_for_device( $date_from, $date_to );
-			} else if ( '1M' == $interval ) {
+			} elseif ( '1M' == $interval ) {
 				$data              = self::get_monthly_statistics( $date_from, $date_to );
 				$device_sales_data = self::get_monthly_sales_count_for_device( $date_from, $date_to );
 			}

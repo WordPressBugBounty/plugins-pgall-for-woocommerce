@@ -1,13 +1,13 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
-//소스에 URL로 직접 접근 방지
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
-	class WC_Gateway_Settlevbank extends PAFW_Payment_Gateway {
+	class WC_Gateway_Settlevbank extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 		protected $target_recurrent_id = null;
 
@@ -37,7 +37,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return 'popup';
 			}
 		}
-		public function get_merchant_id( $order = null ){
+		public function get_merchant_id( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
 		public function get_merchant_key( $order = null ) {
@@ -61,11 +61,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			return $params;
 		}
 		public function process_approval_response( $order, $response ) {
-			$order->update_meta_data( '_pafw_vacc_tid', $response['vacc_tid'] );
-			$order->update_meta_data( '_pafw_vacc_num', $response['vacc_num'] );
-			$order->update_meta_data( '_pafw_vacc_bank_code', $response['vacc_bank_code'] );
-			$order->update_meta_data( '_pafw_vacc_bank_name', $response['vacc_bank_name'] );
-			$order->update_meta_data( '_pafw_vacc_date', $response['vacc_date'] );
+			$order->update_meta_data( '_pafw_vacc_tid', $response[ 'vacc_tid' ] );
+			$order->update_meta_data( '_pafw_vacc_num', $response[ 'vacc_num' ] );
+			$order->update_meta_data( '_pafw_vacc_bank_code', $response[ 'vacc_bank_code' ] );
+			$order->update_meta_data( '_pafw_vacc_bank_name', $response[ 'vacc_bank_name' ] );
+			$order->update_meta_data( '_pafw_vacc_date', $response[ 'vacc_date' ] );
 			$order->save_meta_data();
 
 			$this->add_payment_log( $order, '[ 가상계좌 입금 대기중 ]' );
@@ -73,13 +73,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			//가상계좌 주문 접수시 재고 차감여부 확인
 			pafw_reduce_order_stock( $order );
 
-			$order->update_status( $this->settings['order_status_after_vbank_payment'] );
+			$order->update_status( $this->settings[ 'order_status_after_vbank_payment' ] );
 
 			$order->set_date_paid( null );
 			$order->save();
 		}
 		public function wc_api_vbank_noti() {
-			$this->add_log( '010가상계좌 입금통보 시작 : ' . print_r( wc_clean( $_REQUEST ), true ) );
+			$this->add_log( '010가상계좌 입금통보 시작 : ' . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 			try {
 				if ( $this->get_merchant_id() != pafw_get( $_POST, 'mchtId' ) ) {
@@ -111,22 +111,22 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				}
 
 				$hash_data = array(
-					$_POST['outStatCd'],
-					$_POST['trdDtm'],
+					pafw_get_unslash( $_POST, 'outStatCd' ),
+					pafw_get_unslash( $_POST, 'trdDtm' ),
 					$this->get_merchant_id(),
 					$this->get_txnid( $order ),
 					$order->get_total(),
 					pafw_get( $this->settings, 'license_key' )
 				);
 
-				if ( $_POST['pktHash'] != hash( 'sha256', implode( '', $hash_data ) ) ) {
+				if ( pafw_get_unslash( $_POST, 'pktHash' ) != hash( 'sha256', implode( '', $hash_data ) ) ) {
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '3001' );
 				}
 
 				$order->update_meta_data( '_pafw_vbank_noti_received', 'yes' );
-				$order->update_meta_data( '_pafw_vbank_noti_transaction_date', pafw_get( $_POST, 'trdDtm' ) );
-				$order->update_meta_data( '_pafw_vbank_noti_deposit_bank', pafw_get( $_POST, 'bankNm' ) );
-				$order->update_meta_data( '_pafw_vbank_noti_depositor', pafw_get( $_POST, 'dpstrNm' ) );
+				$order->update_meta_data( '_pafw_vbank_noti_transaction_date', pafw_get_unslash( $_POST, 'trdDtm' ) );
+				$order->update_meta_data( '_pafw_vbank_noti_deposit_bank', pafw_get_unslash( $_POST, 'bankNm' ) );
+				$order->update_meta_data( '_pafw_vbank_noti_depositor', pafw_get_unslash( $_POST, 'dpstrNm' ) );
 				$order->save_meta_data();
 
 				$this->add_payment_log( $order, '[ 가상계좌 입금 완료 ]', array(
@@ -138,7 +138,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				do_action( 'pafw_payment_action', 'completed', $order->get_total(), $order, $this );
 
 				if ( pafw_order_need_shipping( $order ) ) {
-					$order->update_status( $this->settings['order_status_after_payment'] );
+					$order->update_status( $this->settings[ 'order_status_after_payment' ] );
 				}
 
 				$order->set_date_paid( current_time( 'timestamp', true ) );
@@ -146,7 +146,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				echo 'OK';
 			} catch ( Exception $e ) {
-				$this->add_log( sprintf( __( '010가상계좌 입금통보 처리 오류 : [PAFW-ERR-%s] %s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
+				// translators: 1: error code, 2: error message
+				$this->add_log( sprintf( __( '010가상계좌 입금통보 처리 오류 : [PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() ) );
 			}
 			die();
 		}

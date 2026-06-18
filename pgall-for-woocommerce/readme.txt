@@ -3,9 +3,9 @@ Contributors: Codemstory
 Donate link: http://www.codemshop.com/
 Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 대한민국 결제
 Requires at least: 4.6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 5.5.1
+Stable tag: 5.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,21 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.5.6 =
+[공통] 워드프레스 7.0 지원
+[공통] 교환/반품이 가능한 주문상태 설정 기능
+
+= 5.5.4 =
+[토큰결제] 정기결제권의 결제수단이 수동갱신인 경우 결제수단이 변경되지 않는 현상 수정
+[토큰결제] 토큰 발급시 호출되는 Hook 추가됨
+
+= 5.5.3 =
+[헥토파이넨셜] 간편결제수단 결제완료 처리 오류 수정
+
+= 5.5.2 =
+[공통] 주문과 정기결제권 편집 화면에서 결제정보 메타박스 표시방식 개선
+
 = 5.5.1 =
 [정기결제] 수동갱신으로 지정된 정기결제권의 결제수단이 기본 결제토큰으로 변경되지 않는 현상
 

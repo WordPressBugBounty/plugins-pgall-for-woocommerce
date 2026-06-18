@@ -1,11 +1,12 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
-	class WC_Gateway_TossPayments extends PAFW_Payment_Gateway {
+	class WC_Gateway_TossPayments extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 		protected $key_for_test = array(
 			'tosspayments',
 			'tvivarepublica',
@@ -62,8 +63,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_register_shipping_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'mall_ip'          => $_SERVER[ 'SERVER_ADDR' ],
-				'sheet_no'         => wc_clean( $_POST[ 'tracking_number' ] ),
+				'mall_ip'          => pafw_get_unslash( $_SERVER, 'SERVER_ADDR' ),
+				'sheet_no'         => pafw_get_unslash( $_POST, 'tracking_number' ),
 				'dlv_company_name' => pafw_get( $this->settings, 'delivery_company_name' ),
 				'sender_name'      => pafw_get( $this->settings, 'delivery_register_name' )
 			);
@@ -72,7 +73,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_cash_receipt_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'secret_key' => $this->get_secret_key( $order ),
+				'secret_key'   => $this->get_secret_key( $order ),
 				'reg_num'      => preg_replace( '~\D~', '', $order->get_meta( '_pafw_bacs_receipt_reg_number' ) ),
 				'receipt_type' => $order->get_meta( '_pafw_bacs_receipt_usage' )
 			);

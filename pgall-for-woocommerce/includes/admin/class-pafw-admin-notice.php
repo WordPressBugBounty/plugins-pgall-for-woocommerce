@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,9 +25,9 @@ if ( ! class_exists( 'PAFW_Admin_Notice' ) ) :
 
 		static function admin_init() {
 			if ( ! empty( $_REQUEST[ self::$dismiss_args ] ) ) {
-				$transient = get_transient( self::$slug . '-notice-' . wc_clean( $_REQUEST[ self::$dismiss_args ] ) );
+				$transient = get_transient( self::$slug . '-notice-' . pafw_get( $_REQUEST, self::$dismiss_args ) );
 				if ( empty( $transient ) ) {
-					set_transient( self::$slug . '-notice-' . wc_clean( $_REQUEST[ self::$dismiss_args ] ), 'yes', MONTH_IN_SECONDS );
+					set_transient( self::$slug . '-notice-' . pafw_get( $_REQUEST, self::$dismiss_args ), 'yes', MONTH_IN_SECONDS );
 				}
 			}
 		}
@@ -60,24 +62,24 @@ if ( ! class_exists( 'PAFW_Admin_Notice' ) ) :
 				if ( ! empty( $admin_notices ) && is_array( $admin_notices ) ) {
 
 					foreach ( $admin_notices as $admin_notice ) {
-						if ( is_array( $admin_notice ) && isset( $admin_notice['id'] ) ) {
-							$transient = get_transient( self::$slug . '-notice-' . $admin_notice['id'] );
+						if ( is_array( $admin_notice ) && isset( $admin_notice[ 'id' ] ) ) {
+							$transient = get_transient( self::$slug . '-notice-' . $admin_notice[ 'id' ] );
 
 							if ( empty( $transient ) ) {
 								$excerpt = pafw_get( $admin_notice, 'excerpt', array() );
 
-								$options = strip_tags( html_entity_decode( pafw_get( $excerpt, 'rendered' ) ) );
+								$options = wp_strip_all_tags( html_entity_decode( pafw_get( $excerpt, 'rendered' ) ) );
 								$options = json_decode( self::convert_smart_quotes( $options ), true );
 
 								$version = pafw_get( $options, 'version' );
 								if ( empty( $version ) || version_compare( self::$version, $version, "<" ) ) {
 									?>
-                                    <div class="notice is-dismissible notice-<?php echo self::get_options( $options, 'type', 'success' ); ?>">
+                                    <div class="notice is-dismissible notice-<?php echo esc_attr( self::get_options( $options, 'type', 'success' ) ); ?>">
 										<?php
-										echo wp_kses_post( $admin_notice['content']['rendered'] );
+										echo wp_kses_post( $admin_notice[ 'content' ][ 'rendered' ] );
 										?>
 										<?php if ( 'no' != self::get_options( $options, 'dismiss', 'yes' ) ) : ?>
-                                            <a href="<?php echo esc_url( add_query_arg( self::$dismiss_args, $admin_notice['id'] ) ); ?>" class="button" style="margin-bottom: 10px;">더보지않기</a>
+                                            <a href="<?php echo esc_url( add_query_arg( self::$dismiss_args, $admin_notice[ 'id' ] ) ); ?>" class="button" style="margin-bottom: 10px;">더보지않기</a>
 										<?php endif; ?>
                                     </div>
 									<?php
@@ -103,7 +105,7 @@ if ( ! class_exists( 'PAFW_Admin_Notice' ) ) :
 			);
 
 			if ( ! is_wp_error( $response ) ) {
-				$admin_notices = json_decode( $response['body'], true );
+				$admin_notices = json_decode( $response[ 'body' ], true );
 				set_transient( self::$slug . '-notices', $admin_notices, DAY_IN_SECONDS );
 
 				return $admin_notices;

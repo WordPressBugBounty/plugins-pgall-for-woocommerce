@@ -8,7 +8,7 @@ if ( class_exists( 'WC_Gateway_Inicis_Applepay' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis_Applepay extends WC_Gateway_Inicis {
+class WC_Gateway_Inicis_Applepay extends WC_Gateway_Inicis { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	public function __construct() {
 		$this->id = 'inicis_applepay';
 

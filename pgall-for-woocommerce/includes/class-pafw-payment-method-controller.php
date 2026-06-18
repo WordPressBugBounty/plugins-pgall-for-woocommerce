@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 
 
@@ -51,12 +52,12 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 		public static function get_matched_rules_by_product_ids( $cart_product_ids ) {
 			$matched_rules = array();
 			$rules         = self::get_rules();
-			if ( ! empty( $rules['role'] ) ) {
+			if ( ! empty( $rules[ 'role' ] ) ) {
 				$user_roles = pafw_get_current_user_roles();
 
-				foreach ( $rules['role'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['roles'] ) ) {
-						$roles = explode( ',', $rule['roles'] );
+				foreach ( $rules[ 'role' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'roles' ] ) ) {
+						$roles = explode( ',', $rule[ 'roles' ] );
 
 						if ( ! empty( array_intersect( $user_roles, $roles ) ) ) {
 							$matched_rules[] = $rule;
@@ -64,13 +65,13 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 					}
 				}
 			}
-			if ( ! empty( $rules['product'] ) ) {
-				foreach ( $rules['product'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['products'] ) ) {
-						$product_ids = array_keys( $rule['products'] );
+			if ( ! empty( $rules[ 'product' ] ) ) {
+				foreach ( $rules[ 'product' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'products' ] ) ) {
+						$product_ids = array_keys( $rule[ 'products' ] );
 
-						foreach ( $cart_product_ids['parent_id'] as $cart_product_id ) {
-							$cart_product_id = apply_filters( 'wpml_object_id', $cart_product_id, 'product', true, pafw_get_default_language() );
+						foreach ( $cart_product_ids[ 'parent_id' ] as $cart_product_id ) {
+							$cart_product_id = apply_filters( 'wpml_object_id', $cart_product_id, 'product', true, pafw_get_default_language() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 							if ( in_array( $cart_product_id, $product_ids ) ) {
 								$matched_rules[] = $rule;
 								break;
@@ -80,21 +81,21 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 				}
 			}
 
-			if ( ! empty( $rules['category'] ) ) {
-				foreach ( $rules['category'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['categories'] ) ) {
-						foreach ( $cart_product_ids['parent_id'] as $cart_product_id ) {
+			if ( ! empty( $rules[ 'category' ] ) ) {
+				foreach ( $rules[ 'category' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'categories' ] ) ) {
+						foreach ( $cart_product_ids[ 'parent_id' ] as $cart_product_id ) {
 
 							$terms = get_the_terms( $cart_product_id, 'product_cat' );
 
 							if ( ! empty( $terms ) ) {
 								$term_ids = array_flip( array_map( function ( $term ) {
-									$term_id = apply_filters( 'wpml_object_id', $term->term_id, 'product_cat', true, pafw_get_default_language() );
+									$term_id = apply_filters( 'wpml_object_id', $term->term_id, 'product_cat', true, pafw_get_default_language() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 									return $term_id;
 								}, $terms ) );
 
-								if ( ! empty( array_intersect_key( $term_ids, $rule['categories'] ) ) ) {
+								if ( ! empty( array_intersect_key( $term_ids, $rule[ 'categories' ] ) ) ) {
 									$matched_rules[] = $rule;
 									break;
 								}
@@ -103,10 +104,10 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 					}
 				}
 			}
-			if ( ! empty( $rules['attributes'] ) ) {
+			if ( ! empty( $rules[ 'attributes' ] ) ) {
 				$terms = array();
-				foreach ( $cart_product_ids['variations'] as $variation ) {
-					$variation_terms = get_terms( $variation['attribute'], array( 'slug' => $variation['slug'] ) );
+				foreach ( $cart_product_ids[ 'variations' ] as $variation ) {
+					$variation_terms = get_terms( array( 'taxonomy' => $variation[ 'attribute' ], 'slug' => $variation[ 'slug' ] ) );
 
 					if ( ! is_wp_error( $variation_terms ) && is_array( $variation_terms ) ) {
 						$terms = array_merge( $terms, $variation_terms );
@@ -115,8 +116,8 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 
 				$term_ids = array_flip( wp_list_pluck( $terms, 'term_id' ) );
 
-				foreach ( $rules['attributes'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] && ! empty( $rule['attributes'] ) ) {
+				foreach ( $rules[ 'attributes' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] && ! empty( $rule[ 'attributes' ] ) ) {
 						if ( ! empty( array_intersect_key( $term_ids, pafw_get( $rule, 'attributes', array() ) ) ) ) {
 							$matched_rules[] = $rule;
 						}
@@ -125,14 +126,14 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 			}
 
 			if ( function_exists( 'icl_object_id' ) && defined( 'ICL_LANGUAGE_CODE' ) ) {
-				foreach ( $rules['language'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] ) {
-						if ( in_array( ICL_LANGUAGE_CODE, explode( ',', $rule['language'] ) ) ) {
+				foreach ( $rules[ 'language' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] ) {
+						if ( in_array( ICL_LANGUAGE_CODE, explode( ',', $rule[ 'language' ] ) ) ) {
 							$include_country = array_filter( explode( ',', pafw_get( $rule, 'include_country' ) ) );
 							$exclude_country = array_filter( explode( ',', pafw_get( $rule, 'exclude_country' ) ) );
 
 							if ( ( ! empty( $include_country ) || ! empty( $exclude_country ) ) && function_exists( 'is_checkout' ) && is_checkout() ) {
-								parse_str( wc_clean( $_REQUEST['post_data'] ), $params ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+								parse_str( wc_clean( $_REQUEST[ 'post_data' ] ), $params ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 								if ( '1' == pafw_get( $params, 'ship_to_different_address' ) ) {
 									$country = pafw_get( $params, 'shipping_country' );
@@ -158,9 +159,9 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 			$matched_rules = array();
 			$rules         = self::get_rules();
 
-			if ( ! empty( $rules['amount'] ) ) {
-				foreach ( $rules['amount'] as $rule ) {
-					if ( 'yes' == $rule['enabled'] ) {
+			if ( ! empty( $rules[ 'amount' ] ) ) {
+				foreach ( $rules[ 'amount' ] as $rule ) {
+					if ( 'yes' == $rule[ 'enabled' ] ) {
 						$min_amount = pafw_get( $rule, 'min_amount', 0 );
 						$max_amount = pafw_get( $rule, 'max_amount', 0 );
 
@@ -186,9 +187,9 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 					if ( ! $clear && empty( $available_methods ) ) {
 						$clear = true;
 
-						$available_methods = explode( ',', $rule['payment_methods'] );
+						$available_methods = explode( ',', $rule[ 'payment_methods' ] );
 					} else {
-						$available_methods = array_intersect( $available_methods, explode( ',', $rule['payment_methods'] ) );
+						$available_methods = array_intersect( $available_methods, explode( ',', $rule[ 'payment_methods' ] ) );
 					}
 
 				}
@@ -213,9 +214,9 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 					if ( ! $clear && empty( $available_methods ) ) {
 						$clear = true;
 
-						$available_methods = explode( ',', $rule['payment_methods'] );
+						$available_methods = explode( ',', $rule[ 'payment_methods' ] );
 					} else {
-						$available_methods = array_intersect( $available_methods, explode( ',', $rule['payment_methods'] ) );
+						$available_methods = array_intersect( $available_methods, explode( ',', $rule[ 'payment_methods' ] ) );
 					}
 
 				}
@@ -239,11 +240,11 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 
 				if ( $order ) {
 					foreach ( $order->get_items() as $item ) {
-						$product_ids['parent_id'][] = $item->get_product_id();
+						$product_ids[ 'parent_id' ][] = $item->get_product_id();
 
 						if ( is_callable( array( $item, 'get_all_formatted_meta_data' ) ) ) {
 							foreach ( $item->get_all_formatted_meta_data() as $meta ) {
-								$product_ids['variations'][] = array(
+								$product_ids[ 'variations' ][] = array(
 									'attribute' => $meta->key,
 									'slug'      => $meta->value
 								);
@@ -263,15 +264,15 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 				}
 
 				foreach ( $cart_contents as $content ) {
-					$product = $content['data'];
+					$product = $content[ 'data' ];
 
 					foreach ( pafw_get( $content, 'variation', array() ) as $attribute => $slug ) {
-						$product_ids['variations'][] = array(
+						$product_ids[ 'variations' ][] = array(
 							'attribute' => str_replace( 'attribute_', '', $attribute ),
 							'slug'      => $slug
 						);
 					}
-					$product_ids['parent_id'][] = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
+					$product_ids[ 'parent_id' ][] = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
 				}
 			}
 
@@ -285,8 +286,8 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 
 				$total = 0;
 
-				if ( isset( $_GET['pay_for_order'], $_GET['key'] ) ) {
-					$order_id = wc_get_order_id_by_order_key( $_GET['key'] );
+				if ( isset( $_GET[ 'pay_for_order' ], $_GET[ 'key' ] ) ) {
+					$order_id = wc_get_order_id_by_order_key( absint( pafw_get_unslash( $_GET, 'key' ) ) );
 					$order    = wc_get_order( $order_id );
 					if ( $order ) {
 						$total = $order->get_total();
@@ -311,19 +312,20 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 			$product_ids = self::get_cart_product_ids();
 
 			foreach ( $variations as $attribute => $slug ) {
-				$product_ids['variations'][] = array(
+				$product_ids[ 'variations' ][] = array(
 					'attribute' => str_replace( 'attribute_', '', $attribute ),
 					'slug'      => $slug
 				);
 			}
-			$product_ids['parent_id'][] = $product_id;
-			$product_ids['parent_id']   = array_filter( array_values( $product_ids['parent_id'] ) );
+			$product_ids[ 'parent_id' ][] = $product_id;
+			$product_ids[ 'parent_id' ]   = array_filter( array_values( $product_ids[ 'parent_id' ] ) );
 
 			$available_gateways = self::filter_available_payment_gateways_by_product_ids( WC()->payment_gateways()->get_available_payment_gateways(), $product_ids );
 
 			if ( empty( $available_gateways ) ) {
 				$valid   = false;
 				$product = wc_get_product( $variation_id ? $variation_id : $product_id );
+				// translators: %s: product name.
 				wc_add_notice( sprintf( __( '%s 상품은 장바구니에 있는 상품과 함께 구매하실 수 없습니다.', 'pgall-for-woocommerce' ), $product->get_name() ), 'error' );
 			}
 
@@ -334,7 +336,7 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 		public static function get_available_payment_gateways( $available_gateways ) {
 			$has_subscription = false;
 
-			if ( isset( $_GET['change_payment_method'] ) ) {
+			if ( isset( $_GET[ 'change_payment_method' ] ) ) {
 				return $available_gateways;
 			}
 
@@ -342,8 +344,8 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 				return $available_gateways;
 			}
 
-			if ( isset( $_GET['pay_for_order'] ) ) {
-				$order = wc_get_order( wc_get_order_id_by_order_key( $_GET['key'] ) );
+			if ( isset( $_GET[ 'pay_for_order' ] ) ) {
+				$order = wc_get_order( wc_get_order_id_by_order_key( pafw_get( $_GET, 'key' ) ) );
 
 				if ( $order ) {
 					foreach ( $order->get_items() as $item ) {
@@ -358,7 +360,7 @@ if ( ! class_exists( 'PAFW_Payment_Method_Controller' ) ) :
 			} else {
 				if ( ! empty( WC()->cart->cart_contents ) ) {
 					foreach ( WC()->cart->cart_contents as $cart_item ) {
-						$product = $cart_item['data'];
+						$product = $cart_item[ 'data' ];
 
 						if ( is_a( $product, 'WC_Product' ) && in_array( $product->get_type(), array( 'subscription', 'variable-subscription', 'subscription_variation' ) ) ) {
 							$has_subscription = true;

@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Nicepay_Vbank' ) ) {
 
-		class WC_Gateway_Nicepay_Vbank extends WC_Gateway_Nicepay {
+		class WC_Gateway_Nicepay_Vbank extends WC_Gateway_Nicepay { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 				$this->id         = 'nicepay_vbank';
@@ -17,12 +17,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				parent::__construct();
 
-				if ( empty( $this->settings['title'] ) ) {
+				if ( empty( $this->settings[ 'title' ] ) ) {
 					$this->title       = __( '가상계좌 무통장입금', 'pgall-for-woocommerce' );
 					$this->description = __( '가상계좌 안내를 통해 무통장입금을 할 수 있습니다.', 'pgall-for-woocommerce' );
 				} else {
-					$this->title       = $this->settings['title'];
-					$this->description = $this->settings['description'];
+					$this->title       = $this->settings[ 'title' ];
+					$this->description = $this->settings[ 'description' ];
 				}
 				$this->supports[] = 'pafw-cash-receipt';
 				$this->supports[] = 'pafw-vbank';
@@ -80,23 +80,23 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				);
 			}
 			public function process_approval_response( $order, $response ) {
-				$order->update_meta_data( '_pafw_vacc_tid', $response['vacc_tid'] );
-				$order->update_meta_data( '_pafw_vacc_num', $response['vacc_num'] );
-				$order->update_meta_data( '_pafw_vacc_bank_code', $response['vacc_bank_code'] );
-				$order->update_meta_data( '_pafw_vacc_bank_name', $response['vacc_bank_name'] );
-				$order->update_meta_data( '_pafw_vacc_holder', $response['vacc_holder'] );
-				$order->update_meta_data( '_pafw_vacc_depositor', $response['vacc_depositor'] );
-				$order->update_meta_data( '_pafw_vacc_date', $response['vacc_date'] );
-				$order->update_meta_data( '_pafw_cash_receipts', $response['vacc_tid'] );
+				$order->update_meta_data( '_pafw_vacc_tid', $response[ 'vacc_tid' ] );
+				$order->update_meta_data( '_pafw_vacc_num', $response[ 'vacc_num' ] );
+				$order->update_meta_data( '_pafw_vacc_bank_code', $response[ 'vacc_bank_code' ] );
+				$order->update_meta_data( '_pafw_vacc_bank_name', $response[ 'vacc_bank_name' ] );
+				$order->update_meta_data( '_pafw_vacc_holder', $response[ 'vacc_holder' ] );
+				$order->update_meta_data( '_pafw_vacc_depositor', $response[ 'vacc_depositor' ] );
+				$order->update_meta_data( '_pafw_vacc_date', $response[ 'vacc_date' ] );
+				$order->update_meta_data( '_pafw_cash_receipts', $response[ 'vacc_tid' ] );
 
 				$this->add_payment_log( $order, '[ 가상계좌 입금 대기중 ]', array(
-					'거래번호' => $response['vacc_tid']
+					'거래번호' => $response[ 'vacc_tid' ]
 				) );
 
 				//가상계좌 주문 접수시 재고 차감여부 확인
 				pafw_reduce_order_stock( $order );
 
-				$order->update_status( $this->settings['order_status_after_vbank_payment'] );
+				$order->update_status( $this->settings[ 'order_status_after_vbank_payment' ] );
 
 				$order->set_date_paid( null );
 				$order->save();
@@ -106,26 +106,26 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				try {
 
-					$this->add_log( '가상계좌 입금통보 시작 : ' . $_SERVER['REMOTE_ADDR'] );
+					$this->add_log( '가상계좌 입금통보 시작 : ' . pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
 
-					$PayMethod      = pafw_get( $_REQUEST, 'PayMethod' );
-					$M_ID           = pafw_get( $_REQUEST, 'MID' );
-					$MallUserID     = pafw_get( $_REQUEST, 'MallUserID' );
-					$Amt            = pafw_get( $_REQUEST, 'Amt' );
-					$name           = pafw_get( $_REQUEST, 'name' );
-					$GoodsName      = pafw_get( $_REQUEST, 'GoodsName' );
-					$TID            = pafw_get( $_REQUEST, 'TID' );
-					$MOID           = pafw_get( $_REQUEST, 'MOID' );
-					$AuthDate       = pafw_get( $_REQUEST, 'AuthDate' );
-					$ResultCode     = pafw_get( $_REQUEST, 'ResultCode' );
-					$ResultMsg      = pafw_get( $_REQUEST, 'ResultMsg' );
-					$VbankNum       = pafw_get( $_REQUEST, 'VbankNum' );
-					$FnCd           = pafw_get( $_REQUEST, 'FnCd' );
-					$VbankName      = pafw_get( $_REQUEST, 'VbankName' );
-					$VbankInputName = pafw_get( $_REQUEST, 'VbankInputName' );
-					$RcptTID        = pafw_get( $_REQUEST, 'RcptTID' );
-					$RcptType       = trim( pafw_get( $_REQUEST, 'RcptType' ) );
-					$RcptAuthCode   = pafw_get( $_REQUEST, 'RcptAuthCode' );
+					$PayMethod      = pafw_get_unslash( $_REQUEST, 'PayMethod' );
+					$M_ID           = pafw_get_unslash( $_REQUEST, 'MID' );
+					$MallUserID     = pafw_get_unslash( $_REQUEST, 'MallUserID' );
+					$Amt            = pafw_get_unslash( $_REQUEST, 'Amt' );
+					$name           = pafw_get_unslash( $_REQUEST, 'name' );
+					$GoodsName      = pafw_get_unslash( $_REQUEST, 'GoodsName' );
+					$TID            = pafw_get_unslash( $_REQUEST, 'TID' );
+					$MOID           = pafw_get_unslash( $_REQUEST, 'MOID' );
+					$AuthDate       = pafw_get_unslash( $_REQUEST, 'AuthDate' );
+					$ResultCode     = pafw_get_unslash( $_REQUEST, 'ResultCode' );
+					$ResultMsg      = pafw_get_unslash( $_REQUEST, 'ResultMsg' );
+					$VbankNum       = pafw_get_unslash( $_REQUEST, 'VbankNum' );
+					$FnCd           = pafw_get_unslash( $_REQUEST, 'FnCd' );
+					$VbankName      = pafw_get_unslash( $_REQUEST, 'VbankName' );
+					$VbankInputName = pafw_get_unslash( $_REQUEST, 'VbankInputName' );
+					$RcptTID        = pafw_get_unslash( $_REQUEST, 'RcptTID' );
+					$RcptType       = trim( pafw_get_unslash( $_REQUEST, 'RcptType' ) );
+					$RcptAuthCode   = pafw_get_unslash( $_REQUEST, 'RcptAuthCode' );
 
 					$RcptTypeMsg = '';
 					switch ( $RcptType ) {
@@ -142,11 +142,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 							$RcptTypeMsg = '미발행';
 					}
 
-					$PG_IP  = pafw_get( $_SERVER, 'HTTP_X_FORWARDED_FOR', $_SERVER['REMOTE_ADDR'] );
+					$PG_IP = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
 
 					//결제결과에 따른 처리 진행
 					$orderid = explode( '_', $MOID );
-					$orderid = (int) $orderid[0];
+					$orderid = (int) $orderid[ 0 ];
 					$order   = wc_get_order( $orderid );
 
 					if ( in_array( $PG_IP, array( '121.133.126.10', '121.133.126.11', '211.33.136.39' ) ) ) {
@@ -180,9 +180,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 								}
 
 								$order->update_meta_data( '_pafw_vbank_noti_received', 'yes' );
-								$order->update_meta_data( '_pafw_vbank_noti_transaction_date', '20' . wc_clean( $_REQUEST['AuthDate'] ) );
-								$order->update_meta_data( '_pafw_vbank_noti_deposit_bank', mb_convert_encoding( $_REQUEST['VbankName'], "UTF-8", "CP949" ) );
-								$order->update_meta_data( '_pafw_vbank_noti_depositor', mb_convert_encoding( $_REQUEST['VbankInputName'], "UTF-8", "CP949" ) );
+								$order->update_meta_data( '_pafw_vbank_noti_transaction_date', '20' . pafw_get_unslash( $_REQUEST, 'AuthDate' ) );
+								$order->update_meta_data( '_pafw_vbank_noti_deposit_bank', mb_convert_encoding( pafw_get_unslash( $_REQUEST, 'VbankName' ), "UTF-8", "CP949" ) );
+								$order->update_meta_data( '_pafw_vbank_noti_depositor', mb_convert_encoding( pafw_get_unslash( $_REQUEST, 'VbankInputName' ), "UTF-8", "CP949" ) );
 								$order->update_meta_data( '_pafw_cash_receipts', $RcptType );
 
 								$this->add_payment_log( $order, '[ 가상계좌 입금완료 ]', array(
@@ -195,7 +195,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 								do_action( 'pafw_payment_action', 'completed', $order->get_total(), $order, $this );
 
 								if ( pafw_order_need_shipping( $order ) ) {
-									$order->update_status( $this->settings['order_status_after_payment'] );
+									$order->update_status( $this->settings[ 'order_status_after_payment' ] );
 								}
 
 								$order->set_date_paid( current_time( 'timestamp', true ) );
@@ -214,7 +214,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						throw new Exception( sprintf( '비정상 접근입니다. [ %s ]', $PG_IP ) );
 					}
 				} catch ( Exception $e ) {
-					$this->add_log( "[오류] " . $e->getMessage() . "\n" . print_r( $_REQUEST, true ) );
+					$this->add_log( "[오류] " . $e->getMessage() . "\n" . print_r( $_REQUEST, true ) ); // phpcs:ignore 	WordPress.PHP.DevelopmentFunctions.error_log_print_r
 
 					if ( $order ) {
 						$this->add_payment_log( $order, '[ 가상계좌 입금오류 ]', $e->getMessage(), false );
@@ -229,11 +229,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order = $this->get_order();
 
 				$vbank_list = $this->get_vbank_list();
-				$order->update_meta_data( '_pafw_vbank_refund_bank_code', wc_clean( $_REQUEST['refund_bank_code'] ) );
-				$order->update_meta_data( '_pafw_vbank_refund_bank_name', $vbank_list[ wc_clean( $_REQUEST['refund_bank_code'] ) ] );
-				$order->update_meta_data( '_pafw_vbank_refund_acc_num', wc_clean( $_REQUEST['refund_acc_num'] ) );
-				$order->update_meta_data( '_pafw_vbank_refund_acc_name', wc_clean( $_REQUEST['refund_acc_name'] ) );
-				$order->update_meta_data( '_pafw_vbank_refund_reason', wc_clean( $_REQUEST['refund_reason'] ) );
+				$order->update_meta_data( '_pafw_vbank_refund_bank_code', pafw_get_unslash( $_REQUEST, 'refund_bank_code' ) );
+				$order->update_meta_data( '_pafw_vbank_refund_bank_name', $vbank_list[ pafw_get_unslash( $_REQUEST, 'refund_bank_code' ) ] );
+				$order->update_meta_data( '_pafw_vbank_refund_acc_num', pafw_get_unslash( $_REQUEST, 'refund_acc_num' ) );
+				$order->update_meta_data( '_pafw_vbank_refund_acc_name', pafw_get_unslash( $_REQUEST, 'refund_acc_name' ) );
+				$order->update_meta_data( '_pafw_vbank_refund_reason', pafw_get_unslash( $_REQUEST, 'refund_reason' ) );
 				$order->update_meta_data( '_pafw_vbank_refunded', 'yes' );
 				$order->update_meta_data( '_pafw_order_cancelled', 'yes' );
 				$order->update_meta_data( '_pafw_cancel_date', current_time( 'mysql' ) );
@@ -247,4 +247,4 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 	}
 
-} // class_exists function end
+}

@@ -1,7 +1,5 @@
 <?php
 
-
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -24,10 +22,10 @@ if ( ! class_exists( 'PAFW_Cash_Receipt' ) ) {
 		const ISSUE_TYPE_BIZ_REG = 'biz_reg';
 
 		protected static $supported_gateway = array(
-			'inicis'  => 'WC_Gateway_Inicis_Stdcard',
-			'nicepay' => 'WC_Gateway_Nicepay_Card',
-			'kcp'     => 'WC_Gateway_Kcp_Card',
-			'lguplus' => 'WC_Gateway_Lguplus_Card',
+			'inicis'       => 'WC_Gateway_Inicis_Stdcard',
+			'nicepay'      => 'WC_Gateway_Nicepay_Card',
+			'kcp'          => 'WC_Gateway_Kcp_Card',
+			'lguplus'      => 'WC_Gateway_Lguplus_Card',
 			'tosspayments' => 'WC_Gateway_Tosspayments_Card',
 		);
 		public static function get_usage() {
@@ -104,14 +102,18 @@ if ( ! class_exists( 'PAFW_Cash_Receipt' ) ) {
 		public static function get_receipt_request( $order_id ) {
 			global $wpdb;
 
-			$table_name = $wpdb->prefix . 'pafw_bacs_receipt';
-
-			return $wpdb->get_row( "SELECT * FROM {$table_name} WHERE order_id = $order_id", ARRAY_A );
+			return $wpdb->get_row( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				"SELECT * 
+				 FROM {$wpdb->prefix}pafw_bacs_receipt
+				 WHERE 
+				     order_id = %d",
+				$order_id
+			), ARRAY_A );
 		}
 		public static function insert_receipt_request( $order ) {
 			global $wpdb;
 
-			$wpdb->insert(
+			$wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$wpdb->prefix . 'pafw_bacs_receipt',
 				array(
 					'order_id'    => $order->get_id(),
@@ -132,7 +134,7 @@ if ( ! class_exists( 'PAFW_Cash_Receipt' ) ) {
 		public static function update_receipt_request( $order_id, $args ) {
 			global $wpdb;
 
-			$wpdb->update(
+			$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->prefix . 'pafw_bacs_receipt',
 				$args,
 				array(
@@ -145,7 +147,7 @@ if ( ! class_exists( 'PAFW_Cash_Receipt' ) ) {
 
 			$table_name = $wpdb->prefix . 'pafw_bacs_receipt';
 
-			$page_size = isset( $args['pageSize'] ) ? intval( $args['pageSize'] ) : 20;
+			$page_size = isset( $args[ 'pageSize' ] ) ? intval( $args[ 'pageSize' ] ) : 20;
 			$page      = pafw_get( $args, 'page', 0 );
 
 			if ( $page_size > 0 ) {
@@ -183,7 +185,7 @@ if ( ! class_exists( 'PAFW_Cash_Receipt' ) ) {
 				{$limit}";
 
 			return array(
-				'results'     => $wpdb->get_results( $query, ARRAY_A ),
+				'results'     => $wpdb->get_results( $query, ARRAY_A ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
 				'total_count' => $wpdb->get_var( "SELECT FOUND_ROWS();" ),
 			);
 		}
@@ -209,7 +211,7 @@ if ( ! class_exists( 'PAFW_Cash_Receipt' ) ) {
 
 						if ( in_array( $order->get_status(), self::get_issue_receipt_order_statuses() ) && empty( $order->get_meta( '_pafw_bacs_receipt_tid' ) ) ) {
 							$gateway->issue_cash_receipt( $order_id );
-						} else if ( in_array( $order->get_status(), self::get_cancel_receipt_order_statuses() ) ) {
+						} elseif ( in_array( $order->get_status(), self::get_cancel_receipt_order_statuses() ) ) {
 							$gateway->cancel_cash_receipt( $order_id );
 						}
 					}

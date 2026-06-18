@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Lguplus_Applepay' ) ) {
 
-		class WC_Gateway_Lguplus_Applepay extends WC_Gateway_Lguplus {
+		class WC_Gateway_Lguplus_Applepay extends WC_Gateway_Lguplus { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 				$this->id = 'lguplus_applepay';

@@ -1,6 +1,6 @@
 <?php
 
-//소스에 URL로 직접 접근 방지
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -72,7 +72,7 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_Advanced' ) ) {
 							'className' => '',
 							'type'      => 'Toggle',
 							'default'   => 'no',
-							'desc2'     => __( '<div class="desc2">모바일 결제 시 해외카드 결제를 지원합니다. (주의) 해외카드 결제를 지원하시려면 이니시스와 계약이 필요합니다.</div>', 'pgall-for-woocommerce' ),
+							'desc2'     => __( '<div class="desc2">모바일 결제 시 해외카드 결제를 지원합니다. (주의) 해외카드 결제를 지원하시려면 이니시스와 계약이 필요합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						),
 						array (
 							'id'        => 'show_save_button',

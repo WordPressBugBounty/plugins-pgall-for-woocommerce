@@ -8,7 +8,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Settlebank_Mybank' ) ) {
 
-		class WC_Gateway_Settlebank_Mybank extends WC_Gateway_Settlebank{
+		class WC_Gateway_Settlebank_Mybank extends WC_Gateway_Settlebank{ // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 

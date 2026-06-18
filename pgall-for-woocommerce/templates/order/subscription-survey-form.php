@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -14,20 +15,20 @@ $reasons = apply_filters( 'pafw_subscription_cancel_reasons', array(
 ?>
 <div class="pafw-cancel-reason-form white-popup-block mfp-hide" style="">
     <div class="form-header">
-        <div class="close" style="background-image: url('<?php echo plugins_url( '/assets/images/close.png', PAFW_PLUGIN_FILE ) ?>')"></div>
+        <div class="close" style="background-image: url('<?php echo esc_attr( plugins_url( '/assets/images/close.png', PAFW_PLUGIN_FILE ) ); ?>')"></div>
     </div>
 
 	<?php do_action( 'pafw_before_subscription_survey_form', $subscription ); ?>
 
     <select class="pafw-subscription-cancel-reason">
-        <option selected="selected"><?php _e( '취소 사유를 입력해주세요.', 'pgall-for-woocommerce' ); ?></option>
+        <option selected="selected"><?php esc_html_e( '취소 사유를 입력해주세요.', 'pgall-for-woocommerce' ); ?></option>
 		<?php foreach ( $reasons as $reason ) : ?>
-            <option><?php echo $reason; ?></option>
+            <option><?php echo esc_html( $reason ); ?></option>
 		<?php endforeach; ?>
     </select>
     <textarea name="pafw-subscription-cancel-reason" class=""></textarea>
 
 	<?php do_action( 'pafw_after_subscription_survey_form', $subscription ); ?>
 
-    <input type="button" class="pafw-cancel-subscription button button-primary" value="<?php _e( '구독취소', 'pgall-for-woocommerce' ); ?>">
+    <input type="button" class="pafw-cancel-subscription button button-primary" value="<?php esc_attr_e( '구독취소', 'pgall-for-woocommerce' ); ?>">
 </div>

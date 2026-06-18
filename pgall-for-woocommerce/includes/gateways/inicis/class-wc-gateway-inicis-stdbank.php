@@ -8,7 +8,7 @@ if ( class_exists( 'WC_Gateway_Inicis_Stdbank' ) ) {
 	return;
 }
 
-class WC_Gateway_Inicis_Stdbank extends WC_Gateway_Inicis {
+class WC_Gateway_Inicis_Stdbank extends WC_Gateway_Inicis { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 	public function __construct() {
 

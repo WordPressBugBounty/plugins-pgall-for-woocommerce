@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 
 $payment_methods = explode( ',', $params['payment_method'] );
 
@@ -25,9 +27,10 @@ $payment_methods = explode( ',', $params['payment_method'] );
 		}
 	}
 
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $gateway_tags;
 	?>
 </div>
 <div class="pafw-instant-payment-fields-wrapper" style="<?php echo 'yes' != $params['show_payment_field'] ? 'display: none;' : ''; ?>">
-	<?php echo $gateway_field_tags; ?>
+	<?php echo $gateway_field_tags; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </div>

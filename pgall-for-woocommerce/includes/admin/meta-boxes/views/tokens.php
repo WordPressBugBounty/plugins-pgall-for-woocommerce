@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $gateway = pafw_get_payment_gateway_from_order( $order );
 
 $token = null;
@@ -16,18 +17,18 @@ $customer_tokens = WC_Payment_Tokens::get_customer_tokens( $order->get_customer_
 ?>
 
 <div class="pafw_payment_info">
-    <h4><?php _e( "결제수단", "pgall-for-woocommerce" ); ?></h4>
+    <h4><?php esc_html_e( "결제수단", "pgall-for-woocommerce" ); ?></h4>
     <select id="pafw_token" name="pafw_token" style="width: 100%; font-size: 13px;">
-        <option value="manual" <?php echo is_null( $token ) ? ' selected="selected"' : ''; ?>><?php _e( "수동 갱신", "pgall-for-woocommerce" ); ?></option>
+        <option value="manual" <?php echo is_null( $token ) ? ' selected="selected"' : ''; ?>><?php esc_html_e( "수동 갱신", "pgall-for-woocommerce" ); ?></option>
 		<?php foreach ( $customer_tokens as $customer_token ) : ?>
 			<?php
 			$selected = ! is_null( $token ) && $token->get_id() == $customer_token->get_id() ? ' selected="selected"' : '';
 			?>
-            <option value="<?php echo $customer_token->get_id(); ?>" <?php echo $selected; ?>><?php echo $customer_token->get_display_name(); ?></option>
+            <option value="<?php echo esc_attr( $customer_token->get_id() ); ?>" <?php echo esc_attr( $selected ); ?>><?php echo esc_html( $customer_token->get_display_name() ); ?></option>
 		<?php endforeach; ?>
     </select>
 	<?php if ( 'yes' == pafw_get( $gateway->settings, 'enable_quota', 'no' ) ) : ?>
-        <h4><?php _e( "할부개월수", "pgall-for-woocommerce" ); ?></h4>
+        <h4><?php esc_html_e( "할부개월수", "pgall-for-woocommerce" ); ?></h4>
         <select id="pafw_card_quota" name="pafw_card_quota" style="width: 100%;">
 			<?php
 			$selected_quota = 0;
@@ -37,9 +38,9 @@ $customer_tokens = WC_Payment_Tokens::get_customer_tokens( $order->get_customer_
 				$selected_quota = $card_quota;
 			}
 			?>
-            <option value="00" <?php echo 0 == $selected_quota ? 'selected' : ''; ?>><?php _e( '일시불', 'pgall-for-woocommerce' ); ?></option>
+            <option value="00" <?php echo esc_attr( 0 == $selected_quota ? 'selected' : '' ); ?>><?php esc_html_e( '일시불', 'pgall-for-woocommerce' ); ?></option>
 			<?php foreach ( $quotas as $quota ) : ?>
-                <option value="<?php echo sprintf( "%02d", $quota ); ?>" <?php echo $quota == $selected_quota ? 'selected' : ''; ?>><?php echo $quota . __( '개월', 'pgall-for-woocommerce' ); ?></option>
+                <option value="<?php echo esc_attr( sprintf( "%02d", $quota ) ); ?>" <?php echo esc_attr( $quota == $selected_quota ? 'selected' : '' ); ?>><?php echo esc_html( $quota . __( '개월', 'pgall-for-woocommerce' ) ); ?></option>
 			<?php endforeach; ?>
         </select>
 	<?php else: ?>

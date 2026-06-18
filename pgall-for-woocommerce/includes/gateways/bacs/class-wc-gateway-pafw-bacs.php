@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -55,18 +57,20 @@ class WC_Gateway_PAFW_BACS extends WC_Gateway_BACS {
 
 				PAFW_Cash_Receipt::insert_receipt_request( $order );
 
-				$order->add_order_note( sprintf( __( '<span style="font-size: 0.9em">[현금영수증 발행 정보]<br>용도 : %s<br>종류 : %s<br>정보 : %s</span>', 'pgall-for-woocommerce' ), $this->get_receipt_usage_description( $receipt_usage ), $this->get_receipt_issue_type_description( $receipt_issue_type ), $reg_number ) );
-			} else if ( 'yes' == pafw_get( $_POST, 'pafw_bacs_receipt_issue' ) ) {
-				$receipt_usage      = trim( $_REQUEST['pafw_bacs_receipt_usage'] );
+				// translators: 1: usage, 2: issue type, 3: register number
+				$order->add_order_note( sprintf( __( '<span style="font-size: 0.9em">[현금영수증 발행 정보]<br>용도 : %1$s<br>종류 : %2$s<br>정보 : %3$s</span>', 'pgall-for-woocommerce' ), $this->get_receipt_usage_description( $receipt_usage ), $this->get_receipt_issue_type_description( $receipt_issue_type ), $reg_number ) );
+			} elseif ( 'yes' == pafw_get( $_POST, 'pafw_bacs_receipt_issue' ) ) {
+				$receipt_usage      = trim( pafw_get_unslash( $_REQUEST, 'pafw_bacs_receipt_usage' ) );
 				$receipt_issue_type = 'biz_reg';
-				$reg_number         = trim( $_REQUEST['pafw_bacs_reg_number_POE'] );
+				$reg_number         = trim( pafw_get_unslash( $_REQUEST, 'pafw_bacs_reg_number_POE' ) );
 
 				if ( 'ID' == $receipt_usage ) {
-					$receipt_issue_type = trim( $_REQUEST['pafw_bacs_receipt_issue_type'] );
-					$reg_number         = trim( $_REQUEST[ 'pafw_bacs_reg_number_' . $receipt_usage ] );
+					$receipt_issue_type = trim( pafw_get_unslash( $_REQUEST, 'pafw_bacs_receipt_issue_type' ) );
+					$reg_number         = trim( pafw_get_unslash( $_REQUEST, 'pafw_bacs_reg_number_' . $receipt_usage ) );
 				}
 
 				if ( empty( $reg_number ) ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new Exception( __( '현금영수증 발행을 위한 정보를 입력해주세요', 'pgall-for-woocommerce' ) );
 				}
 
@@ -91,7 +95,8 @@ class WC_Gateway_PAFW_BACS extends WC_Gateway_BACS {
 					}
 				}
 
-				$order->add_order_note( sprintf( __( '<span style="font-size: 0.9em">[현금영수증 발행 정보]<br>용도 : %s<br>종류 : %s<br>정보 : %s</span>', 'pgall-for-woocommerce' ), $this->get_receipt_usage_description( $receipt_usage ), $this->get_receipt_issue_type_description( $receipt_issue_type ), $reg_number ) );
+				// translators: 1: usage, 2: issue type, 3: register number
+				$order->add_order_note( sprintf( __( '<span style="font-size: 0.9em">[현금영수증 발행 정보]<br>용도 : %1$s<br>종류 : %2$s<br>정보 : %3$s</span>', 'pgall-for-woocommerce' ), $this->get_receipt_usage_description( $receipt_usage ), $this->get_receipt_issue_type_description( $receipt_issue_type ), $reg_number ) );
 			} else {
 				$receipt_usage      = 'ID';
 				$receipt_issue_type = 'phone';
@@ -115,7 +120,7 @@ class WC_Gateway_PAFW_BACS extends WC_Gateway_BACS {
 
 		if ( $order->get_total() > 0 ) {
 			// Mark as on-hold (we're awaiting the payment).
-			$order->update_status( apply_filters( 'woocommerce_bacs_process_payment_order_status', 'on-hold', $order ), __( 'Awaiting BACS payment', 'woocommerce' ) );
+			$order->update_status( apply_filters( 'woocommerce_bacs_process_payment_order_status', 'on-hold', $order ), __( 'Awaiting BACS payment', 'pgall-for-woocommerce' ) );
 		} else {
 			$order->payment_complete();
 		}

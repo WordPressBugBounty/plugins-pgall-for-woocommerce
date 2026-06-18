@@ -16,14 +16,14 @@ if ( ! class_exists( 'PAFW_Email_Exchange_Reqeust' ) ) :
 			$this->description   = __( '고객이 교환 요청 시 관리자에게 전달되는 이메일 입니다.', 'pgall-for-woocommerce' );
 			$this->template_html = 'emails/admin-exchange-request.php';
 			$this->template_base = PAFW()->template_path();
-			$this->placeholders  = array (
+			$this->placeholders  = array(
 				'{site_title}'   => $this->get_blogname(),
 				'{order_date}'   => '',
 				'{order_number}' => '',
 			);
 
 			// Trigger
-			add_action( 'pafw-exchange-request-notification', array ( $this, 'trigger' ), 10, 2 );
+			add_action( 'pafw-exchange-request-notification', array( $this, 'trigger' ), 10, 2 );
 
 			// Call parent constructor
 			parent::__construct();
@@ -51,9 +51,9 @@ if ( ! class_exists( 'PAFW_Email_Exchange_Reqeust' ) ) :
 					return;
 				}
 
-				$this->object                         = $order;
-				$this->placeholders['{order_date}']   = wc_format_datetime( $this->object->get_date_created() );
-				$this->placeholders['{order_number}'] = $parent_order->get_order_number();
+				$this->object                           = $order;
+				$this->placeholders[ '{order_date}' ]   = wc_format_datetime( $this->object->get_date_created() );
+				$this->placeholders[ '{order_number}' ] = $parent_order->get_order_number();
 			}
 
 			if ( $this->is_enabled() && $this->get_recipient() ) {
@@ -63,7 +63,7 @@ if ( ! class_exists( 'PAFW_Email_Exchange_Reqeust' ) ) :
 			$this->restore_locale();
 		}
 		public function get_content_html() {
-			return wc_get_template_html( $this->template_html, array (
+			return wc_get_template_html( $this->template_html, array(
 				'exchange_order' => $this->object,
 				'order'          => wc_get_order( $this->object->get_parent_id() ),
 				'email_heading'  => $this->get_heading(),
@@ -73,41 +73,44 @@ if ( ! class_exists( 'PAFW_Email_Exchange_Reqeust' ) ) :
 			), '', PAFW()->template_path() );
 		}
 		public function init_form_fields() {
-			$this->form_fields = array (
-				'enabled'    => array (
-					'title'   => __( 'Enable/Disable', 'woocommerce' ),
+			$this->form_fields = array(
+				'enabled'    => array(
+					'title'   => __( 'Enable/Disable', 'pgall-for-woocommerce' ),
 					'type'    => 'checkbox',
-					'label'   => __( 'Enable this email notification', 'woocommerce' ),
+					'label'   => __( 'Enable this email notification', 'pgall-for-woocommerce' ),
 					'default' => 'yes',
 				),
-				'recipient'  => array (
-					'title'       => __( 'Recipient(s)', 'woocommerce' ),
+				'recipient'  => array(
+					'title'       => __( 'Recipient(s)', 'pgall-for-woocommerce' ),
 					'type'        => 'text',
-					'description' => sprintf( __( 'Enter recipients (comma separated) for this email. Defaults to %s.', 'woocommerce' ), '<code>' . esc_attr( get_option( 'admin_email' ) ) . '</code>' ),
+					// translators: %s: WP admin email
+					'description' => sprintf( __( 'Enter recipients (comma separated) for this email. Defaults to %s.', 'pgall-for-woocommerce' ), '<code>' . esc_attr( get_option( 'admin_email' ) ) . '</code>' ),
 					'placeholder' => '',
 					'default'     => '',
 					'desc_tip'    => true,
 				),
-				'subject'    => array (
-					'title'       => __( 'Subject', 'woocommerce' ),
+				'subject'    => array(
+					'title'       => __( 'Subject', 'pgall-for-woocommerce' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
-					'description' => sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>{site_title}, {order_date}, {order_number}</code>' ),
+					// translators: %s: list of placeholders
+					'description' => sprintf( __( 'Available placeholders: %s', 'pgall-for-woocommerce' ), '<code>{site_title}, {order_date}, {order_number}</code>' ),
 					'placeholder' => $this->get_default_subject(),
 					'default'     => '',
 				),
-				'heading'    => array (
-					'title'       => __( 'Email heading', 'woocommerce' ),
+				'heading'    => array(
+					'title'       => __( 'Email heading', 'pgall-for-woocommerce' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
-					'description' => sprintf( __( 'Available placeholders: %s', 'woocommerce' ), '<code>{site_title}, {order_date}, {order_number}</code>' ),
+					// translators: %s: list of placeholders
+					'description' => sprintf( __( 'Available placeholders: %s', 'pgall-for-woocommerce' ), '<code>{site_title}, {order_date}, {order_number}</code>' ),
 					'placeholder' => $this->get_default_heading(),
 					'default'     => '',
 				),
-				'email_type' => array (
-					'title'       => __( 'Email type', 'woocommerce' ),
+				'email_type' => array(
+					'title'       => __( 'Email type', 'pgall-for-woocommerce' ),
 					'type'        => 'select',
-					'description' => __( 'Choose which format of email to send.', 'woocommerce' ),
+					'description' => __( 'Choose which format of email to send.', 'pgall-for-woocommerce' ),
 					'default'     => 'html',
 					'class'       => 'email_type wc-enhanced-select',
 					'options'     => $this->get_email_type_options(),

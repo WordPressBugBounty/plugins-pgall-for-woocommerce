@@ -1,11 +1,13 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
 
 <div class="pafw-exchage-return-section">
-    <h2><?php echo sprintf( __( '%s 신청내역', 'pgall-for-woocommerce' ), PAFW_Exchange_Return_Manager::get_label() ); ?></h2>
+    <h2><?php /* translators: %s: label of exchange or return request */ echo sprintf( esc_html__( '%s 신청내역', 'pgall-for-woocommerce' ), esc_html( PAFW_Exchange_Return_Manager::get_label() ) ); ?></h2>
 
 	<?php if ( count( $exchange_returns ) > 0 ) : ?>
         <table class="pafw-exchage-returns woocommerce-table woocommerce-table--order-details shop_table order_details">
@@ -24,6 +26,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
         </table>
 	<?php else : ?>
-        <p><?php _e( '신청 내역이 없습니다.', 'pgall-for-woocommerce' ); ?></p>
+        <p><?php esc_html_e( '신청 내역이 없습니다.', 'pgall-for-woocommerce' ); ?></p>
 	<?php endif; ?>
 </div>

@@ -30,7 +30,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 		public static function get_label() {
 			if ( self::support_exchange() && self::support_return() ) {
 				return __( '교환 / 반품', 'pgall-for-woocommerce' );
-			} else if ( self::support_exchange() ) {
+			} elseif ( self::support_exchange() ) {
 				return __( '교환', 'pgall-for-woocommerce' );
 			} else {
 				return __( '반품', 'pgall-for-woocommerce' );
@@ -38,7 +38,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 		}
 		public static function add_exchange_return_actions( $actions, $order ) {
 			if ( self::support_exchange_return() && PAFW_Exchange_Return_Manager::can_exchange_return( $order ) ) {
-				$actions['exchange_return_request'] = array(
+				$actions[ 'exchange_return_request' ] = array(
 					'url'  => apply_filters( 'pafw_ex_request_url', wc_get_endpoint_url( 'pafw-ex', $order->get_id() ), $order ),
 					'name' => self::get_label()
 				);
@@ -58,7 +58,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 			$order_items = array();
 			foreach ( $order->get_items() as $key => $item ) {
 				if ( ! $skip_virtual || ! self::is_virtual( $item ) ) {
-					$order_items[ $key ] = intval( $item['qty'] );
+					$order_items[ $key ] = intval( $item[ 'qty' ] );
 				}
 			}
 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 				// Remove exchanged or returned items from order items info
 				foreach ( $exchange_return_orders as $exchage_return_order ) {
 					foreach ( $exchage_return_order->get_items() as $item ) {
-						$order_items[ $item['exchange_return_item_id'] ] -= $item['qty'];
+						$order_items[ $item[ 'exchange_return_item_id' ] ] -= $item[ 'qty' ];
 					}
 				}
 
@@ -110,7 +110,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 			return true;
 		}
 		public static function get_valid_order_statuses_for_exchange_or_return() {
-			return apply_filters( 'pafw_get_valid_order_statuses_for_exchange_or_return', array( 'shipped', 'completed' ) );
+			return apply_filters( 'pafw_get_valid_order_statuses_for_exchange_or_return', explode( ',', get_option( 'pafw-gw-ex-order-statuses', 'shipped,completed' ) ) );
 		}
 		public static function get_exchange_return_orders( $order ) {
 			$order_id = $order->get_id();
@@ -120,7 +120,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 				self::$cached_orders[ $order_id ] = wc_get_orders( array(
 					'type'   => 'shop_order_pafw_ex',
 					'parent' => $order_id,
-					'limit'  => -1,
+					'limit'  => - 1,
 				) );
 
 				$orders = pafw_get( self::$cached_orders, $order_id, null );
@@ -138,41 +138,44 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 
 			$args = wp_parse_args( $args, $default_args );
 
-			if ( empty( $args['order_items'] ) ) {
-				throw new Exception( __( '교환 또는 반품할 상품을 선택해주세요.' ) );
+			if ( empty( $args[ 'order_items' ] ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				throw new Exception( __( '교환 또는 반품할 상품을 선택해주세요.', 'pgall-for-woocommerce' ) );
 			}
 
-			if ( empty( $args['reason'] ) ) {
-				throw new Exception( __( '교환 또는 반품 사유를 입력해주세요.' ) );
+			if ( empty( $args[ 'reason' ] ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				throw new Exception( __( '교환 또는 반품 사유를 입력해주세요.', 'pgall-for-woocommerce' ) );
 			}
 
-			$order = wc_get_order( $args['order_id'] );
+			$order = wc_get_order( $args[ 'order_id' ] );
 
 			if ( ! $order ) {
-				throw new Exception( __( 'Invalid order ID.', 'woocommerce' ) );
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				throw new Exception( __( 'Invalid order ID.', 'pgall-for-woocommerce' ) );
 			}
 
-			if ( empty( $args['exchange_return_id'] ) ) {
+			if ( empty( $args[ 'exchange_return_id' ] ) ) {
 				$exchange_return_order = new PAFW_Order_Exchange_Return();
 				$exchange_return_order->set_download_permissions_granted( true );
 				$exchange_return_order->save();
 
-				if ( sizeof( $args['order_items'] ) > 0 ) {
+				if ( sizeof( $args[ 'order_items' ] ) > 0 ) {
 					$order_items = $order->get_items();
 
-					foreach ( array_keys( $args['order_items'] ) as $exchange_return_item_id ) {
-						if ( empty( $args['exchange_return_qty'][ $exchange_return_item_id ] ) ) {
+					foreach ( array_keys( $args[ 'order_items' ] ) as $exchange_return_item_id ) {
+						if ( empty( $args[ 'exchange_return_qty' ][ $exchange_return_item_id ] ) ) {
 							continue;
 						}
 						$order_item = pafw_get( $order_items, $exchange_return_item_id, null );
 
 						if ( ! is_null( $order_item ) ) {
-							$ex_qty = intval( $args['exchange_return_qty'][ $exchange_return_item_id ] );
+							$ex_qty = intval( $args[ 'exchange_return_qty' ][ $exchange_return_item_id ] );
 
 							$line_item = new WC_Order_Item_Product();
 							$line_item->set_props( array(
 								'name'         => $order_item->get_name(),
-								'quantity'     => $args['exchange_return_qty'][ $exchange_return_item_id ],
+								'quantity'     => $args[ 'exchange_return_qty' ][ $exchange_return_item_id ],
 								'tax_class'    => $order_item->get_tax_class(),
 								'product_id'   => $order_item->get_product_id(),
 								'variation_id' => $order_item->get_variation_id(),
@@ -182,7 +185,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 								$data = $meta_data->get_data();
 
 								if ( apply_filters( 'pafw_copy_meta_data_to_ex_order_item', true, $data ) ) {
-									$line_item->update_meta_data( $data['key'], $data['value'] );
+									$line_item->update_meta_data( $data[ 'key' ], $data[ 'value' ] );
 								}
 							}
 
@@ -191,8 +194,8 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 							$line_item->set_subtotal( $order_item->get_subtotal() * ( $ex_qty / $order_item->get_quantity() ) );
 							$line_item->set_subtotal_tax( $order_item->get_subtotal_tax() * ( $ex_qty / $order_item->get_quantity() ) );
 
-							if ( ! empty( $args['exchange_item'] ) ) {
-								$line_item->update_meta_data( '_exchange_product_id', pafw_get( $args['exchange_item'], $exchange_return_item_id ) );
+							if ( ! empty( $args[ 'exchange_item' ] ) ) {
+								$line_item->update_meta_data( '_exchange_product_id', pafw_get( $args[ 'exchange_item' ], $exchange_return_item_id ) );
 							}
 							$line_item->update_meta_data( '_exchange_return_item_id', $exchange_return_item_id );
 							$line_item->save();
@@ -202,7 +205,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 					}
 				}
 			} else {
-				$exchange_return_order = new PAFW_Order_Exchange_Return( $args['refund_id'] );
+				$exchange_return_order = new PAFW_Order_Exchange_Return( $args[ 'refund_id' ] );
 			}
 
 			$exchange_return_order->calculate_totals();
@@ -215,14 +218,14 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 			$exchange_return_order->set_request( pafw_get( $args, 'requests' ) );
 
 			$exchange_return_order->save();
-			if ( ! empty( $args['refund_bank_account'] ) ) {
-				$order->add_order_note( sprintf( '[환불계좌정보]<br>교환/반품 번호 : #%d<br>%s', $exchange_return_order->get_id(), $args['refund_bank_account'] ) );
+			if ( ! empty( $args[ 'refund_bank_account' ] ) ) {
+				$order->add_order_note( sprintf( '[환불계좌정보]<br>교환/반품 번호 : #%d<br>%s', $exchange_return_order->get_id(), $args[ 'refund_bank_account' ] ) );
 			}
 
 			do_action( 'pafw_exchange_return_created', $exchange_return_order->get_id(), $args );
 
 			// Clear transients
-			wc_delete_shop_order_transients( $args['order_id'] );
+			wc_delete_shop_order_transients( $args[ 'order_id' ] );
 
 			return new PAFW_Order_Exchange_Return( $exchange_return_order->get_id() );
 		}

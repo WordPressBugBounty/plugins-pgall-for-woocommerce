@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Gateway_Nicepay_Escrow_Bank extends WC_Gateway_Nicepay {
+class WC_Gateway_Nicepay_Escrow_Bank extends WC_Gateway_Nicepay { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	public function __construct() {
 		$this->id = 'nicepay_escrow_bank';
 

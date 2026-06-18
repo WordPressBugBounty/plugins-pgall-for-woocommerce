@@ -33,60 +33,67 @@ class PAFW_Post_Type {
 
 		$order_statuses = array_merge( $order_statuses,
 			array(
-                'wc-shipping'    => array(
-                    'label'                     => _x( '배송중', 'Order status', 'pgall-for-woocommerce' ),
-                    'public'                    => false,
-                    'exclude_from_search'       => false,
-                    'show_in_admin_all_list'    => true,
-                    'show_in_admin_status_list' => true,
-                    'label_count'               => _n_noop( '배송중 <span class="count">(%s)</span>', '배송중 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
-                ),
-				'wc-shipped'    => array(
+				'wc-shipping'         => array(
+					'label'                     => _x( '배송중', 'Order status', 'pgall-for-woocommerce' ),
+					'public'                    => false,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "shipping" status.
+					'label_count'               => _n_noop( '배송중 <span class="count">(%s)</span>', '배송중 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
+				),
+				'wc-shipped'          => array(
 					'label'                     => _x( '배송완료', 'Order status', 'pgall-for-woocommerce' ),
 					'public'                    => false,
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "shipped" status.
 					'label_count'               => _n_noop( '배송완료 <span class="count">(%s)</span>', '배송완료 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
 				),
-				'wc-cancel-request' => array (
+				'wc-cancel-request'   => array(
 					'label'                     => _x( '주문취소요청', 'Order status', 'pgall-for-woocommerce' ),
 					'public'                    => false,
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "cancel-request" status.
 					'label_count'               => _n_noop( '주문취소요청 <span class="count">(%s)</span>', '주문취소요청 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
 				),
-				'wc-exchange-request'    => array(
+				'wc-exchange-request' => array(
 					'label'                     => _x( '교환신청', 'Order status', 'pgall-for-woocommerce' ),
 					'public'                    => false,
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "exchange-request" status.
 					'label_count'               => _n_noop( '교환신청 <span class="count">(%s)</span>', '교환신청 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
 				),
-				'wc-return-request' => array(
+				'wc-return-request'   => array(
 					'label'                     => _x( '반품신청', 'Order status', 'pgall-for-woocommerce' ),
 					'public'                    => false,
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "return-request" status.
 					'label_count'               => _n_noop( '반품신청 <span class="count">(%s)</span>', '반품신청 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
 				),
-				'wc-accept-exchange'    => array(
+				'wc-accept-exchange'  => array(
 					'label'                     => _x( '교환접수', 'Order status', 'pgall-for-woocommerce' ),
 					'public'                    => false,
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "accept-exchange" status.
 					'label_count'               => _n_noop( '교환접수 <span class="count">(%s)</span>', '교환접수 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
 				),
-				'wc-accept-return' => array(
+				'wc-accept-return'    => array(
 					'label'                     => _x( '반품접수', 'Order status', 'pgall-for-woocommerce' ),
 					'public'                    => false,
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: number of orders with the "accept-return" status.
 					'label_count'               => _n_noop( '반품접수 <span class="count">(%s)</span>', '반품접수 <span class="count">(%s)</span>', 'pgall-for-woocommerce' )
 				)
 			)

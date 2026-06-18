@@ -18,7 +18,8 @@ if ( ! class_exists( 'PAFW_Admin_Cash_Receipts' ) ) :
 				'id'           => 'pafw_cash_receipts',
 				'searchConfig' => array(
 					'action'   => PAFW()->slug() . '-get_cash_receipts',
-					'pageSize' => self::$number_per_page
+					'pageSize' => self::$number_per_page,
+					'_wpnonce' => wp_create_nonce( 'pgall-for-woocommerce' )
 				),
 				'elements'     => array(
 					array(
@@ -94,7 +95,7 @@ if ( ! class_exists( 'PAFW_Admin_Cash_Receipts' ) ) :
 							"elements"    => array(
 								array(
 									"id"            => "no",
-									"title"         => __( "", 'pgall-for-woocommerce' ),
+									"title"         => "",
 									"className"     => "center aligned one wide column",
 									"cellClassName" => "center aligned",
 									"type"          => "Label",

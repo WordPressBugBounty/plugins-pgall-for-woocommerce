@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DB.DirectDatabaseQuery
 
 defined( 'ABSPATH' ) || exit;
 class PAFW_Install {
@@ -73,7 +74,7 @@ class PAFW_Install {
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . 'pafw_transaction';
 
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) { // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$sql = "CREATE TABLE `$table_name` (
                       `id` bigint(20) NOT NULL AUTO_INCREMENT,
                       `date` datetime NOT NULL,
@@ -95,7 +96,7 @@ class PAFW_Install {
 		}
 		$table_name = $wpdb->prefix . 'pafw_bacs_receipt';
 
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) {
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) != $table_name ) { // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$sql = "CREATE TABLE `$table_name` (
 					  `id` bigint(20) NOT NULL AUTO_INCREMENT,
 					  `order_id` bigint(20) NOT NULL,

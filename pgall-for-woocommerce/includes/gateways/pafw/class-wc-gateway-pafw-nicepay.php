@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable WordPress.Security.NonceVerification
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'WC_Gateway_PAFW_Nicepay' ) ) {
 
 	include_once( 'class-wc-gateway-pafw.php' );
-	class WC_Gateway_PAFW_Nicepay extends WC_Gateway_PAFW {
+	class WC_Gateway_PAFW_Nicepay extends WC_Gateway_PAFW { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 		public function __construct() {
 			$this->id = 'mshop_nicepay';
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'WC_Gateway_PAFW_Nicepay' ) ) {
 
 			$options = get_option( 'pafw_mshop_nicepay' );
 
-			$GLOBALS['hide_save_button'] = 'yes' != pafw_get( $options, 'show_save_button', 'no' );
+			$GLOBALS['hide_save_button'] = 'yes' != pafw_get( $options, 'show_save_button', 'no' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 			$settings = $this->get_settings( 'nicepay', self::get_supported_payment_methods() );
 

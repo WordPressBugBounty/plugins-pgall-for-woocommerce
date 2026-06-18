@@ -1,6 +1,6 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
-//소스에 URL로 직접 접근 방지
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -9,7 +9,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 	if ( ! class_exists( 'WC_Gateway_Settlebank_Mybank_Subscription' ) ) {
 
-		class WC_Gateway_Settlebank_Mybank_Subscription extends WC_Gateway_Settlebank {
+		class WC_Gateway_Settlebank_Mybank_Subscription extends WC_Gateway_Settlebank { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 			public function __construct() {
 
@@ -17,12 +17,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 				parent::__construct();
 
-				if ( empty( $this->settings['title'] ) ) {
+				if ( empty( $this->settings[ 'title' ] ) ) {
 					$this->title       = __( '내통장 정기결제', 'pgall-for-woocommerce' );
 					$this->description = __( '내통장 정기결제로 결제합니다.', 'pgall-for-woocommerce' );
 				} else {
-					$this->title       = $this->settings['title'];
-					$this->description = $this->settings['description'];
+					$this->title       = $this->settings[ 'title' ];
+					$this->description = $this->settings[ 'description' ];
 				}
 
 				$this->countries = array( 'KR' );
@@ -54,10 +54,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			function adjust_settings() {
-				$this->settings['merchant_id']    = $this->settings['subscription_merchant_id'];
-				$this->settings['merchant_key']   = $this->settings['subscription_merchant_key'];
-				$this->settings['operation_mode'] = $this->settings['operation_mode_subscription'];
-				$this->settings['test_user_id']   = $this->settings['test_user_id_subscription'];
+				$this->settings[ 'merchant_id' ]    = $this->settings[ 'subscription_merchant_id' ];
+				$this->settings[ 'merchant_key' ]   = $this->settings[ 'subscription_merchant_key' ];
+				$this->settings[ 'operation_mode' ] = $this->settings[ 'operation_mode_subscription' ];
+				$this->settings[ 'test_user_id' ]   = $this->settings[ 'test_user_id_subscription' ];
 			}
 
 			public function payment_fields() {
@@ -72,14 +72,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return '_pafw_settlebank_mybank_' . $meta_key;
 			}
 			public function add_register_order_request_params( $params, $order ) {
-				$params['settlebank'] = array(
+				$params[ 'settlebank' ] = array(
 					'is_subscription' => pafw_is_subscription( $order ) ? 'yes' : 'no'
 				);
 
 				return $params;
 			}
 			public function add_subscription_payment_request_params( $params, $order ) {
-				$params['settlebank'] = array(
+				$params[ 'settlebank' ] = array(
 					'paid_date' => current_time( 'mysql' )
 				);
 
@@ -92,11 +92,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				try {
 					$user = null;
 
-					if ( empty( $_GET['transaction_id'] ) || empty( $_GET['auth_token'] ) || empty( $_GET['user_id'] ) ) {
+					if ( empty( $_GET[ 'transaction_id' ] ) || empty( $_GET[ 'auth_token' ] ) || empty( $_GET[ 'user_id' ] ) ) {
 						throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 					}
 
-					$user_id = str_replace( 'PAFW-BILL-', '', wc_clean( $_GET['user_id'] ) );
+					$user_id = str_replace( 'PAFW-BILL-', '', pafw_get_unslash( $_GET, 'user_id' ) );
 
 					$user = get_userdata( $user_id );
 
@@ -109,7 +109,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			function add_payment_method() {
 				try {
-					$user = get_currentuserinfo();
+					$user = wp_get_current_user();
 
 					$response = PAFW_Gateway::get_register_form( $user, $this );
 
@@ -126,8 +126,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					$metas = array(
 						'pafw_version'  => PAFW_VERSION,
 						'auth_date'     => current_time( 'mysql' ),
-						'card_code'     => $response['bank_code'],
-						'card_name'     => ! empty( $response['bank_name'] ) ? $response['bank_name'] : __( "내통장결제", "pgall-for-woocommerce" ),
+						'card_code'     => $response[ 'bank_code' ],
+						'card_name'     => ! empty( $response[ 'bank_name' ] ) ? $response[ 'bank_name' ] : __( "내통장결제", "pgall-for-woocommerce" ),
 						'card_num'      => pafw_get( $response, 'card_num' ),
 						'register_date' => current_time( 'mysql' )
 					);

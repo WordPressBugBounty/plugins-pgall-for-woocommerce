@@ -1,7 +1,9 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 global $wp;
 
-$order_id = $wp->query_vars['pafw-ex'];
+$order_id = $wp->query_vars[ 'pafw-ex' ];
 
 $order = wc_get_order( $order_id );
 
@@ -33,6 +35,6 @@ wp_localize_script( 'pafw-ex', '_pafw_ex', array(
 
 		<?php do_action( 'pafw_after_exchange_return_request', $order_id ); ?>
 
-        <input type="hidden" name="redirect_url" value="<?php echo isset( $redirect_url ) ? $redirect_url : ''; ?>">
+        <input type="hidden" name="redirect_url" value="<?php echo isset( $redirect_url ) ? esc_attr( $redirect_url ) : ''; ?>">
     </form>
 </div>

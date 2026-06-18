@@ -1,13 +1,13 @@
 <?php
+// phpcs:disable WordPress.Security.NonceVerification
 
-//소스에 URL로 직접 접근 방지
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
-	class WC_Gateway_SettlePG extends PAFW_Payment_Gateway {
+	class WC_Gateway_SettlePG extends PAFW_Payment_Gateway { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 
 		protected $target_recurrent_id = null;
 
@@ -37,7 +37,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return 'popup';
 			}
 		}
-		public function get_merchant_id( $order = null ){
+		public function get_merchant_id( $order = null ) {
 			return pafw_get( $this->settings, 'merchant_id' );
 		}
 		public function get_merchant_key( $order = null ) {
@@ -75,25 +75,27 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order = null;
 
 
-				if ( empty( $_GET['order_id'] ) || empty( $_POST['outStatCd'] ) || ! in_array( $_POST['outStatCd'], array( '0021', '0051' ) ) ) {
+				if ( empty( $_GET[ 'order_id' ] ) || empty( $_POST[ 'outStatCd' ] ) || ! in_array( $_POST[ 'outStatCd' ], array( '0021', '0051' ) ) ) {
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9100' );
 				}
 
-				$order = $this->get_order( $_GET['order_id'] );
+				$order = $this->get_order( absint( pafw_get_unslash( $_GET, 'order_id' ) ) );
 
-				if ( in_array( $_POST['bizType'], array( 'B1', 'B0', 'A0' ) ) ) {
+				$biz_type = pafw_get_unslash( $_POST, 'bizType' );
+
+				if ( in_array( $biz_type, array( 'B1', 'B0', 'A0' ) ) ) {
 					$this->validate_order_status( $order );
 
 					PAFW_Gateway::process_approval( $this, $order );
-				} else if ( in_array( $_POST['bizType'], array( 'F1', 'B1' ) ) ) {
+				} elseif ( in_array( $biz_type, array( 'F1', 'B1' ) ) ) {
 					if ( is_callable( array( $this, 'process_vbank_noti' ) ) ) {
 						$this->process_vbank_noti();
 					} else {
 						throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9200' );
 					}
 				} else {
-					$order->add_order_note( sprintf( '노티수신 : %s', $_POST['bizType'] ) );
-					$order->add_order_note( json_encode( $_POST ) );
+					$this->add_log( sprintf( '노티수신 : %s', $biz_type ) );
+					$this->add_log( json_encode( $_POST ) );
 				}
 
 				echo 'OK';
@@ -108,13 +110,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			try {
 				$order = null;
 
-				if ( empty( $_GET['order_id'] ) ) {
+				if ( empty( $_GET[ 'order_id' ] ) ) {
 					throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ), '9000' );
 				}
 
 				do_action( 'pafw_gateway_before_api_request' );
 
-				$order = $this->get_order( $_GET['order_id'] );
+				$order = $this->get_order( absint( pafw_get_unslash( $_GET, 'order_id' ) ) );
 
 				PAFW_Gateway::redirect( $order, $this );
 			} catch ( Exception $e ) {
@@ -127,6 +129,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 		function issue_bill_key_when_change_payment_method() {
 			return false;
+		}
+		public function process_approval_response( $order, $response ) {
+			$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array(
+				'거래번호' => $response[ 'transaction_id' ]
+			) );
 		}
 	}
 }

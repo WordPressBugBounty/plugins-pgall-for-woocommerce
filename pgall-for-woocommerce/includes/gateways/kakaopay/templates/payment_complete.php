@@ -8,9 +8,9 @@
 </head>
 <script type="text/javascript">
 	<?php if( wp_is_mobile() ) : ?>
-    location.href = '<?php echo $redirect_url; ?>';
+    location.href = '<?php echo esc_js( $redirect_url ); ?>';
 	<?php else : ?>
-    opener.location.href = '<?php echo $redirect_url; ?>';
+    opener.location.href = '<?php echo esc_js( $redirect_url ); ?>';
     window.close();
 	<?php endif; ?>
 </script>

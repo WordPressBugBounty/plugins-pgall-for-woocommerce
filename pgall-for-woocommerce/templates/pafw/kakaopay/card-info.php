@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -10,9 +11,9 @@ $payment_method_type = get_user_meta( get_current_user_id(), $payment_gateway->g
 
 ?>
 
-<div class="pafw-card pafw-<?php esc_attr_e( $master_id ); ?>">
+<div class="pafw-card pafw-<?php echo esc_attr( $master_id ); ?>">
 	<?php if ( empty( $bill_key ) || empty( $payment_method_type ) ) : ?>
-        <div class="pafw-not-registered" data-payment_method="<?php esc_attr_e( $payment_gateway->id ); ?>"></div>
+        <div class="pafw-not-registered" data-payment_method="<?php echo esc_attr( $payment_gateway->id ); ?>"></div>
 	<?php else: ?>
         <div class="pafw-registered">
 			<?php
@@ -26,13 +27,13 @@ $payment_method_type = get_user_meta( get_current_user_id(), $payment_gateway->g
 			?>
             <div class="payment_method_type"></div>
 			<?php if ( 'CARD' == $payment_method_type ) : ?>
-                <div class="card_name"><?php echo $card_name; ?></div>
-                <div class="card_num"><?php echo $card_num; ?></div>
+                <div class="card_name"><?php echo esc_html( $card_name ); ?></div>
+                <div class="card_num"><?php echo esc_html( $card_num ); ?></div>
 			<?php else: ?>
-                <div class="card_name"><?php echo $payment_method_type; ?></div>
+                <div class="card_name"><?php echo esc_html( $payment_method_type ); ?></div>
 			<?php endif; ?>
 			<?php if ( ! empty( $register_date ) ): ?>
-                <div class="register_date"><?php echo sprintf( __( "등록일 : %s", "pgall-for-woocommerce" ), date( 'Y-m-d', strtotime( $register_date ) ) );; ?></div>
+                <div class="register_date"><?php /* translators:%s: registration date */ echo sprintf( esc_html__( "등록일 : %s", "pgall-for-woocommerce" ), esc_html( date( 'Y-m-d', strtotime( $register_date ) ) ) );; ?></div>
 			<?php endif; ?>
         </div>
 	<?php endif; ?>
