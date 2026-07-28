@@ -22,8 +22,25 @@ if ( ! class_exists( 'PAFW_Admin_Payment_Method_Control_Settings' ) ) :
 
 		static function get_payment_gateways() {
 			$gateways = array();
-			foreach ( WC()->payment_gateways()->get_available_payment_gateways() as $gateway ) {
-				$gateways[ $gateway->id ] = $gateway->get_title();
+
+			$whitelist_gateway_patterns = apply_filters( 'pafw_whitelist_gateway_patterns', array(
+				'stripe',
+				'paypal',
+				'self-installment-payment',
+				'mshop-point',
+				'kcp-subscription',
+				'bacs',
+				'ppcp',
+				'cod',
+				'cheque',
+			) );
+
+			$whitelist_pattern = '/' . implode( '|', $whitelist_gateway_patterns ) . '/';
+
+			foreach ( WC()->payment_gateways()->payment_gateways() as $gateway ) {
+				if ( $gateway->is_available() || 1 === preg_match( $whitelist_pattern, $gateway->id ) ) {
+					$gateways[ $gateway->id ] = $gateway->get_title();
+				}
 			}
 
 			return $gateways;

@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 5.5.7
+Stable tag: 5.5.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.5.10 =
+[교환/반품] 교환/반품 아이템의 메타정보 표시 오류 수정
+
+= 5.5.9 =
+[교환/반품] 교환/반품 상품의 수량 입력란 표시 오류 수정
+
+= 5.5.8 =
+[결제수단 노출제어] 결제수단 노출제어 화면에 표시되는 결제수단 목록을 정규식 패턴 기반으로 제어할 수 있도록 pafw_whitelist_gateway_patterns 필터 추가
 
 = 5.5.7 =
 [정기결제] 결제수단설명 출력 로직 개선

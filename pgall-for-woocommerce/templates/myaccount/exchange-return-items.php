@@ -83,7 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											), $product, false );
 										}
 
-										echo absint( $product_quantity );
+										echo $product_quantity;
 										?>
                                     </div>
                                 </div>

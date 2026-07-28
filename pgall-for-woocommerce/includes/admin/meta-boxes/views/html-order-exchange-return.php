@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						// translators: 1 : url of product, 2: product name, 3: quantity
 						printf( '<a href="%1$s">%2$s</a> x %3$s개', esc_url( get_edit_post_link( $item->get_product_id() ) ), esc_html( $item->get_name() ), esc_html( $item->get_quantity() ) );
 						if ( ! empty( $order_item_meta ) ) {
-							printf( '<br><span class="item_meta">%s</span>', esc_html( $order_item_meta ) );
+							printf( '<br><span class="item_meta">%s</span>', $order_item_meta );
 						}
 						?>
                     </td>
