@@ -511,6 +511,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					unset( $_POST[ 'refund_request' ] );
 				}
 
+				if ( 'yes' == pafw_get( $_POST, 'increase_stock_level' ) ) {
+					wc_maybe_increase_stock_levels( $order->get_id() );
+				}
+
 				$order->update_status( 'refunded', '관리자에 의해 주문이 취소 되었습니다.' );
 
 				$order->update_meta_data( '_pafw_order_cancelled', 'yes' );

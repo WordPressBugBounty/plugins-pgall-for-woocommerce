@@ -23,6 +23,14 @@
     </div>
 <?php endif; ?>
 
+<?php if ( 'yes' == get_option( 'woocommerce_manage_stock' ) && empty( $cancel_data ) ) : ?>
+    <div class="pafw_payment_info">
+        <label for="pafw_increase_stock_level">
+            <input type="checkbox" id="pafw_increase_stock_level" name="pafw_increase_stock_level" value="yes" checked/>
+			<?php _e( '환불항목 재고 복구', 'pgall-for-woocommerce' ); ?>
+        </label>
+    </div>
+<?php endif; ?>
 <div class="pafw_button_wrapper">
     <input type="button" class="button pafw_action_button tips" id="pafw-refund-request" name="refund-request" data-tip="<?php esc_attr_e( '전체취소', 'pgall-for-woocommerce' ); ?>" value="<?php esc_attr_e( '전체취소', 'pgall-for-woocommerce' ); ?>" <?php echo $is_fully_refundable ? '' : 'disabled'; ?>>
 	<?php if ( ! empty( $transaction_id ) && ! empty( $receipt_url ) ) : ?>

@@ -13,46 +13,41 @@ class PAFW_Ajax {
 	public static function add_ajax_events() {
 
 		$ajax_events = array(
-			'pafw_ajax_action'         => true,
-			'pafw_simple_payment'      => true,
-			'request_exchange_return'  => true,
-			'launch_payment'           => true,
-			'change_next_payment_date' => false,
-			'survey_cancel_reason'     => true,
-			'change_payment_method'    => true,
+			'pafw_ajax_action'                            => true,
+			'pafw_simple_payment'                         => true,
+			'request_exchange_return'                     => true,
+			'launch_payment'                              => true,
+			'change_next_payment_date'                    => false,
+			'survey_cancel_reason'                        => true,
+			'change_payment_method'                       => true,
+			'update_pafw_settings'                        => false,
+			'update_pafw_review_settings'                 => false,
+			'update_pafw_payment_method_control_settings' => false,
+			'update_pafw_order_status_control_settings'   => false,
+			'update_inicis_settings'                      => false,
+			'update_nicepay_settings'                     => false,
+			'update_kcp_settings'                         => false,
+			'update_tosspayments_settings'                => false,
+			'update_lguplus_settings'                     => false,
+			'update_payco_settings'                       => false,
+			'update_kakaopay_settings'                    => false,
+			'update_kicc_settings'                        => false,
+			'update_settlebank_settings'                  => false,
+			'update_settlevbank_settings'                 => false,
+			'update_settlepg_settings'                    => false,
+			'pafw_sales_action'                           => false,
+			'pafw_payment_statistics_action'              => false,
+			'agree_to_tac'                                => false,
+			'target_search'                               => false,
+			'cancel_subscription'                         => false,
+			'pafw_cash_receipt'                           => false,
+			'pafw_cancel_receipt'                         => false,
+			'pafw_view_receipt'                           => false,
+			'pafw_update_receipt_info'                    => false,
+			'get_cash_receipts'                           => false,
+			'pafw_search_user'                            => false,
+			'export_cash_receipt_logs'                    => false,
 		);
-
-		if ( is_admin() ) {
-			$ajax_events = array_merge( $ajax_events, array(
-				'update_pafw_settings'                        => false,
-				'update_pafw_review_settings'                 => false,
-				'update_pafw_payment_method_control_settings' => false,
-				'update_pafw_order_status_control_settings'   => false,
-				'update_inicis_settings'                      => false,
-				'update_nicepay_settings'                     => false,
-				'update_kcp_settings'                         => false,
-				'update_tosspayments_settings'                => false,
-				'update_lguplus_settings'                     => false,
-				'update_payco_settings'                       => false,
-				'update_kakaopay_settings'                    => false,
-				'update_kicc_settings'                        => false,
-				'update_settlebank_settings'                  => false,
-				'update_settlevbank_settings'                 => false,
-				'update_settlepg_settings'                    => false,
-				'pafw_sales_action'                           => false,
-				'pafw_payment_statistics_action'              => false,
-				'agree_to_tac'                                => false,
-				'target_search'                               => false,
-				'cancel_subscription'                         => false,
-				'pafw_cash_receipt'                           => false,
-				'pafw_cancel_receipt'                         => false,
-				'pafw_view_receipt'                           => false,
-				'pafw_update_receipt_info'                    => false,
-				'get_cash_receipts'                           => false,
-				'pafw_search_user'                            => false,
-				'export_cash_receipt_logs'                    => false,
-			) );
-		}
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
 			add_action( 'wp_ajax_' . self::$slug . '-' . $ajax_event, array( __CLASS__, $ajax_event ) );
@@ -401,8 +396,14 @@ class PAFW_Ajax {
 	}
 	static function target_search_product_posts_title_like( $where, &$wp_query ) {
 		global $wpdb;
+
 		if ( $posts_title = $wp_query->get( 'posts_title' ) ) {
-			$where .= ' AND ' . $wpdb->posts . '.post_title LIKE "%' . $posts_title . '%"';
+			$like = '%' . $wpdb->esc_like( $posts_title ) . '%';
+
+			$where .= $wpdb->prepare(
+				" AND {$wpdb->posts}.post_title LIKE %s",
+				$like
+			);
 		}
 
 		return $where;
@@ -440,8 +441,11 @@ class PAFW_Ajax {
 
 		die();
 	}
-
 	public static function target_search() {
+		if( ! current_user_can( 'manage_woocommerce' ) ) {
+			die();
+		}
+
 		if ( ! empty( $_REQUEST[ 'type' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$type = pafw_get_unslash( $_REQUEST, 'type' );  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
