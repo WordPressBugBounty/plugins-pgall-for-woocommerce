@@ -3,9 +3,9 @@ Contributors: Codemstory
 Donate link: http://www.codemshop.com/
 Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 대한민국 결제
 Requires at least: 4.6.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 5.5.12
+Stable tag: 5.5.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,10 +83,13 @@ Not yet.
 
 == Changelog ==
 
-= 5.5.12 =
+= 5.5.13 =
 [공통] 보안 업데이트 적용
 
-= 5.5.11 =
+= 5.5.13 =
+[공통] 보안 업데이트 적용
+
+= 5.5.11 =cd
 [공통] 결제정보 메타박스에서 주문 취소 시 환불되는 아이템의 재고 복구 여부를 지정할 수 있는 "환불 항목 재고 복구" 옵션 추가
 
 = 5.5.10 =

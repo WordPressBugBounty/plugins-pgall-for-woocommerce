@@ -138,6 +138,11 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 
 			$args = wp_parse_args( $args, $default_args );
 
+			if ( ! in_array( pafw_get( $args, 'type' ), array( 'exchange', 'return' ) ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				throw new Exception( __( 'Invalid Request', 'pgall-for-woocommerce' ) );
+			}
+
 			if ( empty( $args[ 'order_items' ] ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( '교환 또는 반품할 상품을 선택해주세요.', 'pgall-for-woocommerce' ) );
@@ -153,6 +158,11 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 			if ( ! $order ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( 'Invalid order ID.', 'pgall-for-woocommerce' ) );
+			}
+
+			if ( ! $order->get_customer_id() != get_current_user_id() ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				throw new Exception( __( 'Invalid Request', 'pgall-for-woocommerce' ) );
 			}
 
 			if ( empty( $args[ 'exchange_return_id' ] ) ) {
