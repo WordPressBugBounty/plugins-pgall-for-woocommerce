@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 5.5.13
+Stable tag: 5.5.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.5.14 =
+[교환/반품] nonce 체크 로직 변경
 
 = 5.5.13 =
 [공통] 보안 업데이트 적용

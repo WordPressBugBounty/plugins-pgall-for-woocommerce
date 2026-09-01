@@ -160,7 +160,7 @@ if ( ! class_exists( 'PAFW_Exchange_Return_Manager' ) ) {
 				throw new Exception( __( 'Invalid order ID.', 'pgall-for-woocommerce' ) );
 			}
 
-			if ( ! $order->get_customer_id() != get_current_user_id() ) {
+			if ( $order->get_customer_id() != get_current_user_id() ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new Exception( __( 'Invalid Request', 'pgall-for-woocommerce' ) );
 			}
