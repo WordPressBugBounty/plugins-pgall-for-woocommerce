@@ -45,14 +45,14 @@ $order_cancel_url = pafw_get_order_cancel_url( $order, is_user_logged_in() ? $or
                             <script>
                                 jQuery( document ).ready( function ( $ ) {
                                     $( 'a.pafw-view-receipt' ).on( 'click', function () {
-                                        window.open( "<?php echo esc_js( $receipt_url ); ?>", "<?php echo esc_js( $receipt_popup_params[ 'name' ] ); ?>", "<?php echo esc_js( $receipt_popup_params[ 'features' ] ); ?>" );
+                                        window.open( "<?php echo $receipt_url; ?>", "<?php echo esc_js( $receipt_popup_params[ 'name' ] ); ?>", "<?php echo esc_js( $receipt_popup_params[ 'features' ] ); ?>" );
                                         return false;
                                     } );
                                 } );
                             </script>
-                            <a href="<?php echo esc_url( $receipt_url ); ?>" target="_blank" class="button pafw-view-receipt"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
+                            <a href="<?php echo $receipt_url; ?>" target="_blank" class="button pafw-view-receipt"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
 						<?php else : ?>
-                            <a href="<?php echo esc_url( $receipt_url ); ?>" target="_blank" class="button"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
+                            <a href="<?php echo $receipt_url; ?>" target="_blank" class="button"><?php esc_html_e( '영수증 확인', 'pgall-for-woocommerce' ); ?></a>
 						<?php endif; ?>
 					<?php else: ?>
 						<?php do_action( 'pafw_view_order_receipt_button_' . $payment_gateway->id, $order ); ?>
