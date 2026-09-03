@@ -51,20 +51,24 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			function wc_api_vbank_noti() {
 				$REMOTE_IP  = pafw_get( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get( $_SERVER, 'REMOTE_ADDR' ) );
-				$request_ip = ip2long( $REMOTE_IP );
+
+				$allowed_ips = [
+					'13.124.18.147',
+					'13.124.108.35',
+					'3.36.173.151',
+					'3.38.81.32',
+					'115.92.221.121',
+					'115.92.221.122',
+					'115.92.221.123',
+					'115.92.221.125',
+					'115.92.221.126',
+					'115.92.221.127',
+				];
 
 				$this->add_log( '가상계좌 입금통보 시작 : ' . $REMOTE_IP );
 
 				try {
-					$valid = false;
-					if ( ( $request_ip >= ip2long( '203.233.124.34' ) && $request_ip <= ip2long( '203.233.124.38' ) ) ||
-					     ( $request_ip >= ip2long( '203.233.124.91' ) && $request_ip <= ip2long( '203.233.124.95' ) ) ||
-					     ( $request_ip >= ip2long( '115.92.221.121' ) && $request_ip <= ip2long( '115.92.221.150' ) )
-					) {
-						$valid = true;
-					}
-
-					if ( ! $valid ) {
+					if ( ! in_array( $REMOTE_IP, $allowed_ips, true ) ) {
 						throw new Exception( __( '[PAFW-ERR-8901] 잘못된 요청입니다. ', 'pgall-for-woocommerce' ) );
 					}
 

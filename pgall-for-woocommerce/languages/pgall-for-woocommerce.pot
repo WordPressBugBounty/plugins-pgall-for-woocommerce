@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.5.15\n"
+"Project-Id-Version: pgall-for-woocommerce 5.5.16\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2026-09-02 08:31:05+00:00\n"
+"POT-Creation-Date: 2026-09-03 01:31:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4140,53 +4140,53 @@ msgstr ""
 msgid "결제 수단이 정상적으로 등록되었습니다."
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:68
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:72
 msgid "[PAFW-ERR-8901] 잘못된 요청입니다. "
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:72
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:76
 msgid "[PAFW-ERR-8001] 잘못된 요청입니다. "
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:77
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:81
 #. translators: %s: request type
 msgid "[PAFW-ERR-8004] 입금 통보가 아닙니다. [%s]"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:85
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:89
 msgid "[PAFW-ERR-8002] 잘못된 요청입니다. "
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:90
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:94
 #. translators: %s: order id
 msgid ""
 "[PAFW-ERR-8003] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 "
 "있습니다. 상점거래번호(OID) : %s"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:95
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:99
 #. translators: 1: request order id, 2: order id
 msgid "[PAFW-ERR-8004] TID 불일치 [%1$s] [%2$s]"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:99
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:103
 msgid "[PAFW-ERR-8004] 거래번호 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:103
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:107
 msgid "[PAFW-ERR-8004] 입금은행 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:107
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:111
 msgid "[PAFW-ERR-8004] 입금계좌번호 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:111
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:115
 msgid "[PAFW-ERR-8004] 입금액 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:120
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:122
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:124
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:126
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-vbank.php:102
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-vbank.php:104
 #. translators: 1: transaction id, 2: order id
