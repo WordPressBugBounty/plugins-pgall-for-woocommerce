@@ -40,6 +40,7 @@ function pafw_my_account_my_orders_actions( $actions, $order ) {
 					'pafw-cancel-order' => 'true',
 					'order_key'         => $order->get_order_key(),
 					'order_id'          => $order->get_id(),
+					'refund_account'    => $order->get_date_paid() && 'bacs' == $order->get_payment_method(),
 					'redirect'          => $myaccount_endpoint
 				), $cancel_endpoint ), 'pafw-cancel-order-' . $order->get_id() . '-' . $order->get_order_key() ),
 				'name' => __( 'Cancel', 'pgall-for-woocommerce' )

@@ -442,7 +442,7 @@ class PAFW_Ajax {
 		die();
 	}
 	public static function target_search() {
-		if( ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			die();
 		}
 
@@ -597,11 +597,22 @@ class PAFW_Ajax {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			if ( ( is_user_logged_in() && $order->get_customer_id() == get_current_user_id() ) || ( ! is_user_logged_in() && 'yes' == get_option( 'pafw-gw-support-cancel-guest-order', 'no' ) ) ) {
-				$cancel_reason = pafw_get_unslash( $_REQUEST, 'cancel_reason' );
+			if ( is_user_logged_in() && $order->get_customer_id() == get_current_user_id() ) {
+				$cancel_reason       = pafw_get_unslash( $_REQUEST, 'cancel_reason' );
+				$refund_account_info = pafw_get_unslash( $_REQUEST, 'refund_account_info' );
 
 				// translators: %s: reason of cancel order
-				$order->add_order_note( sprintf( __( '고객이 주문을 취소하셨습니다.<br>[취소사유] %s', 'pgall-for-woocommerce' ), $cancel_reason ) );
+				$order_note = sprintf( __( '고객이 주문을 취소하셨습니다.<br>[취소사유] %s', 'pgall-for-woocommerce' ), $cancel_reason );
+
+				if ( ! empty( $refund_account_info ) ) {
+					$payment_gateway = pafw_get_payment_gateway_from_order( $order );
+					if ( $payment_gateway && ( 'bacs' == $payment_gateway->id || $payment_gateway->supports( 'pafw-vbank' ) ) ) {
+						// translators: %s: refund account info
+						$order_note .= sprintf( __( '<br>[환불계좌정보] %s', 'pgall-for-woocommerce' ), $refund_account_info );
+					}
+				}
+
+				$order->add_order_note( $order_note );
 
 				$order->update_meta_data( '_pafw_cancel_reason', $cancel_reason );
 

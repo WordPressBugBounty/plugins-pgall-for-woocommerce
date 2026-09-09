@@ -469,6 +469,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function my_account_my_orders_actions( $actions, $order ) {
 			if ( $this->validate_payment_method_of_order( $order ) && $this->is_refundable( $order, 'mypage' ) ) {
+				$payment_gateway = pafw_get_payment_gateway_from_order( $order );
 
 				$cancel_endpoint    = get_permalink( wc_get_page_id( 'cart' ) );
 				$myaccount_endpoint = esc_attr( wc_get_endpoint_url( 'orders', '', wc_get_page_permalink( 'myaccount' ) ) );
@@ -478,6 +479,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						'pafw-cancel-order' => 'true',
 						'order_key'         => $order->get_order_key(),
 						'order_id'          => $order->get_id(),
+						'refund_account'    => $order->get_date_paid() && $payment_gateway && $payment_gateway->supports( 'pafw-vbank' ),
 						'redirect'          => $myaccount_endpoint
 					), $cancel_endpoint ), 'pafw-cancel-order-' . $order->get_id() . '-' . $order->get_order_key() ),
 					'name' => __( 'Cancel', 'pgall-for-woocommerce' )

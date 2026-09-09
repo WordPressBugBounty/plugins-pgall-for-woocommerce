@@ -24,5 +24,13 @@ $reasons = apply_filters( 'pafw_order_cancel_reasons', array(
 		<?php endforeach; ?>
     </select>
     <textarea name="pafw-order-cancel-reason" class=""></textarea>
+    <div class="pafw-order-refund-account-info">
+        <div class="field">
+            <label>환불 계좌 정보를 입력하세요.</label>
+        </div>
+        <div class="field">
+            <input type="text" name="refund_bank_account" class="input-text" placeholder="환불받으실 은행명, 계좌번호, 예금주명을 입력해주세요."></input>
+        </div>
+    </div>
     <input type="button" class="pafw-cancel-order button button-primary" value="<?php esc_attr_e( '주문취소', 'pgall-for-woocommerce' ); ?>">
 </div>

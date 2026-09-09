@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.5.16\n"
+"Project-Id-Version: pgall-for-woocommerce 5.5.17\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2026-09-03 01:31:08+00:00\n"
+"POT-Creation-Date: 2026-09-09 03:38:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -574,7 +574,7 @@ msgstr ""
 
 #: includes/admin/class-pafw-admin-settings.php:280
 #: templates/order/show-payment-details.php:62
-#: templates/order/survey-form.php:27
+#: templates/order/survey-form.php:35
 msgid "주문취소"
 msgstr ""
 
@@ -951,14 +951,14 @@ msgid "%s 추가과금"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-pafw-meta-box-payment-info.php:199
-#: includes/class-pafw-ajax.php:828
+#: includes/class-pafw-ajax.php:839
 #. translators: 1: previous token name, 2: new token name
 #. translators: 1: name of previous token, 2: name of changed token
 msgid "결제수단이 %1$s 에서 %2$s로 변경되었습니다."
 msgstr ""
 
 #: includes/admin/meta-boxes/class-pafw-meta-box-payment-info.php:202
-#: includes/class-pafw-ajax.php:831
+#: includes/class-pafw-ajax.php:842
 #. translators: %s: token name
 #. translators: %s: name of token
 msgid "결제수단이 %s로 설정되었습니다."
@@ -1011,7 +1011,7 @@ msgstr ""
 
 #: includes/admin/meta-boxes/views/additional_charge.php:18
 #: includes/admin/meta-boxes/views/tokens.php:41
-#: includes/class-pafw-payment-gateway.php:754
+#: includes/class-pafw-payment-gateway.php:756
 #: templates/quota/payment-method.php:16 templates/quota/token.php:18
 msgid "일시불"
 msgstr ""
@@ -1221,8 +1221,8 @@ msgid "환불하기"
 msgstr ""
 
 #: includes/admin/setting-manager/pafw-setting-helper.php:101
-#: includes/class-pafw-ajax.php:739 includes/class-pafw-ajax.php:754
-#: includes/class-pafw-ajax.php:876 includes/class-pafw-ajax.php:890
+#: includes/class-pafw-ajax.php:750 includes/class-pafw-ajax.php:765
+#: includes/class-pafw-ajax.php:887 includes/class-pafw-ajax.php:901
 msgid "비회원"
 msgstr ""
 
@@ -3154,7 +3154,7 @@ msgstr ""
 #: includes/class-pafw-ajax.php:531 includes/class-pafw-ajax.php:552
 #: includes/class-pafw-ajax.php:558 includes/class-pafw-ajax.php:582
 #: includes/class-pafw-ajax.php:586 includes/class-pafw-ajax.php:597
-#: includes/class-pafw-ajax.php:610 includes/class-pafw-payment-gateway.php:330
+#: includes/class-pafw-ajax.php:621 includes/class-pafw-payment-gateway.php:330
 #: includes/class-pafw-payment-gateway.php:337
 #: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:108
 #: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:135
@@ -3180,8 +3180,8 @@ msgstr ""
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:123
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:138
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:165
-#: includes/pafw-functions.php:144 includes/pafw-functions.php:148
-#: includes/pafw-functions.php:180 includes/pafw-functions.php:183
+#: includes/pafw-functions.php:145 includes/pafw-functions.php:149
+#: includes/pafw-functions.php:181 includes/pafw-functions.php:184
 msgid "잘못된 요청입니다."
 msgstr ""
 
@@ -3211,25 +3211,30 @@ msgstr ""
 msgid "고객이 구독을 취소하셨습니다.<br>[취소사유] %s"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:604
+#: includes/class-pafw-ajax.php:605
 #. translators: %s: reason of cancel order
 msgid "고객이 주문을 취소하셨습니다.<br>[취소사유] %s"
 msgstr ""
 
-#: includes/class-pafw-ajax.php:625 includes/class-pafw-ajax.php:644
+#: includes/class-pafw-ajax.php:611
+#. translators: %s: refund account info
+msgid "<br>[환불계좌정보] %s"
+msgstr ""
+
+#: includes/class-pafw-ajax.php:636 includes/class-pafw-ajax.php:655
 #: includes/class-pafw-cash-receipt.php:209
 msgid "현금영수증 발행을 지원하는 결제대행사가 없습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:630 includes/class-pafw-payment-gateway.php:903
+#: includes/class-pafw-ajax.php:641 includes/class-pafw-payment-gateway.php:905
 msgid "현금영수증이 발행되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:649
+#: includes/class-pafw-ajax.php:660
 msgid "발행된 현금영수증이 취소되었습니다."
 msgstr ""
 
-#: includes/class-pafw-ajax.php:715
+#: includes/class-pafw-ajax.php:726
 msgid "현금영수증 발행정보가 업데이트 되었습니다."
 msgstr ""
 
@@ -3359,8 +3364,8 @@ msgid "결제오류 : [%1$d] %2$s 상품의 재고가 부족합니다."
 msgstr ""
 
 #: includes/class-pafw-payment-gateway.php:182
-#: includes/class-pafw-payment-gateway.php:712
-#: includes/class-pafw-payment-gateway.php:825
+#: includes/class-pafw-payment-gateway.php:714
+#: includes/class-pafw-payment-gateway.php:827
 msgid "주문 관리 권한이 없습니다."
 msgstr ""
 
@@ -3371,7 +3376,7 @@ msgstr ""
 #: includes/class-pafw-payment-gateway.php:193
 #: includes/class-pafw-payment-gateway.php:199
 #: includes/class-pafw-payment-gateway.php:216
-#: includes/class-pafw-payment-gateway.php:526
+#: includes/class-pafw-payment-gateway.php:528
 msgid "주문이 정상적으로 취소되었습니다."
 msgstr ""
 
@@ -3422,83 +3427,83 @@ msgstr ""
 msgid "이미 결제가 완료된 주문입니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:483 includes/pafw-functions.php:45
+#: includes/class-pafw-payment-gateway.php:485 includes/pafw-functions.php:46
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:499
+#: includes/class-pafw-payment-gateway.php:501
 msgid "주문을 취소할 수 없는 상태입니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:506
+#: includes/class-pafw-payment-gateway.php:508
 msgid "주문 정보에 오류가 있습니다. [ 거래번호 없음 ]"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:509
-#: includes/class-pafw-payment-gateway.php:541
+#: includes/class-pafw-payment-gateway.php:511
+#: includes/class-pafw-payment-gateway.php:543
 msgid "관리자 주문취소"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:509
-#: includes/class-pafw-payment-gateway.php:541
+#: includes/class-pafw-payment-gateway.php:511
+#: includes/class-pafw-payment-gateway.php:543
 msgid "CM_CANCEL_002"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:545
+#: includes/class-pafw-payment-gateway.php:547
 msgid "[무통장입금 자동취소] 지불되지 않은 주문이 취소 처리 되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:573
-#: includes/class-pafw-payment-gateway.php:798
+#: includes/class-pafw-payment-gateway.php:575
+#: includes/class-pafw-payment-gateway.php:800
 msgid "[PAFW-ERR-%s] %s"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:658
+#: includes/class-pafw-payment-gateway.php:660
 msgid "[테스트] "
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:672
+#: includes/class-pafw-payment-gateway.php:674
 msgid ""
 "<span style=\"font-size: 0.9em; color: red;\">[ 가상계좌 입금 테스트 시 환불 처리가 어렵습니다. "
 "실제 입금 테스트는 결제대행사에 문의해주세요. ]</span><br>"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:674
+#: includes/class-pafw-payment-gateway.php:676
 msgid ""
 "<span style=\"font-size: 0.9em; color: red;\">[ 실제 과금이 되지 않거나 자정에 자동으로 취소가 "
 "됩니다. ]</span><br>"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:720
+#: includes/class-pafw-payment-gateway.php:722
 msgid "[ 추가과금실패 ][PAFW-ERR-%s] %s"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:758
+#: includes/class-pafw-payment-gateway.php:760
 msgid "주문 정보를 찾을 수 없습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:776
+#: includes/class-pafw-payment-gateway.php:778
 msgid "사용가능한 결제 방법이 없습니다. 내계정 - 결제방법 페이지에서 결제수단을 등록해주세요."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:861
+#: includes/class-pafw-payment-gateway.php:863
 msgid "필수 파라미터가 누락되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:870
+#: includes/class-pafw-payment-gateway.php:872
 #: includes/gateways/payco/class-wc-gateway-payco.php:226
 msgid "배송등록이 처리되었습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:878
+#: includes/class-pafw-payment-gateway.php:880
 msgid "현금영수증 발행에 필요한 정보가 없습니다."
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:922
+#: includes/class-pafw-payment-gateway.php:924
 msgid "현금영수증 발행취소"
 msgstr ""
 
-#: includes/class-pafw-payment-gateway.php:942
+#: includes/class-pafw-payment-gateway.php:944
 msgid "현금영수증이 발급이 취소되었습니다."
 msgstr ""
 
@@ -4359,20 +4364,20 @@ msgstr ""
 msgid "[PAFW-ERR-8005] 거래번호 불일치 [%1$s] [%2$s]"
 msgstr ""
 
-#: includes/pafw-functions.php:284
+#: includes/pafw-functions.php:285
 #. translators: 1: error code, 2: error message
 msgid "MOBILE"
 msgstr ""
 
-#: includes/pafw-functions.php:284
+#: includes/pafw-functions.php:285
 msgid "PC"
 msgstr ""
 
-#: includes/pafw-functions.php:339 includes/utility/WPUtil.php:40
+#: includes/pafw-functions.php:340 includes/utility/WPUtil.php:40
 msgid "Guest"
 msgstr ""
 
-#: includes/pafw-functions.php:528
+#: includes/pafw-functions.php:529
 #. translators: 1: date, 2: user id, 3: user name
 msgid "다음 결제일 변경됨 : %1$s by (#%2$d, %3$s)"
 msgstr ""
