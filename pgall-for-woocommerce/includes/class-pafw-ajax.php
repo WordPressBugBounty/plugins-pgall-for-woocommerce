@@ -13,13 +13,14 @@ class PAFW_Ajax {
 	public static function add_ajax_events() {
 
 		$ajax_events = array(
-			'pafw_ajax_action'                            => true,
+			'pafw_payment_action'                         => true,
 			'pafw_simple_payment'                         => true,
 			'request_exchange_return'                     => true,
 			'launch_payment'                              => true,
-			'change_next_payment_date'                    => false,
 			'survey_cancel_reason'                        => true,
 			'change_payment_method'                       => true,
+			'pafw_ajax_action'                            => false,
+			'change_next_payment_date'                    => false,
 			'update_pafw_settings'                        => false,
 			'update_pafw_review_settings'                 => false,
 			'update_pafw_payment_method_control_settings' => false,
@@ -47,6 +48,7 @@ class PAFW_Ajax {
 			'get_cash_receipts'                           => false,
 			'pafw_search_user'                            => false,
 			'export_cash_receipt_logs'                    => false,
+			'process_order_pay'                           => false
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -208,24 +210,112 @@ class PAFW_Ajax {
 	public static function pafw_ajax_action() {
 
 		try {
+			if ( ! current_user_can( 'manage_woocommerce' ) ) {
+				wp_die( - 1, 403 );
+			}
+
 			if ( ! check_ajax_referer( 'pgall-for-woocommerce', false, false ) && ! check_ajax_referer( 'pgall-for-woocommerce-diy-checkout', false, false ) ) {
 				wp_die( - 1, 403 );
 			}
 
 			if ( isset( $_POST[ 'payment_method' ] ) && isset( $_POST[ 'payment_action' ] ) ) {
+				$allowed_actions = array(
+					'refund_request',
+					'repay_request',
+					'escrow_register_delivery_info',
+					'escrow_approve_reject',
+					'vbank_refund_request',
+					'subscription_additional_charge',
+					'subscription_cancel_additional_charge',
+					'subscription_cancel_batch_key',
+					'cash_amount',
+				);
+
 				$payment_method = pafw_get_unslash( $_POST, 'payment_method' );
 				$payment_action = pafw_get_unslash( $_POST, 'payment_action' );
 				$redirect_url   = pafw_get_unslash( $_POST, 'redirect_url' );
 
-				if ( ! empty( $redirect_url ) ) {
-					set_transient( 'pafw_redirect_url_' . get_current_user_id(), $redirect_url, 3 * MINUTE_IN_SECONDS );
-				} else {
-					delete_transient( 'pafw_redirect_url_' . get_current_user_id() );
+				if ( ! is_string( $payment_method ) || ! is_string( $payment_action ) ) {
+					wp_die( - 1, 403 );
 				}
 
-				$payment_gateway = pafw_get_payment_gateway( $payment_method );
+				$payment_method = sanitize_key( $payment_method );
+				$payment_action = sanitize_key( $payment_action );
 
-				if ( $payment_gateway && is_callable( array( $payment_gateway, $payment_action ) ) ) {
+				if ( ! in_array( $payment_action, $allowed_actions, true ) ) {
+					wp_die( - 1, 403 );
+				}
+
+				$payment_gateways = WC()->payment_gateways()->payment_gateways();
+				if ( ! isset( $payment_gateways[ $payment_method ] ) ) {
+					wp_die( - 1, 403 );
+				}
+				$payment_gateway = $payment_gateways[ $payment_method ];
+
+				if ( $payment_gateway && $payment_gateway->supports( 'pafw' ) && is_callable( array( $payment_gateway, $payment_action ) ) ) {
+					$owner_key     = is_user_logged_in() ? 'user_' . get_current_user_id() : 'session_' . WC()->session->get_customer_id();
+					$transient_key = 'pafw_redirect_url_' . $owner_key;
+
+					if ( ! empty( $redirect_url ) ) {
+						set_transient( 'pafw_redirect_url_' . $transient_key, $redirect_url, 3 * MINUTE_IN_SECONDS );
+					} else {
+						delete_transient( 'pafw_redirect_url_' . $transient_key );
+					}
+
+					$payment_gateway->$payment_action();
+				}
+			}
+
+			wp_send_json_error( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
+		} catch ( Exception $e ) {
+			wp_send_json_error( $e->getMessage() );
+		}
+	}
+	public static function pafw_payment_action() {
+
+		try {
+			if ( ! check_ajax_referer( 'pgall-for-woocommerce', false, false ) && ! check_ajax_referer( 'pgall-for-woocommerce-diy-checkout', false, false ) ) {
+				wp_die( - 1, 403 );
+			}
+
+			if ( isset( $_POST[ 'payment_method' ] ) && isset( $_POST[ 'payment_action' ] ) ) {
+				$allowed_actions = array( 'add_payment_method', 'process_order_pay' );
+
+				$payment_method = pafw_get_unslash( $_POST, 'payment_method' );
+				$payment_action = pafw_get_unslash( $_POST, 'payment_action' );
+				$redirect_url   = pafw_get_unslash( $_POST, 'redirect_url' );
+
+				if ( ! is_string( $payment_method ) || ! is_string( $payment_action ) ) {
+					wp_die( - 1, 403 );
+				}
+
+				$payment_method = sanitize_key( $payment_method );
+				$payment_action = sanitize_key( $payment_action );
+
+				if ( ! in_array( $payment_action, $allowed_actions, true ) ) {
+					wp_die( - 1, 403 );
+				}
+
+				if ( 'add_payment_method' === $payment_action && ! is_user_logged_in() ) {
+					wp_die( - 1, 403 );
+				}
+
+				$payment_gateways = WC()->payment_gateways()->payment_gateways();
+				if ( ! isset( $payment_gateways[ $payment_method ] ) ) {
+					wp_die( - 1, 403 );
+				}
+				$payment_gateway = $payment_gateways[ $payment_method ];
+
+				if ( $payment_gateway && $payment_gateway->supports( 'pafw' ) && is_callable( array( $payment_gateway, $payment_action ) ) ) {
+					$owner_key     = is_user_logged_in() ? 'user_' . get_current_user_id() : 'session_' . WC()->session->get_customer_id();
+					$transient_key = 'pafw_redirect_url_' . $owner_key;
+
+					if ( ! empty( $redirect_url ) ) {
+						set_transient( 'pafw_redirect_url_' . $transient_key, $redirect_url, 3 * MINUTE_IN_SECONDS );
+					} else {
+						delete_transient( 'pafw_redirect_url_' . $transient_key );
+					}
+
 					$payment_gateway->$payment_action();
 				}
 			}
@@ -239,6 +329,10 @@ class PAFW_Ajax {
 	public static function pafw_sales_action() {
 		try {
 			check_ajax_referer( 'pafw-sales' );
+
+			if ( ! current_user_can( 'manage_woocommerce' ) ) {
+				wp_die( - 1, 403 );
+			}
 
 			if ( isset( $_REQUEST[ 'command' ] ) ) {
 				$command = pafw_get_unslash( $_REQUEST, 'command' );
@@ -257,6 +351,10 @@ class PAFW_Ajax {
 	public static function pafw_payment_statistics_action() {
 		try {
 			check_ajax_referer( 'pafw-payment-statistics' );
+
+			if ( ! current_user_can( 'manage_woocommerce' ) ) {
+				wp_die( - 1, 403 );
+			}
 
 			if ( isset( $_REQUEST[ 'command' ] ) ) {
 				$command = pafw_get_unslash( $_REQUEST, 'command' );
