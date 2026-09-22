@@ -629,7 +629,8 @@ class PAFW_Ajax {
 				throw new Exception( __( '잘못된 요청입니다.', 'pgall-for-woocommerce' ) );
 			}
 
-			$renewal_time = pafw_get_renewal_time( '12:00:00' );
+			$next_payment_date = $subscription->get_date( 'next_payment' );
+			$renewal_time = date( 'H:i:s', strtotime( $next_payment_date ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
 
 			$next_payment_date = strtotime( pafw_get_unslash( $_POST, 'next_payment_date' ) . ' ' . $renewal_time ) - get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS;
 
@@ -638,6 +639,9 @@ class PAFW_Ajax {
 			}
 
 			$subscription->update_dates( array( 'next_payment' => date( 'Y-m-d H:i:s', $next_payment_date ) ) );
+			$next_payment_date = date( 'H:i:s',  $subscription->get_date( 'next_payment' ) + get_option( 'gmt_offset', 0 ) * HOUR_IN_SECONDS );
+			$message = sprintf( __( "고객이 다음 결제일이 %s로 변경하였습니다.", "pgall-for-woocommerce" ), $next_payment_date );
+			$subscription->add_order_note( $message );
 
 			wp_send_json_success();
 		} catch ( Exception $e ) {

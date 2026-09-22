@@ -68,18 +68,23 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function get_transaction_url( $order ) {
 			$transaction_url = '';
 
-			if ( 'sandbox' === pafw_get( $this->settings, 'operation_mode', 'sandbox' ) ) {
-				$bills_url = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do';
-			} else {
-				$bills_url = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do';
-			}
+			$card_other_pay_type = $order->get_meta( '_pafw_card_other_pay_type' );
 
-			$tno       = $order->get_transaction_id();
-			$amount    = $order->get_meta( '_pafw_total_price', true );
-			$bills_cmd = pafw_get( $this->settings, 'bills_cmd' );
+			if ( ! in_array( $card_other_pay_type, array( '카카오머니', '네이버페이 포인트' ) ) ) {
 
-			if ( ! empty( $tno ) ) {
-				$transaction_url = sprintf( "%s?cmd=%s&tno=%s&order_no=%s&trade_mony=%s", $bills_url, $bills_cmd, $tno, $order->get_id(), $amount );
+				if ( 'sandbox' === pafw_get( $this->settings, 'operation_mode', 'sandbox' ) ) {
+					$bills_url = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do';
+				} else {
+					$bills_url = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do';
+				}
+
+				$tno       = $order->get_transaction_id();
+				$amount    = $order->get_meta( '_pafw_total_price', true );
+				$bills_cmd = pafw_get( $this->settings, 'bills_cmd' );
+
+				if ( ! empty( $tno ) ) {
+					$transaction_url = sprintf( "%s?cmd=%s&tno=%s&order_no=%s&trade_mony=%s", $bills_url, $bills_cmd, $tno, $order->get_id(), $amount );
+				}
 			}
 
 			return apply_filters( 'woocommerce_get_transaction_url', $transaction_url, $order, $this );
@@ -111,6 +116,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order->update_meta_data( "_pafw_card_name", pafw_get( $response, 'card_name' ) );
 			$order->update_meta_data( "_pafw_card_other_pay_type", $response[ 'card_other_pay_type' ] );
 			$order->save_meta_data();
+
+			if ( ! empty( $response[ 'card_other_pay_type' ] ) ) {
+				pafw_set_payment_method_title( $order, $this, $response[ 'card_other_pay_type' ] );
+			}
 
 			$this->add_payment_log( $order, '[ 결제 승인 완료 ]', array(
 				'거래번호' => $response[ 'transaction_id' ]

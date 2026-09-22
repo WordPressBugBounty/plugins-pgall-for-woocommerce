@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 5.5.18
+Stable tag: 5.5.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.5.19 =
+[주문취소] 커스텀 템플릿 지원을 위해 jQuery Selector 변경
+[KCP] 카카오머니, 네이버페이 포인트 결제 시 결제수단 카카오머니, 네이버페이 포인트로 표시되도록 개선
+[정기결제] 고객이 다음 결제일을 변경한 경우, 변경 이력을 정기결제권 주문 메모에 기록
 
 = 5.5.18 =
 [공통] 보안 업데이트 적용
