@@ -53,20 +53,17 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function add_cancel_request_params( $params, $order ) {
 			$params[ $this->get_master_id() ] = array(
-				'license_key' => pafw_get( $this->settings, 'license_key' ),
-				'vacc_num'    => $order->get_meta( '_pafw_vacc_num' )
+				'license_key'         => pafw_get( $this->settings, 'license_key' ),
+				'vacc_num'            => $order->get_meta( '_pafw_vacc_num' ),
+				'card_other_pay_type' => $order->get_meta( '_pafw_card_other_pay_type' ),
 			);
 
 			return $params;
 		}
 		public function add_approval_request_params( $params, $order ) {
-			$args = array();
-
-			foreach ( $_POST as $key => $value ) {
-				$args[ $key ] = pafw_convert_to_utf8( $value );
-			}
-
-			$params[ $this->get_master_id() ] = $args;
+			$params[ $this->get_master_id() ] = array_map( function ( $value ) {
+				return pafw_convert_to_utf8( $value );
+			}, $_POST );
 
 			return $params;
 		}

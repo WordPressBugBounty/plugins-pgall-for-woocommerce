@@ -5,7 +5,7 @@ Tags: 워드프레스결제, 우커머스결제, 정기결제, 네이버페이, 
 Requires at least: 4.6.0
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 5.5.19
+Stable tag: 5.5.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Not yet.
 
 == Changelog ==
+
+= 5.5.20 =
+[헥토파이낸셜] 신용카드 결제창에서 간편결제수단으로 결제한 경우, 주문 메타박스에 해당 결제수단이 표시되도록 개선
+[헥토파이낸셜] 신용카드 결제창에서 간편결제수단으로 결제한 주문을 취소할 때 발생하던 결제수단 코드 오류 수정
 
 = 5.5.19 =
 [주문취소] 커스텀 템플릿 지원을 위해 jQuery Selector 변경
