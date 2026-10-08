@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.5.20\n"
+"Project-Id-Version: pgall-for-woocommerce 5.6.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2026-09-23 00:49:51+00:00\n"
+"POT-Creation-Date: 2026-10-08 07:13:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1382,10 +1382,13 @@ msgstr ""
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:26
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-escrow-bank.php:26
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-kakaopay.php:25
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:25
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:25
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-payco.php:25
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-samsungpay.php:25
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-subscription.php:26
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:25
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:25
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-vbank.php:27
 #: includes/admin/settings/payco/class-pafw-settings-payco-easypay.php:24
 #: includes/admin/settings/settlebank/class-pafw-settings-settlebank-mybank-subscription.php:24
@@ -1467,10 +1470,13 @@ msgstr ""
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:38
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-escrow-bank.php:38
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-kakaopay.php:37
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:37
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:37
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-payco.php:37
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-samsungpay.php:37
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-subscription.php:38
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:37
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:37
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-vbank.php:39
 #: includes/admin/settings/payco/class-pafw-settings-payco-easypay.php:36
 #: includes/admin/settings/settlebank/class-pafw-settings-settlebank-mybank-subscription.php:36
@@ -1545,10 +1551,13 @@ msgstr ""
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:81
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-escrow-bank.php:95
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-kakaopay.php:55
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:55
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:55
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-payco.php:55
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-samsungpay.php:55
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-subscription.php:83
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:55
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:55
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-vbank.php:89
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-kakaopay.php:55
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-npay.php:55
@@ -1609,10 +1618,13 @@ msgstr ""
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:87
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-escrow-bank.php:101
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-kakaopay.php:61
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:61
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:61
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-payco.php:61
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-samsungpay.php:61
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-subscription.php:89
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:61
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:61
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-kakaopay.php:61
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-npay.php:61
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-payco.php:61
@@ -1683,10 +1695,13 @@ msgstr ""
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-card.php:106
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-escrow-bank.php:141
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-kakaopay.php:80
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:80
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:80
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-payco.php:80
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-samsungpay.php:80
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-subscription.php:108
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:80
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:80
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-vbank.php:133
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-kakaopay.php:80
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-npay.php:80
@@ -1862,7 +1877,7 @@ msgstr ""
 #: includes/gateways/inicis/class-wc-gateway-inicis-payco.php:19
 #: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:35
 #: includes/gateways/pafw/class-wc-gateway-pafw-kcp.php:35
-#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:33
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:34
 #: includes/gateways/pafw/class-wc-gateway-pafw-settlepg.php:34
 #: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:37
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-payco.php:20
@@ -2301,8 +2316,10 @@ msgid "가상계좌 결제건에 한해서, 구매자가 내계정 페이지에�
 msgstr ""
 
 #: includes/admin/settings/inicis/class-pafw-settings-inicis-tosspay.php:21
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:22
 #: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:32
 #: includes/gateways/pafw/class-wc-gateway-pafw-kcp.php:32
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:35
 #: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:34
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-tosspay.php:20
 msgid "토스페이"
@@ -2311,6 +2328,7 @@ msgstr ""
 #: includes/admin/settings/inicis/class-pafw-settings-inicis-tosspay.php:33
 #: includes/gateways/inicis/class-wc-gateway-inicis-tosspay.php:20
 #: includes/gateways/kcp/class-wc-gateway-kcp-tosspay.php:21
+#: includes/gateways/nicepay/class-wc-gateway-nicepay-tosspay.php:19
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-tosspay.php:21
 msgid "토스페이로 결제합니다."
 msgstr ""
@@ -2425,6 +2443,7 @@ msgstr ""
 
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-npay.php:74
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:74
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:74
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-npay.php:74
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-npay.php:75
 msgid "Npay 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다."
@@ -2432,6 +2451,7 @@ msgstr ""
 
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-npay.php:89
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:89
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:89
 #: includes/admin/settings/settlepg/class-pafw-settings-settlepg-npay.php:89
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-npay.php:90
 msgid "Npay 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다."
@@ -2462,11 +2482,13 @@ msgid "SSG Pay 결제건에 한해서, 구매자가 내계정 페이지에서 �
 msgstr ""
 
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-tosspay.php:74
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:74
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-tosspay.php:75
 msgid "토스페이 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다."
 msgstr ""
 
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-tosspay.php:89
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:89
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-tosspay.php:90
 msgid "토스페이 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다."
 msgstr ""
@@ -2617,8 +2639,38 @@ msgid ""
 "lJMV0W4hvDdbe4Sjw==</code> 입니다.</div>"
 msgstr ""
 
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:22
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:31
+msgid "Npay 머니"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:34
+msgid "Npay 머니로 결제합니다"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:74
+msgid "Npay 머니 결제건에 한해서, 결제(입금)이 완료되면 지정된 주문상태로 변경합니다."
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay-money.php:89
+msgid "Npay 머니 결제건에 한해서, 구매자가 내계정 페이지에서 주문취소 요청을 할 수 있는 주문 상태를 지정합니다."
+msgstr ""
+
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-npay.php:34
 msgid "Npay로 결제합니다"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:22
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:36
+msgid "토스페이 머니"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay-money.php:34
+msgid "토스페이 머니로 결제합니다"
+msgstr ""
+
+#: includes/admin/settings/nicepay/class-pafw-settings-nicepay-tosspay.php:34
+msgid "토스페이로 결제합니다"
 msgstr ""
 
 #: includes/admin/settings/nicepay/class-pafw-settings-nicepay-vbank.php:51
@@ -3990,6 +4042,7 @@ msgstr ""
 
 #: includes/gateways/inicis/class-wc-gateway-inicis-tosspay.php:19
 #: includes/gateways/kcp/class-wc-gateway-kcp-tosspay.php:20
+#: includes/gateways/nicepay/class-wc-gateway-nicepay-tosspay.php:18
 msgid "토스페이 결제"
 msgstr ""
 
@@ -4103,7 +4156,7 @@ msgstr ""
 #: includes/gateways/lguplus/class-wc-gateway-lguplus-applepay.php:20
 #: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:33
 #: includes/gateways/pafw/class-wc-gateway-pafw-kcp.php:33
-#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:31
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:32
 #: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:35
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-applepay.php:20
 msgid "애플페이"
@@ -4208,6 +4261,22 @@ msgstr ""
 msgid "영수증 출력"
 msgstr ""
 
+#: includes/gateways/nicepay/class-wc-gateway-nicepay-npay-money.php:18
+msgid "Npay 머니 결제"
+msgstr ""
+
+#: includes/gateways/nicepay/class-wc-gateway-nicepay-npay-money.php:19
+msgid "Npay 머니로 결제합니다."
+msgstr ""
+
+#: includes/gateways/nicepay/class-wc-gateway-nicepay-tosspay-money.php:18
+msgid "토스페이 머니 결제"
+msgstr ""
+
+#: includes/gateways/nicepay/class-wc-gateway-nicepay-tosspay-money.php:19
+msgid "토스페이 머니로 결제합니다."
+msgstr ""
+
 #: includes/gateways/nicepay/class-wc-gateway-nicepay-vbank.php:243
 #: includes/gateways/nicepay/class-wc-gateway-nicepay-vbank.php:245
 msgid "환불계좌 등록이 완료되었습니다. 환불처리는 해당 계좌로 직접 이체해 주셔야 합니다."
@@ -4223,7 +4292,7 @@ msgstr ""
 
 #: includes/gateways/pafw/class-wc-gateway-pafw-inicis.php:34
 #: includes/gateways/pafw/class-wc-gateway-pafw-kcp.php:34
-#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:32
+#: includes/gateways/pafw/class-wc-gateway-pafw-nicepay.php:33
 #: includes/gateways/pafw/class-wc-gateway-pafw-settlepg.php:33
 #: includes/gateways/pafw/class-wc-gateway-pafw-tosspayments.php:36
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-samsungpay.php:20
