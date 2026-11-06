@@ -35,7 +35,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway { // phpcs:ignore WordPress
 
 		add_filter( 'pafw_cash_receipt_params_' . $this->id, array( $this, 'add_cash_receipt_request_params' ), 10, 2 );
 	}
-	public function get_merchant_id( $order = null ){
+	public function get_merchant_id( $order = null ) {
 		return pafw_get( $this->settings, 'merchant_id' );
 	}
 	public function get_merchant_key_prefix() {
@@ -45,7 +45,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway { // phpcs:ignore WordPress
 		return in_array( $this->get_merchant_key_prefix(), array( 'CIG', 'CIS', 'CDM', 'CBB', 'CIE', 'CIB' ) );
 	}
 	public function get_merchant_key( $order = null ) {
-		if( $this->use_integrated_sign_key() ) {
+		if ( $this->use_integrated_sign_key() ) {
 			return '';
 		}
 
@@ -54,7 +54,7 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway { // phpcs:ignore WordPress
 	public function add_register_order_request_params( $params, $order ) {
 		$accept_methods = apply_filters( 'pafw_inicis_accept_methods', $this->get_accept_methods(), $order, $this );
 
-		$params['inicis'] = array(
+		$params[ 'inicis' ] = array(
 			'wpml_lang'        => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : '',
 			'language_code'    => pafw_get( $this->settings, 'language_code', 'ko' ),
 			'accept_method'    => wp_is_mobile() ? implode( '&', $accept_methods ) : implode( ':', $accept_methods ),
@@ -63,13 +63,15 @@ class WC_Gateway_Inicis extends PAFW_Payment_Gateway { // phpcs:ignore WordPress
 			'use_nointerest'   => pafw_get( $this->settings, 'use_nointerest' ),
 			'nointerest'       => pafw_get( $this->settings, 'nointerest' ),
 			'vbank_date_limit' => pafw_get( $this->settings, 'account_date_limit', 3 ),
-			'hpp_method'       => pafw_get( $this->settings, 'hpp_method', '2' )
+			'hpp_method'       => pafw_get( $this->settings, 'hpp_method', '2' ),
+			'use_check_fake'   => pafw_get( $this->settings, 'use_check_fake' ),
+			'hashkey'          => pafw_get( $this->settings, 'hashkey' ),
 		);
 
 		return $params;
 	}
 	public function add_cash_receipt_request_params( $params, $order ) {
-		$params['inicis'] = array(
+		$params[ 'inicis' ] = array(
 			'reg_num'      => preg_replace( '~\D~', '', $order->get_meta( '_pafw_bacs_receipt_reg_number' ) ),
 			'receipt_type' => 'ID' == $order->get_meta( '_pafw_bacs_receipt_usage' ) ? '0' : '1'
 		);

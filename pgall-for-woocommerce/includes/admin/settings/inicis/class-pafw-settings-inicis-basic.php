@@ -65,7 +65,24 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_Basic' ) ) {
 							'default'   => '',
 							'desc2'     => __( '<div class="desc2">웹표준 사인키는 결제시 필요한 필수 값으로 이니시스 상점 관리자 페이지에서 확인이 가능합니다.<br>결제 테스트용 INIpayTest 상점 아이디의 사인키 값은 <code>SU5JTElURV9UUklQTEVERVNfS0VZU1RS</code>입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
-						)
+						),
+						array (
+							'id'        => 'use_check_fake',
+							'title'     => '거래정보 무결성 검증 강화',
+							'className' => '',
+							'type'      => 'Toggle',
+							'default'   => 'no',
+							'desc'     => __( '<div class="desc2">결제 보안 강화를 위해 금액 위변조 검사 기능을 사용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+						),
+						array (
+							'id'        => 'hashkey',
+							'title'     => '해시키',
+							'showLike' => array ( 'use_check_fake' => 'yes' ),
+							'className' => 'fluid',
+							'default'   => '3CB8183A4BE283555ACC8363C0360223',
+							'desc2'     => __( '<div class="desc2">해시키는 이니시스 상점 관리자 페이지에서 확인이 가능합니다.<br>결제 테스트용 INIpayTest 상점 아이디의 해시키는 <code>3CB8183A4BE283555ACC8363C0360223</code>입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+							'type'      => 'Text'
+						),
 					)
 				),
 				array (
@@ -134,7 +151,15 @@ if ( ! class_exists( 'PAFW_Settings_Inicis_Basic' ) ) {
 							'default'   => '',
 							'type'      => 'Text',
 							'desc2'     => __( '<div class="desc2">결제 테스트용 웹표준 사인키는 <code>SU5JTElURV9UUklQTEVERVNfS0VZU1RS</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
-						)
+						),
+						array (
+							'id'        => 'subscription_use_check_fake',
+							'title'     => '거래정보 무결성 검증 강화',
+							'className' => '',
+							'type'      => 'Toggle',
+							'default'   => 'no',
+							'desc'     => __( '<div class="desc2">결제 보안 강화를 위해 금액 위변조 검사 기능을 사용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+						),
 					)
 				),
 			);

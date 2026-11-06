@@ -63,7 +63,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '클라이언트 키',
 							'className' => 'fluid',
 							'default'   => 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
-							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+							'desc2'     => __( '<div class="desc2">결제 테스트용 클라이언트 키는 <a href="https://developers.tosspayments.com/" target="_blank">토스페이먼츠 개발자 센터</a>에 가입 후 확인하실 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(
@@ -71,7 +71,7 @@ if ( ! class_exists( 'PAFW_Settings_TossPayments_Basic' ) ) {
 							'title'     => '시크릿 키',
 							'className' => 'fluid',
 							'default'   => 'test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R',
-							'desc2'     => __( '<div class="desc2">결제 시크릿 키는 <code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+							'desc2'     => __( '<div class="desc2">결제 테스트용 시크릿 키는 <a href="https://developers.tosspayments.com/" target="_blank">토스페이먼츠 개발자 센터</a>에 가입 후 확인하실 수 있습니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 							'type'      => 'Text'
 						),
 						array(

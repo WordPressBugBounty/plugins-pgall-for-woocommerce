@@ -86,13 +86,14 @@ class WC_Gateway_Inicis_Subscription extends WC_Gateway_Inicis { // phpcs:ignore
 		$accept_methods = apply_filters( 'pafw_inicis_accept_methods', $this->get_accept_methods(), $user, $this );
 
 		$params[ 'inicis' ] = array(
-			'api_url'       => untrailingslashit( WC()->api_request_url( get_class( $this ), pafw_check_ssl() ) ),
-			'wpml_lang'     => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : '',
-			'language_code' => pafw_get( $this->settings, 'language_code', 'ko' ),
-			'accept_method' => wp_is_mobile() ? implode( '&', $accept_methods ) : implode( ':', $accept_methods ),
-			'logo_url'      => utf8_uri_encode( pafw_get( $this->settings, 'site_logo', PAFW()->plugin_url() . '/assets/images/default-logo.jpg' ) ),
-			'order_id'      => $order_id,
-			'txnid'         => $order_id,
+			'api_url'        => untrailingslashit( WC()->api_request_url( get_class( $this ), pafw_check_ssl() ) ),
+			'wpml_lang'      => defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : '',
+			'language_code'  => pafw_get( $this->settings, 'language_code', 'ko' ),
+			'accept_method'  => wp_is_mobile() ? implode( '&', $accept_methods ) : implode( ':', $accept_methods ),
+			'logo_url'       => utf8_uri_encode( pafw_get( $this->settings, 'site_logo', PAFW()->plugin_url() . '/assets/images/default-logo.jpg' ) ),
+			'order_id'       => $order_id,
+			'txnid'          => $order_id,
+			'use_check_fake' => pafw_get( $this->settings, 'use_check_fake' ),
 		);
 
 		return $params;

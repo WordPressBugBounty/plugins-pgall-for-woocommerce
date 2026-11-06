@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.6.0\n"
+"Project-Id-Version: pgall-for-woocommerce 5.6.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2026-10-08 07:13:46+00:00\n"
+"POT-Creation-Date: 2026-11-06 00:05:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1734,7 +1734,7 @@ msgid "애플페이 결제건에 한해서, 구매자가 내계정 페이지에�
 msgstr ""
 
 #: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:50
-#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:119
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:136
 #: includes/admin/settings/kakaopay/class-pafw-settings-kakaopay-basic.php:51
 #: includes/admin/settings/kakaopay/class-pafw-settings-kakaopay-basic.php:88
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-basic.php:49
@@ -1768,21 +1768,33 @@ msgid ""
 "<code>SU5JTElURV9UUklQTEVERVNfS0VZU1RS</code>입니다.</div>"
 msgstr ""
 
-#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:90
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:75
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:161
+msgid "<div class=\"desc2\">결제 보안 강화를 위해 금액 위변조 검사 기능을 사용합니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:83
+msgid ""
+"<div class=\"desc2\">해시키는 이니시스 상점 관리자 페이지에서 확인이 가능합니다.<br>결제 테스트용 "
+"INIpayTest 상점 아이디의 해시키는 "
+"<code>3CB8183A4BE283555ACC8363C0360223</code>입니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:107
 msgid ""
 "<div class=\"desc2\">웹표준 사인키는 결제시 필요한 필수 값으로 이니시스 상점 관리자 페이지에서 확인이 "
 "가능합니다.<br>결제 테스트용 iniescrow0 상점 아이디의 사인키 값은 "
 "<code>SU5JTElURV9UUklQTEVERVNfS0VZU1RS</code>입니다.</div>"
 msgstr ""
 
-#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:127
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:144
 msgid ""
 "<div class=\"desc2\">결제 테스트용 상점 아이디는 <code>INIBillTst</code> 입니다.<br>실 결제용 "
 "상점 아이디는 <code>CIS</code> 또는 <code>CIB</code> 또는 <code>CBB</code>로 시작해야 "
 "합니다.</div>"
 msgstr ""
 
-#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:136
+#: includes/admin/settings/inicis/class-pafw-settings-inicis-basic.php:153
 msgid ""
 "<div class=\"desc2\">결제 테스트용 웹표준 사인키는 "
 "<code>SU5JTElURV9UUklQTEVERVNfS0VZU1RS</code> 입니다.</div>"
@@ -2791,17 +2803,17 @@ msgid ""
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:66
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:127
 msgid ""
-"<div class=\"desc2\">결제 테스트용 클라이언트 키는 "
-"<code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>"
+"<div class=\"desc2\">결제 테스트용 클라이언트 키는 <a "
+"href=\"https://developers.tosspayments.com/\" target=\"_blank\">토스페이먼츠 개발자 "
+"센터</a>에 가입 후 확인하실 수 있습니다.</div>"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:74
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:135
 msgid ""
-"<div class=\"desc2\">결제 시크릿 키는 "
-"<code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>"
+"<div class=\"desc2\">결제 테스트용 시크릿 키는 <a "
+"href=\"https://developers.tosspayments.com/\" target=\"_blank\">토스페이먼츠 개발자 "
+"센터</a>에 가입 후 확인하실 수 있습니다.</div>"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:79
@@ -2813,6 +2825,18 @@ msgid ""
 "<div class=\"desc2\"><span style=\"color: #fd4343;\">머트키는 에스크로 배송정보 등록 시 "
 "필요합니다.</span><br>결제 테스트용 머트키는 <code>b495c00ba8fcd62b18d69870c2c26979</code> "
 "입니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:127
+msgid ""
+"<div class=\"desc2\">결제 테스트용 클라이언트 키는 "
+"<code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>"
+msgstr ""
+
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:135
+msgid ""
+"<div class=\"desc2\">결제 시크릿 키는 "
+"<code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:158
@@ -3209,8 +3233,8 @@ msgstr ""
 #: includes/class-pafw-ajax.php:699 includes/class-pafw-ajax.php:723
 #: includes/class-pafw-payment-gateway.php:330
 #: includes/class-pafw-payment-gateway.php:337
-#: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:108
-#: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:135
+#: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:109
+#: includes/gateways/inicis/class-wc-gateway-inicis-subscription.php:136
 #: includes/gateways/kakaopay/class-wc-gateway-kakaopay-subscription.php:107
 #: includes/gateways/payco/class-wc-gateway-payco.php:166
 #: includes/gateways/settlebank/class-wc-gateway-settlebank-mybank-subscription.php:96
