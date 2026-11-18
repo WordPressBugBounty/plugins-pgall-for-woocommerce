@@ -43,6 +43,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				'max_installment_plan'    => pafw_get( $this->settings, 'max_installment_plan' ),
 				'app_scheme'              => pafw_get( $this->settings, 'app_scheme' ),
 				'account_date_limit'      => pafw_get( $this->settings, 'account_date_limit', 3 ),
+				'customer_key'            => $this->get_customer_key( $order )
 			);
 
 			return $params;
@@ -104,6 +105,26 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 		public function get_transaction_url( $order ) {
 			return $order->get_meta( '_pafw_receipt_url' );
+		}
+		public function get_customer_key( $object ) {
+			if ( is_a( $object, 'WC_Order' ) ) {
+				$customer_id = $object->get_customer_id();
+			} else {
+				$customer_id = $object->ID;
+			}
+
+			if ( $customer_id <= 0 ) {
+				return '';
+			}
+
+			$customer_key = get_user_meta( $customer_id, '_pafw_customer_key', true );
+
+			if ( empty( $customer_key ) ) {
+				$customer_key = wp_generate_uuid4();
+				update_user_meta( $customer_id, '_pafw_customer_key', $customer_key );
+			}
+
+			return $customer_key;
 		}
 	}
 }

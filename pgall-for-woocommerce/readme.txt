@@ -4,8 +4,8 @@ Donate link: http://www.codemshop.com/
 Tags: 우커머스결제, 워드프레스결제, 정기결제, 간편결제, 네이버페이
 Requires at least: 4.6.0
 Tested up to: 7.1
-Requires PHP: 7.2
-Stable tag: 5.6.1
+Requires PHP: 7.4
+Stable tag: 5.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,9 @@ DIY는 Do It Yourself의 약자로, 코딩 없이 관리자 화면에서 직접 
 Not yet.
 
 == Changelog ==
+
+= 5.6.2 =
+[토스페이먼츠] customerKey 보안 정책 변경 대응 ( UUID 기반 customerKey 지원 )
 
 = 5.6.1 =
 [이니시스] 거래정보 무결성 검증 강화 정책 적용

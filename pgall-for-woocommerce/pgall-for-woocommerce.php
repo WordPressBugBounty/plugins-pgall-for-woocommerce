@@ -5,7 +5,7 @@
 Plugin Name: 워드프레스 결제 심플페이 - 우커머스 결제 플러그인
 Plugin URI: 
 Description: 코드엠샵에서 개발, 운영되는 우커머스 전용 결제 통합 시스템 입니다.
-Version: 5.6.1
+Version: 5.6.2
 Author: CodeMShop
 Author URI: www.codemshop.com
 License: GPLv2 or later
@@ -29,7 +29,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 
 		private static $_instance = null;
 		protected $slug;
-		protected $version = '5.6.1';
+		protected $version = '5.6.2';
 		protected $plugin_url;
 		protected $plugin_path;
 		public function __construct() {
@@ -417,7 +417,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 		public function plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 			if ( $this->slug == pafw_get( $plugin_data, 'slug' ) ) {
 				$actions[ 'settings' ] = '<a href="' . admin_url( '/admin.php?page=pafw_setting' ) . '">설정</a>';
-				$actions[ 'manual' ]   = '<a target="_blank" href="https://www.codemshop.com/guide/docs/simplepay/">매뉴얼</a>';
+				$actions[ 'manual' ]   = '<a target="_blank" href="https://www.codemshop.com/guide/docs/simplepay/?utm_source=simplepay-plugin&utm_medium=wp-admin&utm_campaign=manual&utm_content=settings">매뉴얼</a>';
 			}
 
 			return $actions;
@@ -427,7 +427,7 @@ if ( ! class_exists( 'PGALL_For_WooCommerce' ) ) {
 
 				$plugin_meta[] = '<a target="_blank" href="https://wordpress.org/plugins/pgall-for-woocommerce/#reviews">별점응원하기</a>';
 				$plugin_meta[] = '<a target="_blank" href="https://wordpress.org/plugins/search/codemstory/">함께 사용하면 좋은 플러그인</a>';
-				$plugin_meta[] = '<a target="_blank" href="https://www.codemshop.com/product-category/outside/">쇼핑몰 플러그인</a>';
+				$plugin_meta[] = '<a target="_blank" href="https://www.codemshop.com/shopping-category/?utm_source=simplepay-plugin&utm_medium=wp-admin&utm_campaign=plugins&utm_content=settings">쇼핑몰 플러그인</a>';
 			}
 
 			return $plugin_meta;

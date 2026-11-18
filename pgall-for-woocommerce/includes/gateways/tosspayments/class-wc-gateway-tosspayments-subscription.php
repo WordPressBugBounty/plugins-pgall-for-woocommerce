@@ -64,7 +64,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			public function add_subscription_payment_request_params( $params, $order ) {
 				$params[ $this->get_master_id() ] = array(
 					'secret_key'         => pafw_get( $this->settings, 'secret_key' ),
-					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false ),
+					'customer_key'       => $this->get_customer_key( $order )
 				);
 
 				return $params;
@@ -117,7 +118,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					'transaction_id'     => wc_clean( pafw_get( $_GET, 'transaction_id' ) ),
 					'auth_token'         => wc_clean( pafw_get( $_GET, 'auth_token' ) ),
 					'secret_key'         => pafw_get( $this->settings, 'secret_key' ),
-					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false ),
+					'customer_key'       => $this->get_customer_key( $order )
 				) );
 
 				return $params;
@@ -125,7 +127,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			public function add_subscription_register_form_request_params( $params, $user ) {
 				$params[ $this->get_master_id() ] = array(
 					'client_key'         => pafw_get( $this->settings, 'client_key' ),
-					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false )
+					'compatability_mode' => apply_filters( 'pafw_tosspayments_customer_key_compatability_mode', false ),
+					'customer_key'       => $this->get_customer_key( $user )
 				);
 
 				return $params;

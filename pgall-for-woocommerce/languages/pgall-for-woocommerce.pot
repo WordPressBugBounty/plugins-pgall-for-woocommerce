@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.6.1\n"
+"Project-Id-Version: pgall-for-woocommerce 5.6.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2026-11-06 00:05:09+00:00\n"
+"POT-Creation-Date: 2026-11-18 01:16:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2803,17 +2803,23 @@ msgid ""
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:66
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:127
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:158
 msgid ""
 "<div class=\"desc2\">결제 테스트용 클라이언트 키는 <a "
-"href=\"https://developers.tosspayments.com/\" target=\"_blank\">토스페이먼츠 개발자 "
-"센터</a>에 가입 후 확인하실 수 있습니다.</div>"
+"href=\"https://developers.tosspayments.com/\" style=\"font-weight: bold; "
+"color:#fb7f7f;\" target=\"_blank\">토스페이먼츠 개발자 센터</a>에 가입 후 확인하실 수 "
+"있습니다.</div>"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:74
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:135
+#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:166
 msgid ""
 "<div class=\"desc2\">결제 테스트용 시크릿 키는 <a "
-"href=\"https://developers.tosspayments.com/\" target=\"_blank\">토스페이먼츠 개발자 "
-"센터</a>에 가입 후 확인하실 수 있습니다.</div>"
+"href=\"https://developers.tosspayments.com/\" style=\"font-weight: bold; "
+"color:#fb7f7f;\" target=\"_blank\">토스페이먼츠 개발자 센터</a>에 가입 후 확인하실 수 "
+"있습니다.</div>"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:79
@@ -2825,30 +2831,6 @@ msgid ""
 "<div class=\"desc2\"><span style=\"color: #fd4343;\">머트키는 에스크로 배송정보 등록 시 "
 "필요합니다.</span><br>결제 테스트용 머트키는 <code>b495c00ba8fcd62b18d69870c2c26979</code> "
 "입니다.</div>"
-msgstr ""
-
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:127
-msgid ""
-"<div class=\"desc2\">결제 테스트용 클라이언트 키는 "
-"<code>test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq</code> 입니다.</div>"
-msgstr ""
-
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:135
-msgid ""
-"<div class=\"desc2\">결제 시크릿 키는 "
-"<code>test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R</code> 입니다.</div>"
-msgstr ""
-
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:158
-msgid ""
-"<div class=\"desc2\">결제 테스트용 클라이언트 키는 "
-"<code>test_ck_BE92LAa5PVb1wPvWGxe37YmpXyJj</code> 입니다.</div>"
-msgstr ""
-
-#: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:166
-msgid ""
-"<div class=\"desc2\">결제 시크릿 키는 "
-"<code>test_sk_N5OWRapdA8d7wP41EbYro1zEqZKL</code> 입니다.</div>"
 msgstr ""
 
 #: includes/admin/settings/tosspayments/class-pafw-settings-tosspayments-basic.php:183
@@ -3255,8 +3237,8 @@ msgstr ""
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:105
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:110
 #: includes/gateways/settlevbank/class-wc-gateway-settlevbank.php:123
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:138
-#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:165
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:141
+#: includes/gateways/tosspayments/class-wc-gateway-tosspayments-subscription.php:168
 #: includes/pafw-functions.php:145 includes/pafw-functions.php:149
 #: includes/pafw-functions.php:181 includes/pafw-functions.php:184
 msgid "잘못된 요청입니다."

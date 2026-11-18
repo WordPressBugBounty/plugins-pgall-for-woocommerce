@@ -499,7 +499,7 @@ if ( ! class_exists( 'PAFW_Admin_Settings' ) ) :
 								array(
 									'id'      => 'pafw-renewal-failed-notification-guide',
 									'type'    => 'Label',
-									'default' => '갱신결제 실패 알림 기능을 이용하시려면 <a href="https://www.codemshop.com/shop/sms_out/" target="_blank">엠샵 문자 알림톡 플러그인</a>이 필요합니다.'
+									'default' => '갱신결제 실패 알림 기능을 이용하시려면 <a href="https://www.codemshop.com/shop/sms_out/?utm_source=simplepay-plugin&utm_medium=wp-admin&utm_campaign=sms&utm_content=settings" target="_blank">엠샵 문자 알림톡 플러그인</a>이 필요합니다.'
 								)
 							)
 						)
