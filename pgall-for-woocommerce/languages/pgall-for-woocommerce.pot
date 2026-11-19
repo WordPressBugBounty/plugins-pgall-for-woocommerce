@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: pgall-for-woocommerce 5.6.2\n"
+"Project-Id-Version: pgall-for-woocommerce 5.6.3\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/pgall-for-woocommerce\n"
-"POT-Creation-Date: 2026-11-18 01:16:58+00:00\n"
+"POT-Creation-Date: 2026-11-19 07:52:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2407,6 +2407,14 @@ msgstr ""
 msgid "<div class=\"desc2\">결제 테스트용 사이트키는 <code>%s</code>입니다.</div>"
 msgstr ""
 
+#: includes/admin/settings/kcp/class-pafw-settings-kcp-basic.php:75
+msgid ""
+"<div class=\"desc2\">가상계좌 입금통보의 위변조 검증을 위해 사용을 권장합니다. KCP 파트너관리자 → 기술관리센터 → "
+"웹훅(Webhook)관리에서 웹훅URL 설정(new)에 동의하고 발급받은 검증키를 입력하세요. 사이트키와 다른 키입니다.<br>키를 "
+"설정한 경우에만 가상계좌 입금통보의 해시를 검증하며, 해시가 누락되거나 일치하지 않으면 처리하지 않습니다. 미설정 시에는 기존 IP 및 "
+"주문정보 검사를 적용합니다.</div>"
+msgstr ""
+
 #: includes/admin/settings/kcp/class-pafw-settings-kcp-card.php:43
 msgid "가맹점 부담 무이자 설정"
 msgstr ""
@@ -3354,7 +3362,7 @@ msgstr ""
 #: includes/class-pafw-gateway.php:204 includes/class-pafw-gateway.php:227
 #: includes/class-pafw-gateway.php:349 includes/class-pafw-gateway.php:376
 #: includes/class-pafw-gateway.php:423 includes/class-pafw-gateway.php:755
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:115
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:136
 #: includes/gateways/payco/class-wc-gateway-payco.php:207
 #. translators: 1: error code, 2: error message
 #. translators: 1: error code, 2: error message
@@ -3990,47 +3998,47 @@ msgstr ""
 msgid "가상계좌 안내를 통해 무통장입금을 할 수 있습니다."
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:142
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:245
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:140
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:241
 #. translators: %s: ip address
 msgid "[PAFW-ERR-9500] 잘못된 아이피로 접근하였습니다. IP : %s"
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:159
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:266
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:157
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:262
 msgid "[PAFW-ERR-9501] 올바르지 않은 주문번호입니다."
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:176
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:275
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:174
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:271
 msgid "[PAFW-ERR-9502] 거래번호 미일치."
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:179
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:278
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:177
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:274
 msgid "[PAFW-ERR-9502] 입금은행 코드 미일치."
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:182
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:281
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:180
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:277
 msgid "[PAFW-ERR-9502] 입금계좌번호 미일치."
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:185
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:284
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:183
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:280
 msgid "[PAFW-ERR-9502] 입금액 미일치."
 msgstr ""
 
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:210
 #: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:212
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:214
 #. translators: 1: transaction id, 2: order id
 msgid ""
 "[모바일] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. "
 "거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s"
 msgstr ""
 
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:313
-#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:315
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:309
+#: includes/gateways/inicis/class-wc-gateway-inicis-stdvbank.php:311
 #. translators: 1: transaction id, 2: order id
 msgid ""
 "입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 거래번호(TID) : "
@@ -4133,28 +4141,66 @@ msgstr ""
 msgid "가상계좌"
 msgstr ""
 
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:91
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:93
+#. translators: %s: ip address
+msgid "허용되지 않은 입금통보 IP : %s"
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:104
+msgid "주문 정보 없음"
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:107
+msgid "상점 주문번호 불일치"
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:112
 msgid "사이트 코드 불일치"
 msgstr ""
 
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:94
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:115
 #. translators: 1: order id, 2: transaction id, 3: transaction id
 msgid "주문 정보 오류 ( %1$s, %2$s, %3$s )"
 msgstr ""
 
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:110
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:131
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:148
 msgid "유효하지 않은 TX_CD"
 msgstr ""
 
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:179
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:154
+msgid "KCP 통보 주문번호가 없거나 형식이 잘못되었습니다."
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:160
+msgid "KCP 통보 주문번호 불일치"
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:169
+msgid "KCP 웹훅 검증키 설정 형식이 잘못되었습니다."
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:176
+msgid "KCP 통보 검증 필드가 없거나 형식이 잘못되었습니다."
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:186
+msgid "KCP 통보 해시 검증 실패"
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:230
+msgid "입금취소 통보는 입금완료로 처리할 수 없습니다."
+msgstr ""
+
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:253
 msgid "입금 계좌정보 불일치"
 msgstr ""
 
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:182
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:256
 msgid "유효하지 않은 주문상태"
 msgstr ""
 
-#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:185
+#: includes/gateways/kcp/class-wc-gateway-kcp-vbank.php:259
 #. translators: 1: deposit amount, 2: order amount
 msgid "입금금액 불일치 : %1$s, %2$s"
 msgstr ""
@@ -4209,58 +4255,78 @@ msgstr ""
 msgid "결제 수단이 정상적으로 등록되었습니다."
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:72
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:74
 msgid "[PAFW-ERR-8901] 잘못된 요청입니다. "
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:76
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:80
 msgid "[PAFW-ERR-8001] 잘못된 요청입니다. "
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:81
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:85
 #. translators: %s: request type
 msgid "[PAFW-ERR-8004] 입금 통보가 아닙니다. [%s]"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:89
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:93
 msgid "[PAFW-ERR-8002] 잘못된 요청입니다. "
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:94
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:98
 #. translators: %s: order id
 msgid ""
 "[PAFW-ERR-8003] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 "
 "있습니다. 상점거래번호(OID) : %s"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:99
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:103
 #. translators: 1: request order id, 2: order id
 msgid "[PAFW-ERR-8004] TID 불일치 [%1$s] [%2$s]"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:103
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:107
 msgid "[PAFW-ERR-8004] 거래번호 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:107
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:111
 msgid "[PAFW-ERR-8004] 입금은행 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:111
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:115
 msgid "[PAFW-ERR-8004] 입금계좌번호 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:115
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:119
 msgid "[PAFW-ERR-8004] 입금액 불일치"
 msgstr ""
 
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:124
-#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:126
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:128
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:130
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-vbank.php:102
 #: includes/gateways/tosspayments/class-wc-gateway-tosspayments-vbank.php:104
 #. translators: 1: transaction id, 2: order id
 #. translators: 1: transaction id. 2: order id
 msgid "가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s"
+msgstr ""
+
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:159
+msgid "[PAFW-ERR-8902] LG유플러스 상점아이디 또는 상점키가 설정되지 않았습니다."
+msgstr ""
+
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:166
+msgid "[PAFW-ERR-8903] LG유플러스 통보 검증 필드가 없거나 형식이 잘못되었습니다."
+msgstr ""
+
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:175
+msgid "[PAFW-ERR-8904] LG유플러스 통보 상점아이디 불일치"
+msgstr ""
+
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:181
+msgid "[PAFW-ERR-8905] LG유플러스 통보 해시 검증 실패"
+msgstr ""
+
+#: includes/gateways/lguplus/class-wc-gateway-lguplus-vbank.php:184
+msgid "[PAFW-ERR-8906] LG유플러스 입금통보 결과코드 오류"
 msgstr ""
 
 #: includes/gateways/lguplus/class-wc-gateway-lguplus.php:95

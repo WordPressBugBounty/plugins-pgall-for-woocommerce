@@ -50,7 +50,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$order->save();
 			}
 			function wc_api_vbank_noti() {
-				$REMOTE_IP  = pafw_get( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get( $_SERVER, 'REMOTE_ADDR' ) );
+				$order      = null;
+				$payload    = wp_unslash( $_POST );
+				$REMOTE_IP  = pafw_get( $_SERVER, 'REMOTE_ADDR' );
 
 				$allowed_ips = [
 					'13.124.18.147',
@@ -72,16 +74,18 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						throw new Exception( __( '[PAFW-ERR-8901] 잘못된 요청입니다. ', 'pgall-for-woocommerce' ) );
 					}
 
-					if ( empty( $_REQUEST[ 'LGD_OID' ] ) ) {
+					$this->validate_notification_signature( $payload );
+
+					if ( empty( $payload[ 'LGD_OID' ] ) ) {
 						throw new Exception( __( '[PAFW-ERR-8001] 잘못된 요청입니다. ', 'pgall-for-woocommerce' ) );
 					}
 
-					if ( 'I' != pafw_get_unslash( $_REQUEST, 'LGD_CASFLAG' ) ) {
+					if ( 'I' != pafw_get( $payload, 'LGD_CASFLAG' ) ) {
 						// translators: %s: request type
-						throw new Exception( sprintf( __( '[PAFW-ERR-8004] 입금 통보가 아닙니다. [%s]', 'pgall-for-woocommerce' ), pafw_get_unslash( $_REQUEST, 'LGD_CASFLAG' ) ) );
+						throw new Exception( sprintf( __( '[PAFW-ERR-8004] 입금 통보가 아닙니다. [%s]', 'pgall-for-woocommerce' ), pafw_get( $payload, 'LGD_CASFLAG' ) ) );
 					}
 
-					$ids      = explode( '_', pafw_get_unslash( $_REQUEST, 'LGD_OID' ) );
+					$ids      = explode( '_', pafw_get( $payload, 'LGD_OID' ) );
 					$order_id = intval( $ids[ 0 ] );
 					$order    = wc_get_order( $order_id );
 
@@ -91,40 +95,40 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 					if ( in_array( $order->get_status(), array( 'completed', 'cancelled', 'refunded' ) ) ) {
 						// translators: %s: order id
-						throw new Exception( sprintf( __( '[PAFW-ERR-8003] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), pafw_get_unslash( $_REQUEST, 'LGD_OID' ) ) );
+						throw new Exception( sprintf( __( '[PAFW-ERR-8003] 입금통보 내역이 수신되었으나, 주문 상태에 문제가 있습니다. 이미 완료된 주문이거나, 환불된 주문일 수 있습니다. 상점거래번호(OID) : %s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'LGD_OID' ) ) );
 					}
 
-					if ( pafw_get_unslash( $_REQUEST, 'LGD_TID' ) != $this->get_transaction_id( $order ) ) {
+					if ( pafw_get( $payload, 'LGD_TID' ) != $this->get_transaction_id( $order ) ) {
 						// translators: 1: request order id, 2: order id
-						throw new Exception( sprintf( __( '[PAFW-ERR-8004] TID 불일치 [%1$s] [%2$s]', 'pgall-for-woocommerce' ), pafw_get_unslash( $_REQUEST, 'LGD_TID' ), $this->get_transaction_id( $order ) ) );
+						throw new Exception( sprintf( __( '[PAFW-ERR-8004] TID 불일치 [%1$s] [%2$s]', 'pgall-for-woocommerce' ), pafw_get( $payload, 'LGD_TID' ), $this->get_transaction_id( $order ) ) );
 					}
 
-					if ( pafw_get_unslash( $_REQUEST, 'LGD_OID' ) != $order->get_meta( '_pafw_txnid' ) ) {
+					if ( pafw_get( $payload, 'LGD_OID' ) != $order->get_meta( '_pafw_txnid' ) ) {
 						throw new Exception( __( '[PAFW-ERR-8004] 거래번호 불일치', 'pgall-for-woocommerce' ) );
 					}
 
-					if ( pafw_get_unslash( $_REQUEST, 'LGD_FINANCECODE' ) != $order->get_meta( '_pafw_vacc_bank_code' ) ) {
+					if ( pafw_get( $payload, 'LGD_FINANCECODE' ) != $order->get_meta( '_pafw_vacc_bank_code' ) ) {
 						throw new Exception( __( '[PAFW-ERR-8004] 입금은행 불일치', 'pgall-for-woocommerce' ) );
 					}
 
-					if ( pafw_get_unslash( $_REQUEST, 'LGD_ACCOUNTNUM' ) != $order->get_meta( '_pafw_vacc_num' ) ) {
+					if ( pafw_get( $payload, 'LGD_ACCOUNTNUM' ) != $order->get_meta( '_pafw_vacc_num' ) ) {
 						throw new Exception( __( '[PAFW-ERR-8004] 입금계좌번호 불일치', 'pgall-for-woocommerce' ) );
 					}
 
-					if ( pafw_get_unslash( $_REQUEST, 'LGD_AMOUNT' ) != $order->get_meta( '_pafw_total_price' ) ) {
+					if ( pafw_get( $payload, 'LGD_AMOUNT' ) != $order->get_meta( '_pafw_total_price' ) ) {
 						throw new Exception( __( '[PAFW-ERR-8004] 입금액 불일치', 'pgall-for-woocommerce' ) );
 					}
 
 					$order->update_meta_data( '_pafw_vbank_noti_received', 'yes' );
-					$order->update_meta_data( '_pafw_vbank_noti_transaction_date', pafw_get_unslash( $_REQUEST, 'LGD_PAYDATE' ) );
-					$order->update_meta_data( '_pafw_cash_receipts', pafw_get_unslash( $_REQUEST, 'LGD_CASSEQNO' ) );
+					$order->update_meta_data( '_pafw_vbank_noti_transaction_date', pafw_get( $payload, 'LGD_PAYDATE' ) );
+					$order->update_meta_data( '_pafw_cash_receipts', pafw_get( $payload, 'LGD_CASSEQNO' ) );
 					$order->save_meta_data();
 
 					// translators: 1: transaction id, 2: order id
-					$order->add_order_note( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), pafw_get_unslash( $_REQUEST, 'LGD_TID' ), pafw_get_unslash( $_REQUEST, 'LGD_OID' ) ) );
+					$order->add_order_note( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'LGD_TID' ), pafw_get( $payload, 'LGD_OID' ) ) );
 					// translators: 1: transaction id, 2: order id
-					$this->add_log( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), pafw_get_unslash( $_REQUEST, 'LGD_TID' ), pafw_get_unslash( $_REQUEST, 'LGD_OID' ) ) );
-					$order->payment_complete( pafw_get_unslash( $_REQUEST, 'LGD_TID' ) );
+					$this->add_log( sprintf( __( '가상계좌 무통장 입금이 완료되었습니다.  거래번호(TID) : %1$s, 상점거래번호(OID) : %2$s', 'pgall-for-woocommerce' ), pafw_get( $payload, 'LGD_TID' ), pafw_get( $payload, 'LGD_OID' ) ) );
+					$order->payment_complete( pafw_get( $payload, 'LGD_TID' ) );
 
 					if ( pafw_order_need_shipping( $order ) ) {
 						$order->update_status( $this->settings[ 'order_status_after_payment' ] );
@@ -143,9 +147,41 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						$order->add_order_note( $e->getMessage() );
 					}
 					$this->add_log( $e->getMessage() );
-					$this->add_log( print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-					echo 'OK';
+					status_header( 400 );
+					echo 'FAIL';
 					exit();
+				}
+			}
+			protected function validate_notification_signature( $payload ) {
+				$key = $this->get_merchant_key();
+				$mid = $this->get_merchant_id();
+				if ( ! is_string( $key ) || '' === $key || ! is_string( $mid ) || '' === $mid ) {
+					throw new Exception( __( '[PAFW-ERR-8902] LG유플러스 상점아이디 또는 상점키가 설정되지 않았습니다.', 'pgall-for-woocommerce' ) );
+				}
+
+				$fields = array( 'LGD_MID', 'LGD_OID', 'LGD_AMOUNT', 'LGD_RESPCODE', 'LGD_TIMESTAMP' );
+				$data   = '';
+				foreach ( array_merge( $fields, array( 'LGD_HASHDATA' ) ) as $field ) {
+					if ( ! isset( $payload[$field] ) || ! is_string( $payload[$field] ) || '' === $payload[$field] ) {
+						throw new Exception( __( '[PAFW-ERR-8903] LG유플러스 통보 검증 필드가 없거나 형식이 잘못되었습니다.', 'pgall-for-woocommerce' ) );
+					}
+					if ( 'LGD_HASHDATA' !== $field ) {
+						$data .= $payload[$field];
+					}
+				}
+
+				$expected_mid = ( 'sandbox' === pafw_get( $this->settings, 'operation_mode' ) ? 't' : '' ) . $mid;
+				if ( $expected_mid !== $payload['LGD_MID'] ) {
+					throw new Exception( __( '[PAFW-ERR-8904] LG유플러스 통보 상점아이디 불일치', 'pgall-for-woocommerce' ) );
+				}
+
+				// XPay's official callback protocol specifies MD5, not an independently chosen algorithm.
+				$expected = md5( $data . $key );
+				if ( ! preg_match( '/\A[0-9a-fA-F]{32}\z/', $payload['LGD_HASHDATA'] ) || ! hash_equals( $expected, strtolower( $payload['LGD_HASHDATA'] ) ) ) {
+					throw new Exception( __( '[PAFW-ERR-8905] LG유플러스 통보 해시 검증 실패', 'pgall-for-woocommerce' ) );
+				}
+				if ( '0000' !== $payload['LGD_RESPCODE'] ) {
+					throw new Exception( __( '[PAFW-ERR-8906] LG유플러스 입금통보 결과코드 오류', 'pgall-for-woocommerce' ) );
 				}
 			}
 

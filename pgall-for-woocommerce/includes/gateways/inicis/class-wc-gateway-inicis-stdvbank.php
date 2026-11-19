@@ -133,11 +133,9 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis { // phpcs:ignore Wor
 	function wc_api_vbank_mobile_noti() {
 		try {
 			$order = null;
-			$remote_ip = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
+			$remote_ip = pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' );
 
-			$remote_ips = array_map( 'trim', explode( ',', $remote_ip ) );
-
-			if ( empty( array_intersect( $remote_ips, array( "118.129.210.25", "183.109.71.153", "203.238.37.15" ) ) ) ) {
+			if ( ! in_array( $remote_ip, array( "118.129.210.25", "183.109.71.153", "203.238.37.15" ), true ) ) {
 				// translators: %s: ip address
 				throw new Exception( sprintf( __( '[PAFW-ERR-9500] 잘못된 아이피로 접근하였습니다. IP : %s', 'pgall-for-woocommerce' ), $remote_ip ) );
 			}
@@ -236,11 +234,9 @@ class WC_Gateway_Inicis_StdVbank extends WC_Gateway_Inicis { // phpcs:ignore Wor
 			$order = null;
 
 			$this->add_log( '가상계좌 입금통보 시작 : ' . print_r( wc_clean( $_REQUEST ), true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-			$remote_ip = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
+			$remote_ip = pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' );
 
-			$remote_ips = array_map( 'trim', explode( ',', $remote_ip ) );
-
-			if ( empty( array_intersect( $remote_ips, array( "203.238.37.15", "39.115.212.9", "183.109.71.153" ) ) ) ) {
+			if ( ! in_array( $remote_ip, array( "203.238.37.15", "39.115.212.9", "183.109.71.153" ), true ) ) {
 				// translators: %s: ip address
 				throw new Exception( sprintf( __( '[PAFW-ERR-9500] 잘못된 아이피로 접근하였습니다. IP : %s', 'pgall-for-woocommerce' ), $remote_ip ) );
 			}

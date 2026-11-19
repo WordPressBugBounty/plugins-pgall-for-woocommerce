@@ -80,11 +80,32 @@ if ( ! class_exists( 'WC_Gateway_Kcp_VBank' ) ) :
 		}
 		public function wc_api_vbank_noti() {
 			try {
+				$remote_ip   = pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' );
+				$allowed_ips = array(
+					'210.122.176.144',
+					'103.215.144.173',
+					'103.215.144.174',
+					'210.122.72.173',
+				);
+
+				if ( ! in_array( $remote_ip, $allowed_ips, true ) ) {
+					// translators: %s: ip address
+					throw new Exception( sprintf( __( '허용되지 않은 입금통보 IP : %s', 'pgall-for-woocommerce' ), $remote_ip ), '7000006' ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				}
+
+				$payload  = wp_unslash( $_POST );
+				$order_no = $this->validate_notification_signature( $payload );
 				$site_cd  = pafw_get_unslash( $_POST, "site_cd" );
 				$tno      = pafw_get_unslash( $_POST, "tno" );
-				$order_no = pafw_get_unslash( $_POST, "order_no" );
 
-				$order = wc_get_order( $order_no );
+				$order = wc_get_order( $this->get_order_id_from_txnid( $order_no ) );
+
+				if ( ! $order ) {
+					throw new Exception( __( '주문 정보 없음', 'pgall-for-woocommerce' ), '7000002' );
+				}
+				if ( $order_no !== (string) $order->get_id() && $order_no !== $order->get_meta( '_pafw_txnid' ) ) {
+					throw new Exception( __( '상점 주문번호 불일치', 'pgall-for-woocommerce' ), '7000002' );
+				}
 
 				if ( $site_cd !== $this->get_merchant_id() ) {
 					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
@@ -114,9 +135,58 @@ if ( ! class_exists( 'WC_Gateway_Kcp_VBank' ) ) :
 				// translators: 1: error code, 2: error message
 				$message = sprintf( __( '[PAFW-ERR-%1$s] %2$s', 'pgall-for-woocommerce' ), $e->getCode(), $e->getMessage() );
 				$this->add_log( $message );
+				status_header( 400 );
+				echo 'FAIL';
+				return;
 			}
 
 			$this->send_common_return_response();
+		}
+		protected function validate_notification_signature( $payload ) {
+			$tx_cd = isset( $payload['tx_cd'] ) ? $payload['tx_cd'] : '';
+			if ( ! in_array( $tx_cd, array( self::TX_VACC_DEPOSIT, self::TX_ESCROW_DELIVERY, self::TX_ESCROW_CONFIRM, self::TX_ESCROW_CANCEL_IMMEDIATELY, self::TX_ESCROW_CANCEL, self::TX_ESCROW_WITHHOLD_SETTLEMENT ), true ) ) {
+				throw new Exception( __( '유효하지 않은 TX_CD', 'pgall-for-woocommerce' ), '7000009' );
+			}
+
+			// The hash guide names this field ordr_idxx; the common notification uses order_no.
+			$order_field = self::TX_VACC_DEPOSIT === $tx_cd && isset( $payload['ordr_idxx'] ) ? 'ordr_idxx' : 'order_no';
+			if ( ! isset( $payload[$order_field] ) || ! is_string( $payload[$order_field] ) || '' === $payload[$order_field] ) {
+				throw new Exception( __( 'KCP 통보 주문번호가 없거나 형식이 잘못되었습니다.', 'pgall-for-woocommerce' ), '7000009' );
+			}
+			if ( self::TX_VACC_DEPOSIT !== $tx_cd ) {
+				return $payload[$order_field];
+			}
+			if ( isset( $payload['ordr_idxx'], $payload['order_no'] ) && $payload['ordr_idxx'] !== $payload['order_no'] ) {
+				throw new Exception( __( 'KCP 통보 주문번호 불일치', 'pgall-for-woocommerce' ), '7000009' );
+			}
+
+			$key = isset( $this->settings['webhook_verify_key'] ) ? $this->settings['webhook_verify_key'] : '';
+			if ( '' === $key ) {
+				// Existing merchants continue to use the IP allowlist and order checks.
+				return $payload[$order_field];
+			}
+			if ( ! is_string( $key ) ) {
+				throw new Exception( __( 'KCP 웹훅 검증키 설정 형식이 잘못되었습니다.', 'pgall-for-woocommerce' ), '7000008' );
+			}
+
+			$fields = array( 'site_cd', 'tno', $order_field, 'account', 'ipgm_mnyx', 'noti_id', 'ipgm_time', 'tx_cd', 'op_cd' );
+			$data = array();
+			foreach ( array_merge( $fields, array( 'hash_data' ) ) as $field ) {
+				if ( ! isset( $payload[$field] ) || ! is_string( $payload[$field] ) || '' === $payload[$field] ) {
+					throw new Exception( __( 'KCP 통보 검증 필드가 없거나 형식이 잘못되었습니다.', 'pgall-for-woocommerce' ), '7000009' );
+				}
+				if ( 'hash_data' !== $field ) {
+					$data[] = $payload[$field];
+				}
+			}
+			// https://developer.kcp.co.kr/guide/webhook : append the key AND use it as the HMAC key.
+			$data[]   = $key;
+			$expected = hash_hmac( 'sha256', implode( '^', $data ), $key );
+			if ( ! preg_match( '/\A[0-9a-fA-F]{64}\z/', $payload['hash_data'] ) || ! hash_equals( $expected, strtolower( $payload['hash_data'] ) ) ) {
+				throw new Exception( __( 'KCP 통보 해시 검증 실패', 'pgall-for-woocommerce' ), '7000007' );
+			}
+
+			return $payload[$order_field];
 		}
 		protected function process_escrow_notification( $order ) {
 			$this->add_log( 'process_escrow_notification' );
@@ -155,6 +225,10 @@ if ( ! class_exists( 'WC_Gateway_Kcp_VBank' ) ) :
 		}
 		protected function process_vbank_notification( $order ) {
 			$this->add_log( 'process_vbank_notification' );
+
+			if ( '13' === pafw_get_unslash( $_POST, 'op_cd' ) ) {
+				throw new Exception( __( '입금취소 통보는 입금완료로 처리할 수 없습니다.', 'pgall-for-woocommerce' ), '7000010' );
+			}
 
 			$site_cd  = pafw_get_unslash( $_POST, "site_cd" );                 // 사이트 코드
 			$tno      = pafw_get_unslash( $_POST, "tno" );                 // KCP 거래번호

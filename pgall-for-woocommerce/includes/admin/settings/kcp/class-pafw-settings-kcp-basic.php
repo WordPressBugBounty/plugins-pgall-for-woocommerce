@@ -65,6 +65,14 @@ if ( ! class_exists( 'PAFW_Settings_Kcp_Basic' ) ) {
 							'type'      => 'Text',
 							// translators: %s: site key
 							'desc2'     => sprintf( __( '<div class="desc2">결제 테스트용 사이트키는 <code>%s</code>입니다.</div>', 'pgall-for-woocommerce' ), self::$sandbox[ 'site_key' ] )  // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
+						),
+						array(
+							'id'        => 'webhook_verify_key',
+							'title'     => '웹훅 검증키',
+							'className' => 'fluid',
+							'default'   => '',
+							'type'      => 'Text',
+							'desc2'     => __( '<div class="desc2">가상계좌 입금통보의 위변조 검증을 위해 사용을 권장합니다. KCP 파트너관리자 → 기술관리센터 → 웹훅(Webhook)관리에서 웹훅URL 설정(new)에 동의하고 발급받은 검증키를 입력하세요. 사이트키와 다른 키입니다.<br>키를 설정한 경우에만 가상계좌 입금통보의 해시를 검증하며, 해시가 누락되거나 일치하지 않으면 처리하지 않습니다. 미설정 시에는 기존 IP 및 주문정보 검사를 적용합니다.</div>', 'pgall-for-woocommerce' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 						)
 					)
 				)

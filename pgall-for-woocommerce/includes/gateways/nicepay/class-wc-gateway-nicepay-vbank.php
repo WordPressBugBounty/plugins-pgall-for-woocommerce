@@ -142,7 +142,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 							$RcptTypeMsg = '미발행';
 					}
 
-					$PG_IP = pafw_get_unslash( $_SERVER, 'HTTP_X_FORWARDED_FOR', pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' ) );
+					$PG_IP = pafw_get_unslash( $_SERVER, 'REMOTE_ADDR' );
 
 					//결제결과에 따른 처리 진행
 					$orderid = explode( '_', $MOID );
